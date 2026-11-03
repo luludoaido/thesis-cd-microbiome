@@ -1,0 +1,25 @@
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# renv: packages are installed from renv.lock
+renv/library/
+
+# data are public but too large; keep only the empty folders
+data/raw/**
+data/processed/**
+!data/raw/
+!data/raw/*/
+!data/processed/
+!**/.gitkeep
+
+
+# results: keep plots and tables, not R objects or Office files
+results/**/*.rds
+*.pptx
+*.docx
+*.pdf
+
+# system
+.DS_Store

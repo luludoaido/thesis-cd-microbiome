@@ -1,0 +1,572 @@
+sample_id,subject_id,diagnosis,week,reads,hbi,hbi_how,hbi_gap,calpro,calpro_how,calpro_gap,abx,abx_how,abx_gap,hbi_cat,calpro_cat
+CSM5FZ3N_P,C3001,cd,0,9961743,4,same sample,0,193.89,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5FZ3R_P,C3001,cd,2,16456391,4,same sample,0,133.01,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5YRY7_P,C3001,cd,4,23635336,5,same sample,0,198.84,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5FZ3V_P,C3001,cd,6,17808965,5,same sample,0,46.86,same sample,0,NA,NA,NA,mild (5-7),<50
+CSM5FZ4C_P,C3001,cd,8,14889168,3,same sample,0,61.34,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCVD_P,C3001,cd,12,17064614,5,same sample,0,34.22,same sample,0,NA,NA,NA,mild (5-7),<50
+CSM5MCVF_P,C3001,cd,14,16756098,3,same sample,0,79.51,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCVV_P,C3001,cd,16,16090586,3,same sample,0,115.27,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCWI_P,C3001,cd,18,22876491,5,same sample,0,146.82,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5MCXD,C3001,cd,20,11141935,5,same sample,0,146.82,nearest visit,2,NA,NA,NA,mild (5-7),50-250
+CSM5MCYS,C3001,cd,24,13145137,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67U9J,C3001,cd,26,9745701,4,same sample,0,23.2035,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM67UA2,C3001,cd,28,10716561,4,same sample,0,23.2035,same sample,0,NA,NA,NA,remission (<5),<50
+CSM67UGC,C3001,cd,34,2153223,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM79HG5,C3001,cd,36,15474525,7,same sample,0,37.17836,nearest visit,2,NA,NA,NA,mild (5-7),<50
+CSM79HGP,C3001,cd,38,15500977,7,same sample,0,37.17836,same sample,0,NA,NA,NA,mild (5-7),<50
+CSM5FZ3T_P,C3002,cd,0,10511448,9,same sample,0,179.22,same sample,0,NA,NA,NA,moderate (8-16),50-250
+CSM5FZ3X_P,C3002,cd,2,13160893,7,same sample,0,71.48,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5FZ3Z_P,C3002,cd,4,22250488,8,same sample,0,156.73,same sample,0,NA,NA,NA,moderate (8-16),50-250
+CSM5FZ42_P,C3002,cd,6,29900678,7,same sample,0,73.83,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5FZ44_P,C3002,cd,8,18816698,7,same sample,0,54.33,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5FZ46_P,C3002,cd,10,15478187,6,same sample,0,54.74,same sample,0,NA,NA,NA,mild (5-7),50-250
+CSM5MCVJ_P,C3002,cd,12,22635645,8,same sample,0,100.22,same sample,0,NA,NA,NA,moderate (8-16),50-250
+CSM5MCVL,C3002,cd,14,10614698,11,same sample,0,15.97901,nearest visit,2,NA,NA,NA,moderate (8-16),<50
+CSM5MCVN,C3002,cd,16,11276921,4,same sample,0,15.97901,same sample,0,NA,NA,NA,remission (<5),<50
+CSM67UBF,C3002,cd,24,9182817,5,same sample,0,14.51068,nearest visit,2,NA,NA,NA,mild (5-7),<50
+CSM67UBH,C3002,cd,26,14394739,5,same sample,0,14.51068,same sample,0,NA,NA,NA,mild (5-7),<50
+CSM67UBN,C3002,cd,32,10067044,7,same sample,0,16.3245,same sample,0,NA,NA,NA,mild (5-7),<50
+CSM67UBR,C3002,cd,34,7058985,8,same sample,0,16.3245,nearest visit,2,NA,NA,NA,moderate (8-16),<50
+CSM79HJW,C3002,cd,36,16779856,6,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM79HJY,C3002,cd,38,10066412,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM5MCU4_P,C3008,cd,0,17510036,0,same sample,0,151.56,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCVZ_P,C3008,cd,4,17610499,1,same sample,0,151.65,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCW4_P,C3008,cd,7,14254660,1,same sample,0,28.34742,same visit,0,NA,NA,NA,remission (<5),<50
+CSM5MCW6,C3008,cd,8,9067660,1,same sample,0,28.34742,nearest visit,1,NA,NA,NA,remission (<5),<50
+CSM5MCYW,C3008,cd,10,10510539,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM5MCZ3,C3008,cd,16,11737967,1,same sample,0,45.57087,same sample,0,NA,NA,NA,remission (<5),<50
+CSM5MCZ5,C3008,cd,24,13145392,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM5MCZ7,C3008,cd,27,11624694,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HKT,C3008,cd,32,12236812,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HKV,C3008,cd,34,14709513,1,same sample,0,18.3,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HQ9,C3008,cd,36,20575152,2,same sample,0,18.3,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HQB,C3008,cd,38,9793380,1,same sample,0,18.3,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HQF,C3008,cd,42,10590187,1,same sample,0,49.19922,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM5MCWA_P,C3009,cd,4,17583370,4,same sample,0,29.97,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM5MCWC,C3009,cd,6,11929952,4,same sample,0,20.64059,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM5MCWE,C3009,cd,8,12793095,3,same sample,0,20.64059,same sample,0,NA,NA,NA,remission (<5),<50
+CSM5MCWG,C3009,cd,10,11535025,3,same sample,0,20.64059,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM67UAA,C3009,cd,16,7701940,2,same sample,0,22.7858,same sample,0,NA,NA,NA,remission (<5),<50
+CSM67UAG,C3009,cd,22,7190717,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HI3,C3009,cd,26,15910606,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HI7,C3009,cd,30,11814729,0,same sample,0,20.7,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HIB,C3009,cd,34,13404095,0,same sample,0,16.14995,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOJE,C3009,cd,36,9704069,1,same sample,0,16.14995,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KOJG,C3009,cd,38,15409373,1,same sample,0,16.14995,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOJO,C3009,cd,46,11840412,1,same sample,0,22.04318,same sample,0,NA,NA,NA,remission (<5),<50
+CSM5MCWK_P,C3010,cd,0,16864331,1,same sample,0,84.87,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM5MCXT,C3010,cd,2,4338542,1,same sample,0,84.87,nearest visit,2,NA,NA,NA,remission (<5),50-250
+CSM5MCXV,C3010,cd,4,10671042,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM5MCXX_P,C3010,cd,5,13722624,1,same sample,0,15.87347,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM5MCXZ_P,C3010,cd,7,11137854,2,same sample,0,15.87347,same visit,0,NA,NA,NA,remission (<5),<50
+CSM5MCY2,C3010,cd,9,7874726,3,same sample,0,15.87347,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM67UCK,C3010,cd,16,7909374,1,same sample,0,17.67627,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HK9,C3010,cd,23,10927337,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HKB,C3010,cd,26,8504058,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HOF,C3010,cd,31,7920311,0,same sample,0,15.56671,same visit,0,NA,NA,NA,remission (<5),<50
+CSM79HOH,C3010,cd,33,17133651,3,same sample,0,19.06616,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOL4,C3010,cd,35,14642952,0,same sample,0,19.06616,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KOLA,C3010,cd,41,13253407,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOLE,C3010,cd,45,6429845,2,same sample,0,16.87633,same sample,0,NA,NA,NA,remission (<5),<50
+CSM5MCXF_P,C3012,cd,0,5965201,1,same sample,0,21.14208,same visit,0,NA,NA,NA,remission (<5),<50
+CSM5MCZB,C3012,cd,3,13903402,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM5MCZD,C3012,cd,4,13361397,0,same sample,0,15.40007,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM5MCZF,C3012,cd,6,9159219,0,same sample,0,15.40007,same sample,0,NA,NA,NA,remission (<5),<50
+CSM67U9B,C3012,cd,8,9352410,2,same sample,0,15.40007,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM67U9D,C3012,cd,10,10479849,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UGO,C3012,cd,16,5035192,0,same sample,0,35.45868,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HOJ,C3012,cd,24,16684852,0,same sample,0,14.66094,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HOL,C3012,cd,26,15402050,1,same sample,0,14.66094,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HOT,C3012,cd,34,10696343,0,same sample,0,13.71386,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOMX,C3012,cd,36,10985915,0,same sample,0,13.71386,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KOMZ,C3012,cd,38,6813418,2,same sample,0,13.71386,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KON2,C3012,cd,40,7495754,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KON8,C3012,cd,46,9337938,0,same sample,0,13.17284,same sample,0,NA,NA,NA,remission (<5),<50
+CSM67U9V_P,C3016,cd,0,12758624,5,same sample,0,184.4981,same visit,0,NA,NA,NA,mild (5-7),50-250
+CSM67UAU,C3016,cd,2,16709059,8,same sample,0,184.4981,nearest visit,2,NA,NA,NA,moderate (8-16),50-250
+CSM67UAW,C3016,cd,4,6071706,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM67UAY,C3016,cd,6,7372555,8,same sample,0,277.9875,nearest visit,2,NA,NA,NA,moderate (8-16),>250
+CSM67UB1,C3016,cd,8,11699157,2,same sample,0,277.9875,same sample,0,NA,NA,NA,remission (<5),>250
+CSM67UB3,C3016,cd,10,7544632,5,same sample,0,277.9875,nearest visit,2,NA,NA,NA,mild (5-7),>250
+CSM79HIR,C3016,cd,14,11447688,4,same sample,0,275.2,nearest visit,2,NA,NA,NA,remission (<5),>250
+CSM79HIT,C3016,cd,16,5400699,5,same sample,0,275.2,same sample,0,NA,NA,NA,mild (5-7),>250
+CSM79HIV,C3016,cd,18,10579131,4,same sample,0,275.2,nearest visit,2,NA,NA,NA,remission (<5),>250
+CSM79HIX,C3016,cd,20,14786205,8,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM79HIZ,C3016,cd,22,10054318,8,same sample,0,276.0408,nearest visit,2,NA,NA,NA,moderate (8-16),>250
+CSM7KOK5,C3016,cd,26,2651940,19,same sample,0,276.0408,nearest visit,2,NA,NA,NA,severe (>16),>250
+CSM7KOK7,C3016,cd,28,4684135,10,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM7KOKB,C3016,cd,32,4933384,12,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM7KOKD,C3016,cd,34,9254394,12,nearest visit,2,354.233,nearest visit,2,NA,NA,NA,moderate (8-16),>250
+CSM7KOPS,C3016,cd,36,10178001,14,nearest visit,2,354.233,same sample,0,NA,NA,NA,moderate (8-16),>250
+CSM7KOPU,C3016,cd,38,8955287,14,same sample,0,354.233,nearest visit,2,NA,NA,NA,moderate (8-16),>250
+CSM7KOPW,C3016,cd,40,5690075,12,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM7KOQ1,C3016,cd,44,2256714,9,same sample,0,210.3525,nearest visit,2,NA,NA,NA,moderate (8-16),50-250
+CSM67U9X_P,C3017,cd,0,18187406,2,same sample,0,14.11091,same visit,0,NA,NA,NA,remission (<5),<50
+CSM67UB5_P,C3017,cd,2,10320421,1,same sample,0,14.11091,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM67UB7_P,C3017,cd,4,15629290,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UB9_P,C3017,cd,6,21984935,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UB9,C3017,cd,6,13171571,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UBB,C3017,cd,9,11672420,1,same sample,0,11.9,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HJ2_P,C3017,cd,12,17696098,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HJ4_P,C3017,cd,14,16451799,1,same sample,0,12.5,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HJ6_P,C3017,cd,16,9257247,1,same sample,0,12.5,same visit,0,NA,NA,NA,remission (<5),<50
+CSM79HJ8_P,C3017,cd,18,18311254,1,same sample,0,12.5,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HJA,C3017,cd,20,8099785,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HJC_P,C3017,cd,22,14065034,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKF,C3017,cd,24,18261309,1,same sample,0,12.57477,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOKH_P,C3017,cd,26,18384114,1,same sample,0,12.57477,same visit,0,NA,NA,NA,remission (<5),<50
+CSM7KOKJ,C3017,cd,28,10197535,1,same sample,0,12.57477,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOKL_P,C3017,cd,30,13624565,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKN,C3017,cd,32,9860307,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKP_P,C3017,cd,34,13267115,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOQX,C3017,cd,37,9386141,0,same sample,0,12.36465,nearest visit,1,NA,NA,NA,remission (<5),<50
+CSM7KOQZ_P,C3017,cd,38,16010307,1,same sample,0,12.36465,same visit,0,NA,NA,NA,remission (<5),<50
+CSM7KOR2,C3017,cd,40,11787030,1,same sample,0,12.36465,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOR4_P,C3017,cd,42,11579288,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOR8_P,C3017,cd,46,15867300,5,same sample,0,12.59831,same visit,0,NA,NA,NA,mild (5-7),<50
+CSM67UCU_P,C3019,cd,2,10315486,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UAI_P,C3020,cd,0,7608828,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HHO,C3021,cd,1,9119182,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM79HHM,C3021,cd,4,15400580,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HHU,C3021,cd,7,10991339,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HN2,C3021,cd,9,19350815,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HN6,C3021,cd,13,9362198,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOLK,C3021,cd,21,10021442,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOLM,C3021,cd,24,19694142,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOSV,C3021,cd,31,11814078,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOSX,C3021,cd,33,9675141,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM67UH7,C3022,control,0,12316857,NA,NA,NA,15.64728,same sample,0,NA,NA,NA,NA,<50
+CSM79HGR_P,C3022,control,2,15034661,NA,NA,NA,15.64728,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HGV_P,C3022,control,6,21950843,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM79HGX,C3022,control,8,6757311,NA,NA,NA,23.3,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HGZ,C3022,control,10,9366416,NA,NA,NA,23.3,same sample,0,NA,NA,NA,NA,<50
+CSM79HOV,C3022,control,12,6461568,NA,NA,NA,23.3,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HOX,C3022,control,14,16114362,NA,NA,NA,14.40159,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HOZ,C3022,control,16,12259726,NA,NA,NA,14.40159,same sample,0,NA,NA,NA,NA,<50
+CSM79HP2,C3022,control,18,24495274,NA,NA,NA,14.40159,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HP4,C3022,control,21,7912072,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM79HP6,C3022,control,23,9065735,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM7KOOH,C3022,control,26,8460849,NA,NA,NA,17.58098,same sample,0,NA,NA,NA,NA,<50
+CSM7KOOJ,C3022,control,28,15859558,NA,NA,NA,17.58098,nearest visit,2,NA,NA,NA,NA,<50
+CSM7KOOL,C3022,control,30,7530888,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM7KOON,C3022,control,32,12128966,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM7KOOP,C3022,control,34,12589739,NA,NA,NA,16.02417,nearest visit,2,NA,NA,NA,NA,<50
+CSMA8M9R,C3022,control,40,21113407,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSMAAEUA,C3022,control,42,12714279,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSMAE44D,C3022,control,44,14052348,NA,NA,NA,15.87925,nearest visit,2,NA,NA,NA,NA,<50
+CSMAG78W,C3022,control,46,10654087,NA,NA,NA,15.87925,same sample,0,NA,NA,NA,NA,<50
+CSMAHYLR,C3022,control,48,9177793,NA,NA,NA,15.87925,nearest visit,2,NA,NA,NA,NA,<50
+CSM79HH2_P,C3023,cd,2,21015256,3,same sample,0,19.42906,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HH4,C3023,cd,4,9116647,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HH8,C3023,cd,8,8840623,0,same sample,0,17.3,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HHA,C3023,cd,10,10986119,2,same sample,0,17.3,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HPA_TR,C3023,cd,14,11692877,1,same sample,0,23.24688,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HPA,C3023,cd,14,8471114,1,same sample,0,23.24688,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM79HPC,C3023,cd,16,9387996,1,same sample,0,23.24688,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KONA,C3023,cd,24,2549066,3,same sample,0,18.49466,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KONK,C3023,cd,34,12549551,3,same sample,0,20.61123,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KOTA,C3023,cd,36,13799215,3,same sample,0,20.61123,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOTC,C3023,cd,38,6073717,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOTK,C3023,cd,46,8913444,2,same sample,0,20.09726,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HG7_P,C3024,cd,0,6013840,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HHW_P,C3027,cd,0,10353678,3,same sample,0,86.77537,nearest visit,2,NA,NA,NA,remission (<5),50-250
+CSM79HHW,C3027,cd,0,8901332,3,same sample,0,86.77537,nearest visit,2,NA,NA,NA,remission (<5),50-250
+CSM79HJM,C3027,cd,2,15262098,1,same sample,0,86.77537,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM79HJO,C3027,cd,3,13616749,1,same sample,0,86.77537,nearest visit,1,NA,NA,NA,remission (<5),50-250
+CSM79HJS,C3027,cd,8,10930422,4,same sample,0,15.1,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HJU,C3027,cd,9,13580078,5,same sample,0,15.1,nearest visit,1,NA,NA,NA,mild (5-7),<50
+CSM79HQV,C3027,cd,11,20861845,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HQX,C3027,cd,13,12439386,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HQZ,C3027,cd,16,15421905,3,same sample,0,15.07493,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HR2,C3027,cd,17,11828074,0,same sample,0,15.07493,nearest visit,1,NA,NA,NA,remission (<5),<50
+CSM79HR4,C3027,cd,20,5721245,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HR6,C3027,cd,21,9107834,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOOT,C3027,cd,23,15389292,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOOV,C3027,cd,26,5653761,2,same sample,0,17.64143,same sample,0,NA,NA,NA,remission (<5),<50
+CSM7KOOX,C3027,cd,28,11349850,2,nearest visit,1,17.64143,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM7KOOZ,C3027,cd,29,15559500,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOP2,C3027,cd,31,13818712,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSMA88CB,C3027,cd,36,5992713,2,same sample,0,89.97935,nearest visit,2,NA,NA,NA,remission (<5),50-250
+CSMA9J65,C3027,cd,38,5371949,3,same sample,0,89.97935,same sample,0,NA,NA,NA,remission (<5),50-250
+CSMACTZP,C3027,cd,39,12206940,2,same sample,0,89.97935,nearest visit,1,NA,NA,NA,remission (<5),50-250
+CSMAF72L,C3027,cd,41,13626550,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSMAH393,C3027,cd,44,10702370,2,nearest visit,1,14.21054,nearest visit,1,NA,NA,NA,remission (<5),<50
+CSMAIG7X,C3027,cd,45,7107280,2,same sample,0,14.21054,same sample,0,NA,NA,NA,remission (<5),<50
+CSM79HKX,C3028,cd,1,22334780,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HKZ,C3028,cd,4,23305321,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HL4,C3028,cd,8,8539925,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HL6,C3028,cd,11,7660597,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKR,C3028,cd,13,9209463,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKT,C3028,cd,15,7302255,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOKZ,C3028,cd,21,16964666,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOL2,C3028,cd,24,15914117,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KORC,C3028,cd,25,7252466,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KORK,C3028,cd,34,12259075,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KORI,C3028,cd,36,10311596,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KORG,C3028,cd,38,10674842,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM79HJI_P,C3030,cd,0,20290544,1,same sample,0,53.7,same visit,0,NA,NA,NA,remission (<5),50-250
+CSM79HNO,C3030,cd,1,11501890,2,same sample,0,53.7,nearest visit,1,NA,NA,NA,remission (<5),50-250
+CSM79HNU,C3030,cd,7,8416488,2,same sample,0,174.5468,same sample,0,NA,NA,NA,remission (<5),50-250
+CSM79HNW,C3030,cd,9,7413021,3,same sample,0,174.5468,nearest visit,2,NA,NA,NA,remission (<5),50-250
+CSM7KOMB,C3030,cd,16,9126828,4,same sample,0,188.4594,nearest visit,1,NA,NA,NA,remission (<5),50-250
+CSM7KOMH,C3030,cd,21,18618530,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOSL,C3030,cd,25,3049081,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOSP,C3030,cd,29,14369885,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOST,C3030,cd,34,13412418,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOSJ,C3030,cd,37,2909162,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+CSM7KOQP_P,C3033,cd,8,7985457,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM7KOTO,C3035,cd,4,9631421,8,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM7KOTQ,C3035,cd,6,8614081,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM7KOTS,C3035,cd,8,5955172,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM7KOTU,C3035,cd,12,7232412,9,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM9X1YV,C3035,cd,16,12410312,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM9X21R,C3035,cd,24,14778418,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM9X21T,C3035,cd,26,7856633,9,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM9X222,C3035,cd,34,10070024,7,nearest visit,2,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM9X233,C3035,cd,36,9650694,7,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+CSM9X235,C3035,cd,38,6975044,8,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+CSM9X237,C3035,cd,41,8744133,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CSM9X23B,C3035,cd,44,11979303,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM5LLDI,M2008,cd,0,5639380,NA,NA,NA,318.7473,same sample,0,NA,NA,NA,NA,>250
+MSM5LLDK,M2008,cd,1,7051289,NA,NA,NA,318.7473,nearest visit,1,NA,NA,NA,NA,>250
+MSM5LLDM,M2008,cd,4,9001671,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM5LLDQ,M2008,cd,8,11476191,NA,NA,NA,354.6256,nearest visit,2,NA,NA,NA,NA,>250
+MSM5LLDS,M2008,cd,10,5174442,NA,NA,NA,354.6256,same sample,0,No,nearest visit,2,NA,>250
+MSM5LLHX_P,M2008,cd,14,16202547,NA,NA,NA,244.78,same sample,0,No,nearest visit,2,NA,50-250
+MSM5LLI2_P,M2008,cd,18,19353892,NA,NA,NA,195.46,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLI8_P,M2008,cd,21,31662986,NA,NA,NA,215.69,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLI6_P,M2008,cd,22,18908999,NA,NA,NA,197.97,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLI4_P,M2008,cd,25,13856736,NA,NA,NA,185.95,same sample,0,No,nearest visit,1,NA,50-250
+MSM5LLHQ_P,M2008,cd,27,15033648,NA,NA,NA,223.09,same sample,0,No,nearest visit,1,NA,50-250
+MSM5LLD6_P,M2008,cd,31,10997414,NA,NA,NA,208.8,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLDC,M2008,cd,34,9964918,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM5LLDE,M2008,cd,35,3071277,NA,NA,NA,258.0824,nearest visit,2,No,nearest visit,2,NA,>250
+MSM5LLDA,M2008,cd,37,8326075,NA,NA,NA,258.0824,same sample,0,No,same visit,0,NA,>250
+MSM6J2LB,M2008,cd,52,2154281,6,same sample,0,217.4153,same sample,0,NA,NA,NA,mild (5-7),50-250
+MSM5FZ9N_P,M2010,cd,6,17111653,NA,NA,NA,240.34,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLE3_P,M2010,cd,19,14637530,0,same sample,0,193.67,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLE9_P,M2010,cd,22,2272177,0,same sample,0,212.35,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5FZ9X_P,M2014,cd,4,12213471,1,same sample,0,218.17,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5FZA2_P,M2014,cd,8,13568673,3,same sample,0,173.05,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5ZOJY_P,M2014,cd,10,17682968,1,same sample,0,219.23,same sample,0,No,nearest visit,2,remission (<5),50-250
+MSM633FF_P,M2014,cd,12,2457312,0,same sample,0,196.99,same sample,0,No,same visit,0,remission (<5),50-250
+CSM5LLGB_P,M2014,cd,14,19834697,0,same sample,0,201.69,same sample,0,No,nearest visit,2,remission (<5),50-250
+MSM5LLGH_P,M2014,cd,16,19078642,0,same sample,0,242.8,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGF_P,M2014,cd,18,17752305,1,same sample,0,210.33,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGD_P,M2014,cd,20,21302964,2,same sample,0,206.82,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGJ_P,M2014,cd,22,23021048,2,same sample,0,142.57,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGL,M2014,cd,24,18129640,2,same sample,0,225.73,same sample,0,No,nearest visit,1,remission (<5),50-250
+MSM6J2IQ,M2014,cd,26,15465326,0,same sample,0,168.336,same sample,0,No,nearest visit,1,remission (<5),50-250
+MSM6J2IY,M2014,cd,34,27148672,2,same sample,0,261.5369,nearest visit,2,NA,NA,NA,remission (<5),>250
+MSM6J2J1,M2014,cd,36,12939779,4,same sample,0,261.5369,same sample,0,NA,NA,NA,remission (<5),>250
+MSM6J2QR,M2014,cd,38,14164131,3,same sample,0,261.5369,nearest visit,2,NA,NA,NA,remission (<5),>250
+MSM5LLHR_P,M2021,cd,0,19747144,2,same sample,0,100.8,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLIE_P,M2021,cd,4,13009634,3,same sample,0,30.75,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLIG_P,M2021,cd,6,3544001,1,same sample,0,29.98,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLIK_P,M2021,cd,10,20233677,2,same sample,0,54.59,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLIM_P,M2021,cd,12,21453369,1,same sample,0,77.59,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLEP,M2021,cd,21,15957882,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM5LLER,M2021,cd,25,14120658,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2LT,M2021,cd,34,16053514,2,same sample,0,66.45023,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLIC_P,M2025,cd,0,17728244,NA,NA,NA,246.83,same sample,0,NA,NA,NA,NA,50-250
+MSM5LLHG_P,M2025,cd,6,15755442,5,same sample,0,162.19,same sample,0,NA,NA,NA,mild (5-7),50-250
+MSM5LLHI_P,M2025,cd,8,18938480,2,same sample,0,76.92,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLHO_P,M2025,cd,14,20428923,6,same sample,0,67.16,same sample,0,No,same visit,0,mild (5-7),50-250
+MSM6J2J3,M2025,cd,16,8958447,3,same sample,0,18.94187,nearest visit,2,No,nearest visit,2,remission (<5),<50
+MSM6J2J5,M2025,cd,18,11220804,7,same sample,0,18.94187,same sample,0,NA,NA,NA,mild (5-7),<50
+MSM6J2JB,M2025,cd,23,6159505,5,same sample,0,NA,NA,NA,Yes,same visit,0,mild (5-7),NA
+MSM6J2JD,M2025,cd,24,11632012,2,same sample,0,NA,NA,NA,Yes,nearest visit,1,remission (<5),NA
+MSM6J2PK,M2025,cd,35,13777712,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2PM,M2025,cd,38,16724365,6,same sample,0,40.25603,same sample,0,No,nearest visit,1,mild (5-7),<50
+MSM5LLIS_P,M2027,cd,0,17572603,0,same sample,0,194.74,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLH2_P,M2027,cd,2,14542645,5,same sample,0,14.3,same sample,0,NA,NA,NA,mild (5-7),<50
+MSM5LLH4_P,M2027,cd,4,25355007,2,same sample,0,13.89,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLH8_P,M2027,cd,8,17902857,2,same sample,0,7.87,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLHA_P,M2027,cd,11,11597662,2,same sample,0,78.88,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLHC,M2027,cd,15,14184444,2,same sample,0,NA,NA,NA,No,nearest visit,2,remission (<5),NA
+MSM6J2KC,M2027,cd,16,14887547,0,same sample,0,20.02012,nearest visit,2,No,nearest visit,1,remission (<5),<50
+MSM6J2KE,M2027,cd,18,10969172,2,same sample,0,20.02012,same sample,0,No,nearest visit,1,remission (<5),<50
+MSM6J2KM,M2027,cd,24,10863730,0,same sample,0,15.83947,nearest visit,2,NA,NA,NA,remission (<5),<50
+MSM6J2R2,M2027,cd,26,15312937,0,same sample,0,15.83947,same sample,0,No,nearest visit,1,remission (<5),<50
+MSM6J2R8,M2027,cd,32,14413696,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2RA,M2027,cd,36,12760888,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2RC,M2027,cd,41,16250888,0,same sample,0,16,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLFG_P,M2028,cd,0,10868961,3,same sample,0,152.8,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGN_P,M2028,cd,2,20967711,1,same sample,0,85.75,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM5LLGR_P,M2028,cd,6,17055958,2,same sample,0,74.17,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM6J2IE,M2028,cd,14,11226152,0,same sample,0,228.24,nearest visit,2,Yes,nearest visit,2,remission (<5),50-250
+MSM6J2IG,M2028,cd,17,10487420,4,same sample,0,186.1688,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM6J2II,M2028,cd,19,6776300,1,same sample,0,186.1688,nearest visit,2,NA,NA,NA,remission (<5),50-250
+MSM6J2IK,M2028,cd,20,12927097,9,same sample,0,NA,NA,NA,NA,NA,NA,moderate (8-16),NA
+MSM6J2IM,M2028,cd,23,9202496,0,same sample,0,NA,NA,NA,Yes,nearest visit,1,remission (<5),NA
+MSM6J2IO,M2028,cd,24,12765421,4,same sample,0,183.3534,nearest visit,2,Yes,same visit,0,remission (<5),50-250
+MSM6J2Q3,M2028,cd,26,9760979,2,same sample,0,183.3534,same sample,0,Yes,nearest visit,2,remission (<5),50-250
+MSM6J2Q5,M2028,cd,29,14152798,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2Q7,M2028,cd,30,14845118,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2Q9,M2028,cd,33,11343916,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2QB,M2028,cd,36,12072596,0,same sample,0,NA,NA,NA,Yes,nearest visit,2,remission (<5),NA
+MSM6J2QD,M2028,cd,40,11012637,0,same sample,0,62.8,same sample,0,Yes,nearest visit,2,remission (<5),50-250
+MSM79H63,M2028,cd,41,13889943,2,same sample,0,62.8,nearest visit,1,NA,NA,NA,remission (<5),50-250
+MSM79H65,M2028,cd,41,13493131,3,same sample,0,62.8,nearest visit,1,NA,NA,NA,remission (<5),50-250
+MSM79H67,M2028,cd,44,6810930,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM79H69,M2028,cd,47,11045386,2,same sample,0,59.61449,nearest visit,2,No,nearest visit,1,remission (<5),50-250
+MSM79H6B,M2028,cd,49,15518701,1,same sample,0,59.61449,same sample,0,No,nearest visit,1,remission (<5),50-250
+MSM5LLF2_P,M2034,cd,5,5591291,1,same sample,0,13.33663,nearest visit,2,NA,NA,NA,remission (<5),<50
+MSM5LLF4,M2034,cd,7,6302589,2,same sample,0,13.33663,same sample,0,NA,NA,NA,remission (<5),<50
+MSM5LLF6,M2034,cd,10,15291927,6,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM5LLF8,M2034,cd,11,7862394,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2LH,M2034,cd,14,7502492,4,same sample,0,NA,NA,NA,Yes,same visit,0,remission (<5),NA
+MSM6J2LJ,M2034,cd,15,13283999,1,same sample,0,11.81416,nearest visit,2,Yes,nearest visit,1,remission (<5),<50
+MSM6J2LL,M2034,cd,17,11602546,1,same sample,0,11.81416,same sample,0,NA,NA,NA,remission (<5),<50
+MSM6J2LN,M2034,cd,19,16264782,3,same sample,0,11.81416,nearest visit,2,NA,NA,NA,remission (<5),<50
+MSM6J2LR,M2034,cd,24,10081822,3,same sample,0,13.44443,nearest visit,1,No,nearest visit,1,remission (<5),<50
+MSM6J2MB,M2034,cd,25,11343429,2,same sample,0,13.44443,same sample,0,No,same visit,0,remission (<5),<50
+MSM6J2MD,M2034,cd,28,16135985,6,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM6J2MH,M2034,cd,31,14120662,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM6J2MJ,M2034,cd,33,6882452,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM6J2ML,M2034,cd,36,10316542,5,same sample,0,12.78666,nearest visit,2,NA,NA,NA,mild (5-7),<50
+MSM79HBN,M2034,cd,38,7161612,2,same sample,0,12.78666,same sample,0,NA,NA,NA,remission (<5),<50
+MSM79HBP,M2034,cd,39,5606398,3,same sample,0,12.78666,nearest visit,1,No,nearest visit,2,remission (<5),<50
+MSM79HBR,M2034,cd,42,11697504,2,same sample,0,17.19572,nearest visit,1,No,nearest visit,1,remission (<5),<50
+MSM79HBT,M2034,cd,43,6867907,5,same sample,0,17.19572,same sample,0,No,nearest visit,2,mild (5-7),<50
+MSM79HBV,M2034,cd,45,6801912,1,same sample,0,17.19572,nearest visit,2,NA,NA,NA,remission (<5),<50
+CSM6J2H9_P,M2039,control,0,27866359,NA,NA,NA,204.08,same sample,0,NA,NA,NA,NA,50-250
+MSM6J2HN,M2039,control,2,19863682,NA,NA,NA,204.08,nearest visit,2,NA,NA,NA,NA,50-250
+MSM6J2HP,M2039,control,5,9743569,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2HR,M2039,control,7,16507857,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2HT,M2039,control,10,18879988,NA,NA,NA,13.54509,same sample,0,NA,NA,NA,NA,<50
+MSM6J2QL,M2039,control,16,16570404,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2QH,M2039,control,18,13923448,NA,NA,NA,12.53926,nearest visit,2,NA,NA,NA,NA,<50
+MSM6J2QP,M2039,control,20,14261247,NA,NA,NA,12.53926,same sample,0,NA,NA,NA,NA,<50
+MSM6J2QJ,M2039,control,24,10390727,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2QF,M2039,control,26,14057161,NA,NA,NA,NA,NA,NA,No,nearest visit,1,NA,NA
+MSM79H5Q,M2039,control,31,13949897,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H5U,M2039,control,33,9972410,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H5Y,M2039,control,35,15788305,NA,NA,NA,14.70865,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H5S,M2039,control,37,13716619,NA,NA,NA,14.70865,same sample,0,NA,NA,NA,NA,<50
+MSM79HAH,M2039,control,48,10628913,NA,NA,NA,13.9529,same sample,0,No,same visit,0,NA,<50
+MSM6J2JF_P,M2041,control,0,19008632,NA,NA,NA,177.0506,same visit,0,NA,NA,NA,NA,50-250
+MSM6J2JN,M2041,control,2,16261036,NA,NA,NA,177.0506,nearest visit,2,NA,NA,NA,NA,50-250
+MSM6J2JP,M2041,control,3,7997664,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2JR,M2041,control,8,14800110,NA,NA,NA,22.72289,same sample,0,NA,NA,NA,NA,<50
+MSM6J2JT,M2041,control,9,13135152,NA,NA,NA,22.72289,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2LV,M2041,control,16,9108193,NA,NA,NA,51.97013,same sample,0,NA,NA,NA,NA,50-250
+MSM6J2SE,M2041,control,18,13141049,NA,NA,NA,51.97013,nearest visit,2,NA,NA,NA,NA,50-250
+MSM6J2SI,M2041,control,24,12549592,NA,NA,NA,27.7,nearest visit,2,NA,NA,NA,NA,<50
+MSM6J2SK,M2041,control,25,14604275,NA,NA,NA,27.7,nearest visit,1,NA,NA,NA,NA,<50
+MSM79HES,M2041,control,33,12954701,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HEU,M2041,control,35,11752116,NA,NA,NA,19.26776,nearest visit,1,NA,NA,NA,NA,<50
+MSM79HEW,M2041,control,36,5558757,NA,NA,NA,19.26776,same sample,0,NA,NA,NA,NA,<50
+MSM79HEY,M2041,control,39,11924315,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HB6,M2041,control,50,11028924,NA,NA,NA,22.4143,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2JH_P,M2042,control,0,12207051,NA,NA,NA,12.31574,same visit,0,NA,NA,NA,NA,<50
+MSM6J2JZ,M2042,control,1,12711145,NA,NA,NA,12.31574,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2K2,M2042,control,2,12402471,NA,NA,NA,12.31574,nearest visit,2,NA,NA,NA,NA,<50
+MSM6J2K4,M2042,control,3,21160242,NA,NA,NA,13.97316,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2K6,M2042,control,4,17642530,NA,NA,NA,13.97316,same sample,0,NA,NA,NA,NA,<50
+MSM6J2K8,M2042,control,5,8662962,NA,NA,NA,13.97316,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2KA,M2042,control,6,15028907,NA,NA,NA,13.97316,nearest visit,2,NA,NA,NA,NA,<50
+MSM6J2RK,M2042,control,12,20347690,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2RM,M2042,control,14,18445065,NA,NA,NA,14.69589,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2RO,M2042,control,15,15280604,NA,NA,NA,14.69589,same sample,0,NA,NA,NA,NA,<50
+MSM6J2RQ,M2042,control,16,23353077,NA,NA,NA,14.69589,nearest visit,1,NA,NA,NA,NA,<50
+MSM6J2RU,M2042,control,19,20893143,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2RS,M2042,control,20,16682192,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H6D,M2042,control,26,20152279,NA,NA,NA,12.32274,nearest visit,1,No,same visit,0,NA,<50
+MSM79H6F,M2042,control,27,1771479,NA,NA,NA,12.32274,same sample,0,No,nearest visit,1,NA,<50
+MSM79H6J,M2042,control,28,16280114,NA,NA,NA,12.32274,nearest visit,1,No,nearest visit,2,NA,<50
+MSM79H6H,M2042,control,29,15182830,NA,NA,NA,12.32274,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H6L,M2042,control,30,15880828,NA,NA,NA,16.28703,nearest visit,1,NA,NA,NA,NA,<50
+MSM79H6N,M2042,control,31,18785851,NA,NA,NA,16.28703,same sample,0,NA,NA,NA,NA,<50
+MSM79H9Y,M2042,control,34,12894067,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HA1,M2042,control,35,19711129,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HA3,M2042,control,40,15933358,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HA7,M2042,control,44,15797824,NA,NA,NA,13.4097,same sample,0,No,nearest visit,1,NA,<50
+MSM6J2PO,M2047,control,0,8027696,NA,NA,NA,16.49108,same sample,0,NA,NA,NA,NA,<50
+MSM6J2PQ_P,M2047,control,2,16450297,NA,NA,NA,16.49108,nearest visit,2,NA,NA,NA,NA,<50
+MSM6J2PS,M2047,control,4,12806959,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2PU,M2047,control,7,2121841,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2PW,M2047,control,10,8909541,NA,NA,NA,12.60402,same sample,0,NA,NA,NA,NA,<50
+MSM79HC4,M2047,control,15,13126820,NA,NA,NA,13.86861,same sample,0,NA,NA,NA,NA,<50
+MSM79HC8,M2047,control,20,12071512,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H7O,M2047,control,25,13062195,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H7Q,M2047,control,28,14672725,NA,NA,NA,23.97696,same sample,0,NA,NA,NA,NA,<50
+MSM79H7W,M2047,control,32,12407665,NA,NA,NA,16.89522,nearest visit,1,NA,NA,NA,NA,<50
+MSM79H7Y,M2047,control,33,11811153,NA,NA,NA,16.89522,same sample,0,NA,NA,NA,NA,<50
+MSM9VZNH,M2047,control,35,12252642,NA,NA,NA,16.89522,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZNH_TR,M2047,control,35,8637268,NA,NA,NA,16.89522,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZNL,M2047,control,39,10476754,NA,NA,NA,17.82226,same sample,0,NA,NA,NA,NA,<50
+MSM6J2Q1,M2048,control,0,16589743,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2LW,M2048,control,2,19719936,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2LY,M2048,control,4,12775930,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2M3_P,M2048,control,9,16609415,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2M3,M2048,control,9,14739325,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HBL,M2048,control,17,14822086,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HFW,M2048,control,25,14940584,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HFY,M2048,control,26,15001823,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H6Y,M2048,control,33,5790065,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HBB,M2048,control,38,11458399,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM6J2RG_P,M2058,cd,0,19205233,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H52_P,M2060,control,2,7804179,NA,NA,NA,26.3,same visit,0,NA,NA,NA,NA,<50
+MSM79H54,M2060,control,4,12883607,NA,NA,NA,26.3,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H58,M2060,control,8,13023942,NA,NA,NA,48.62496,same sample,0,NA,NA,NA,NA,<50
+MSM79H5A,M2060,control,10,11650081,NA,NA,NA,48.62496,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H9A,M2060,control,14,14364027,NA,NA,NA,45.65421,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H9C,M2060,control,16,12704952,NA,NA,NA,45.65421,same sample,0,NA,NA,NA,NA,<50
+MSM79H9G,M2060,control,22,14159958,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H9K,M2060,control,23,11627896,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZF7,M2060,control,27,18105050,NA,NA,NA,41.02403,same sample,0,NA,NA,NA,NA,<50
+MSM9VZFF,M2060,control,34,14351844,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZFH,M2060,control,36,13961871,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZPT,M2060,control,38,14702391,NA,NA,NA,26.067990000000002,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H5E,M2061,control,2,10532933,NA,NA,NA,30.17863,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H5G,M2061,control,4,11536010,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H5K,M2061,control,8,13776375,NA,NA,NA,33.18454,same sample,0,NA,NA,NA,NA,<50
+MSM79H5M,M2061,control,10,15638139,NA,NA,NA,33.18454,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H9M,M2061,control,15,13350083,NA,NA,NA,13.52029,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H9Q,M2061,control,19,10685804,NA,NA,NA,13.52029,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H9W,M2061,control,25,13394122,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZGO,M2061,control,30,11530104,NA,NA,NA,15.47578,same sample,0,NA,NA,NA,NA,<50
+MSM9VZGS,M2061,control,34,8578633,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZGU,M2061,control,36,10431815,NA,NA,NA,14.70346,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZLJ,M2061,control,38,12982663,NA,NA,NA,14.70346,same sample,0,NA,NA,NA,NA,<50
+MSM9VZHB,M2061,control,46,12199674,NA,NA,NA,18,nearest visit,1,NA,NA,NA,NA,<50
+MSM9VZHF,M2061,control,51,9562684,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HBX_P,M2068,cd,0,11800437,4,same sample,0,283.8336,same visit,0,NA,NA,NA,remission (<5),>250
+MSM79HDK,M2068,cd,2,10424978,3,same sample,0,283.8336,nearest visit,2,NA,NA,NA,remission (<5),>250
+MSM79HDM,M2068,cd,3,6278414,6,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM79HDO,M2068,cd,5,3216800,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM79HDQ,M2068,cd,8,9126150,5,same sample,0,231.8824,same sample,0,NA,NA,NA,mild (5-7),50-250
+MSM79HDQ_TR,M2068,cd,8,5163534,5,same sample,0,231.8824,same sample,0,NA,NA,NA,mild (5-7),50-250
+MSM79HDS,M2068,cd,9,5020564,3,same sample,0,231.8824,nearest visit,1,NA,NA,NA,remission (<5),50-250
+MSM79HDU,M2068,cd,11,11261291,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM79H98,M2068,cd,13,16910683,3,same sample,0,50.42217,nearest visit,2,NA,NA,NA,remission (<5),50-250
+MSM9VZEK,M2068,cd,15,5030166,4,same sample,0,50.42217,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM9VZEK_TR,M2068,cd,15,3667324,4,same sample,0,50.42217,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM9VZEM,M2068,cd,17,9037288,4,same sample,0,50.42217,nearest visit,2,NA,NA,NA,remission (<5),50-250
+MSM9VZEO,M2068,cd,20,11438906,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM9VZEQ,M2068,cd,23,12346861,1,same visit,0,14.00943,same visit,0,NA,NA,NA,remission (<5),<50
+MSM9VZES,M2068,cd,23,7508987,1,same sample,0,14.00943,same sample,0,NA,NA,NA,remission (<5),<50
+MSM7J16J,M2068,cd,26,8091156,2,nearest visit,2,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM7J16L,M2068,cd,28,15423943,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM7J16N,M2068,cd,30,7978027,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM7J16P,M2068,cd,32,11480282,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM7J16R,M2068,cd,34,13624751,5,same sample,0,NA,NA,NA,NA,NA,NA,mild (5-7),NA
+MSM9VZJB,M2068,cd,36,9217819,4,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMA26AL,M2068,cd,39,7034993,1,same sample,0,14.02216,same sample,0,NA,NA,NA,remission (<5),<50
+MSMA26AN,M2068,cd,42,4239583,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMA26AP,M2068,cd,43,10327053,3,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMA26AR,M2068,cd,46,6995001,2,same sample,0,16.9311,same sample,0,NA,NA,NA,remission (<5),<50
+MSMA26AT,M2068,cd,47,8879781,3,same sample,0,16.9311,nearest visit,1,NA,NA,NA,remission (<5),<50
+MSM79HCG,M2072,control,0,18371846,NA,NA,NA,27.28297,same sample,0,NA,NA,NA,NA,<50
+MSM79HCI,M2072,control,4,11843957,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HCK,M2072,control,5,10869850,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HCN_P,M2072,control,6,14653452,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79HCP,M2072,control,7,14093427,NA,NA,NA,89.49307,nearest visit,2,NA,NA,NA,NA,50-250
+MSM79HCR,M2072,control,9,5520739,NA,NA,NA,89.49307,same sample,0,NA,NA,NA,NA,50-250
+MSM79H81,M2072,control,11,11815294,NA,NA,NA,89.49307,nearest visit,2,NA,NA,NA,NA,50-250
+MSM79H83,M2072,control,13,21042081,NA,NA,NA,12.81883,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H85,M2072,control,15,17512754,NA,NA,NA,12.81883,same sample,0,NA,NA,NA,NA,<50
+MSM79H87,M2072,control,17,17794753,NA,NA,NA,12.81883,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H89,M2072,control,19,9913975,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM79H8B,M2072,control,21,11095172,NA,NA,NA,NA,NA,NA,No,nearest visit,2,NA,NA
+MSM9VZOG,M2072,control,24,18029932,NA,NA,NA,64.54146,nearest visit,1,No,nearest visit,1,NA,50-250
+MSM9VZOI,M2072,control,25,11499970,NA,NA,NA,64.54146,same sample,0,No,nearest visit,2,NA,50-250
+MSM9VZOK,M2072,control,27,6676181,NA,NA,NA,64.54146,nearest visit,2,NA,NA,NA,NA,50-250
+MSM9VZOM,M2072,control,29,12022190,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZOO,M2072,control,31,10324255,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZOQ,M2072,control,33,8452248,NA,NA,NA,87.3,nearest visit,2,NA,NA,NA,NA,50-250
+MSM9VZHJ,M2072,control,35,9431840,NA,NA,NA,87.3,same sample,0,NA,NA,NA,NA,50-250
+MSM9VZHL,M2072,control,37,5108691,NA,NA,NA,87.3,nearest visit,2,NA,NA,NA,NA,50-250
+MSM9VZHN,M2072,control,39,16419751,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZHP,M2072,control,41,9043707,NA,NA,NA,19.4,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZHR,M2072,control,43,11051956,NA,NA,NA,19.4,same sample,0,NA,NA,NA,NA,<50
+MSM9VZHT,M2072,control,45,7554986,NA,NA,NA,19.4,nearest visit,2,No,nearest visit,1,NA,<50
+MSM79H8D,M2075,control,0,16390538,NA,NA,NA,14.74796,same sample,0,NA,NA,NA,NA,<50
+MSM79H8F,M2075,control,2,12526071,NA,NA,NA,14.74796,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H8H,M2075,control,3,7718850,NA,NA,NA,14.48929,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H8J_P,M2075,control,5,28714049,NA,NA,NA,14.48929,same visit,0,NA,NA,NA,NA,<50
+MSM79H8L,M2075,control,7,10471041,NA,NA,NA,14.48929,nearest visit,2,NA,NA,NA,NA,<50
+MSM79H8N,M2075,control,9,14249226,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZJZ,M2075,control,14,19071426,NA,NA,NA,14.82121,same sample,0,NA,NA,NA,NA,<50
+MSM9VZGW,M2075,control,24,11353226,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZGY,M2075,control,26,5810084,NA,NA,NA,38.4,nearest visit,2,No,nearest visit,1,NA,<50
+MSM9VZH7,M2075,control,34,6555427,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC7J,M2075,control,37,13372313,NA,NA,NA,13.6,same sample,0,NA,NA,NA,NA,<50
+MSM79H94_P,M2077,control,0,33089513,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZMA,M2077,control,5,20671643,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZMA_TR,M2077,control,5,11562185,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZME,M2077,control,9,10749286,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZMC,M2077,control,9,16154671,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZMI,M2077,control,16,20950171,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZHX,M2077,control,21,14400849,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZHZ,M2077,control,24,7008941,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZI2,M2077,control,26,13082293,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZI6,M2077,control,31,14992158,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC7P,M2077,control,36,11011855,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC7R,M2077,control,38,11057861,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC7T,M2077,control,39,11207488,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LZC,M2077,control,51,7753138,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZFJ_P,M2079,control,0,16808508,NA,NA,NA,12.86797,same visit,0,NA,NA,NA,NA,<50
+MSM9VZFL,M2079,control,1,11083441,NA,NA,NA,12.86797,nearest visit,1,NA,NA,NA,NA,<50
+MSM9VZFN,M2079,control,3,10919691,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZFR,M2079,control,8,14472060,NA,NA,NA,14.71798,same sample,0,NA,NA,NA,NA,<50
+MSM9VZFT,M2079,control,9,10426685,NA,NA,NA,14.71798,nearest visit,1,NA,NA,NA,NA,<50
+MSM9VZKC,M2079,control,15,8937777,NA,NA,NA,14.34836,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZKE,M2079,control,17,14778616,NA,NA,NA,14.34836,same sample,0,NA,NA,NA,NA,<50
+MSM9VZKI,M2079,control,21,13555921,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BN,M2079,control,28,13566056,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BR,M2079,control,32,7756376,NA,NA,NA,13.92649,same sample,0,NA,NA,NA,NA,<50
+MSMA26BT,M2079,control,34,15619928,NA,NA,NA,13.92649,nearest visit,2,NA,NA,NA,NA,<50
+MSMA26BV,M2079,control,36,7704656,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BX,M2079,control,38,10635585,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LZ8,M2079,control,57,11138007,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZMM,M2084,control,0,21739912,NA,NA,NA,13.87418,same sample,0,NA,NA,NA,NA,<50
+MSM9VZMO,M2084,control,2,10554324,NA,NA,NA,13.87418,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZMS,M2084,control,6,11814786,NA,NA,NA,14.50411,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZMU,M2084,control,8,16988079,NA,NA,NA,14.50411,same sample,0,NA,NA,NA,NA,<50
+MSM9VZMW,M2084,control,10,11325540,NA,NA,NA,14.50411,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZL7,M2084,control,12,9261757,NA,NA,NA,16.9985,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZL9,M2084,control,14,14309984,NA,NA,NA,16.9985,same sample,0,NA,NA,NA,NA,<50
+MSM9VZLB,M2084,control,16,17093858,NA,NA,NA,16.9985,nearest visit,2,NA,NA,NA,NA,<50
+MSM9VZLD,M2084,control,18,8733249,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSM9VZLF,M2084,control,21,8932030,NA,NA,NA,NA,NA,NA,No,nearest visit,1,NA,NA
+MSM9VZLH,M2084,control,23,9406564,NA,NA,NA,14.1,nearest visit,2,No,nearest visit,1,NA,<50
+MSMA26BB,M2084,control,25,16251559,NA,NA,NA,14.1,same sample,0,NA,NA,NA,NA,<50
+MSMA26BD,M2084,control,27,9363011,NA,NA,NA,14.1,nearest visit,2,NA,NA,NA,NA,<50
+MSMA26BF,M2084,control,29,10650765,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BH,M2084,control,31,10200812,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BJ,M2084,control,33,10429533,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26BL,M2084,control,35,13146562,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC6K,M2084,control,37,15686087,NA,NA,NA,13.49709,nearest visit,2,NA,NA,NA,NA,<50
+MSMAPC6M,M2084,control,39,11322698,NA,NA,NA,13.49709,same sample,0,NA,NA,NA,NA,<50
+MSMAPC6O,M2084,control,41,9758259,NA,NA,NA,13.49709,nearest visit,2,NA,NA,NA,NA,<50
+MSMB4LZZ,M2084,control,43,12027284,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LZV,M2084,control,45,7456846,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LZX,M2084,control,47,7922089,NA,NA,NA,NA,NA,NA,Yes,nearest visit,2,NA,NA
+MSM9VZPH,M2085,cd,3,12773622,2,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM9VZPL,M2085,cd,7,14302902,2,same sample,0,221.8975,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM9VZPN,M2085,cd,9,6833647,1,same sample,0,221.8975,nearest visit,2,NA,NA,NA,remission (<5),50-250
+MSM9VZIY,M2085,cd,15,9276312,0,same sample,0,195.4,same sample,0,NA,NA,NA,remission (<5),50-250
+MSM9VZJ3,M2085,cd,19,23275018,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMA26CV,M2085,cd,23,11689750,1,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMA26CX,M2085,cd,26,15982393,4,same sample,0,223.8676,same sample,0,NA,NA,NA,remission (<5),50-250
+MSMAPC6A,M2085,cd,31,8398609,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMAPC6C,M2085,cd,33,13187671,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSMAPC6E,M2085,cd,34,14501527,0,same sample,0,220.0929,nearest visit,2,NA,NA,NA,remission (<5),50-250
+MSMAPC6G,M2085,cd,36,14755955,2,same sample,0,220.0929,same sample,0,NA,NA,NA,remission (<5),50-250
+MSMB4LXY,M2085,cd,40,17089759,2,same sample,0,288.4,same sample,0,NA,NA,NA,remission (<5),>250
+MSMB4LYB,M2085,cd,50,11707557,0,same sample,0,NA,NA,NA,NA,NA,NA,remission (<5),NA
+MSM9VZJJ_P,M2086,cd,8,14476019,2,same sample,0,295.6189,nearest visit,2,NA,NA,NA,remission (<5),>250
+MSM9VZL5,M2097,control,0,17176262,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26DM,M2097,control,4,15526691,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26DG,M2097,control,9,7273557,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26DI,M2097,control,11,12892288,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26DO,M2097,control,12,15652757,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMA26DK,M2097,control,14,16059504,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC5H,M2097,control,22,10057134,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMAPC5L,M2097,control,24,12643903,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LXW,M2097,control,31,6685647,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LXS,M2097,control,32,10456109,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+MSMB4LZK,M2097,control,38,14967161,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
