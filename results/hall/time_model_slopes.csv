@@ -1,0 +1,4 @@
+threshold,converged,slope_control,p_slope_control,slope_cd,p_interaction
+thr_00,FALSE,NA,NA,NA,NA
+thr_05,FALSE,NA,NA,NA,NA
+thr_10,TRUE,0.0035316499932124728,0.4094819091071722,-0.0028971678654563463,0.2362531495764647

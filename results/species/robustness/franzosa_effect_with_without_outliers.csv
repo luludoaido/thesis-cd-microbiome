@@ -1,0 +1,6 @@
+analysis,estimate,p
+difference of medians,-0.3144060199421288,NA
+Hodges-Lehmann (Wilcoxon),-0.4200939186971531,1.379400937917552e-7
+lm + sub-cohort,-0.4906571662005511,7.069205122380215e-8
+"lm + sub-cohort, without low outliers",-0.47297803495206303,2.662939135714854e-8
+"lm + sub-cohort, without antibiotics",-0.4128522965563254,6.37695260403646e-7

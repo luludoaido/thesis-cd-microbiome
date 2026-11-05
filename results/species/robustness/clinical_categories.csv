@@ -1,0 +1,7 @@
+cohort,diagnosis,samples,persons,calpro_n,calpro_median,calpro_lt50,calpro_50_250,calpro_gt250,hbi_n,hbi_median,hbi_remission,hbi_mild,hbi_moderate,hbi_severe
+Franzosa,control,56,56,42,17.442573369999998,31,10,1,0,NA,0,0,0,0
+Franzosa,cd,88,88,65,144.6766125,24,33,8,0,NA,0,0,0,0
+HMP2,control,219,14,123,15.64728,108,15,0,0,NA,0,0,0,0
+HMP2,cd,352,30,226,50.42217,110,92,24,333,2,262,49,21,1
+Hall,control,71,12,20,3.4366000000000003,18,2,0,0,NA,0,0,0,0
+Hall,cd,87,9,87,49,44,25,18,79,1,73,3,3,0

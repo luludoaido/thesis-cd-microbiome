@@ -1,0 +1,9 @@
+medication,diagnosis,n_yes,n_value,share_yes
+antibiotic,control,0,56,0
+antibiotic,cd,13,86,0.15
+immunosuppressant,control,0,34,0
+immunosuppressant,cd,45,88,0.51
+mesalamine,control,0,34,0
+mesalamine,cd,20,86,0.23
+steroids,control,0,34,0
+steroids,cd,19,87,0.22
