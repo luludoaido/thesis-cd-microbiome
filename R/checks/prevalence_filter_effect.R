@@ -24,17 +24,15 @@ for (level in c("genus", "species")) {
   # what is removed at 5 and 10 %?
   overview <- imap_dfr(data, function(d, key) {
     X <- d$X
-    prev <- colMeans(X > 0)
     map_dfr(c(0.05, 0.10), function(t) {
-      keep <- prev >= t
+      keep <- passes_filter(X, key, level, t)
       lost <- rowSums(X[, !keep, drop = FALSE])
       tibble(cohort = key, thr = t, samples = nrow(X), taxa_all = ncol(X),
              taxa_kept = sum(keep), taxa_removed = sum(!keep),
              zeros_all = mean(X == 0), zeros_after = mean(X[, keep] == 0),
              lost_median = median(lost) * 100, lost_max = max(lost) * 100,
              taxa_per_sample_all = median(rowSums(X > 0)),
-             taxa_per_sample_after = median(rowSums(X[, keep] > 0)),
-             removed_prev_max = max(prev[prev < 0.10]) * 100)
+             taxa_per_sample_after = median(rowSums(X[, keep] > 0)))
     })
   })
   print(overview %>% mutate(across(where(is.numeric), ~ round(.x, 3))), width = Inf)
@@ -44,7 +42,7 @@ for (level in c("genus", "species")) {
     X <- data[[key]]$X
     meta <- data[[key]]$meta
     prev <- colMeans(X > 0)
-    removed <- prev < 0.10
+    removed <- !passes_filter(X, key, level, 0.10)
     lost <- rowSums(X[, removed, drop = FALSE])
     cat("\n==", key, " samples losing >1%:", sum(lost > 0.01), " >5%:", sum(lost > 0.05), "\n")
     for (i in order(lost, decreasing = TRUE)[1:3]) {

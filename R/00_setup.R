@@ -125,3 +125,31 @@ save_table <- function(table, meta, cohort, name) {
   write_csv(merge(meta, table, by = "sample_id"),
             file.path(folder, paste0(cohort, "_", name, "_merged.csv")))
 }
+
+
+# --- Prevalence filter ---
+# The filter always works at genus level. At species level, a species stays if
+# its genus passes with no further filter on the species. 
+# Species withou a genus cannot be filtered and stay. 
+
+passes_filter <- function(X, cohort, level, thr){
+  folder <- file.path(dir_processed, cohort)
+  if (level == "genus"){
+    genus_prev <- colMeans(X > 0)
+    taxon_genus <- colnames(X)
+  } else {
+    genus <- read_csv(file.path(folder, paste0(cohort, "_genus.csv")), show_col_types = FALSE)
+    genus <- as.matrix(genus[match(rownames(X), genus$sample_id), -1])
+    genus_prev <- colMeans(genus > 0)
+    taxonomy <- file.path(folder, paste0(cohort, "_taxonomy.csv"))
+    taxon_genus <- if (file.exists(taxonomy)) {
+      lookup <- read_csv(taxonomy, show_col_types = FALSE)
+      lookup$genus[match(colnames(X), lookup$species)]
+    } else {
+      sub("_.*", "", colnames(X)) #Franzosa: the genus is the first part of the name
+    }
+  }
+  passing <- names(genus_prev)[if (thr == 0)
+    genus_prev > 0 else genus_prev >= thr]
+  colSums(X > 0) > 0 & (is.na(taxon_genus)| taxon_genus %in% passing)
+}

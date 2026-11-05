@@ -23,19 +23,19 @@ load_cohort <- function(cohort) {
 }
 
 # relative abundances after the prevalence filter, same steps as 04_load_abundance.R
-prepare <- function(d) {
+prepare <- function(d, cohort) {
   X <- d$abund %>%
     filter(sample_id %in% d$meta$sample_id) %>%
     column_to_rownames("sample_id") %>% as.matrix()
   X <- X / rowSums(X)
-  X <- X[, colMeans(X > 0) >= prev_thr, drop = FALSE]
+  X <- X[, passes_filter(X, cohort, level, prev_thr), drop = FALSE]
   X <- X[rowSums(X) > 0, , drop = FALSE]
   X / rowSums(X)
 }
 
 data <- imap(cohorts, function(label, key) {
   d <- load_cohort(key)
-  X <- prepare(d)
+  X <- prepare(d, key)
   list(X = X, meta = d$meta %>% filter(sample_id %in% rownames(X)))
 })
 

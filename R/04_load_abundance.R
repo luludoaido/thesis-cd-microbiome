@@ -24,14 +24,13 @@ longitudinal <- max(table(meta$subject_id)) > 1
 # --- TSS and prevalence filter ---
 rs <- rowSums(X_raw)
 X_tss <- X_raw / rs
-prev <- colMeans(X_tss > 0)
 
 thresholds <- c(0, 0.05, 0.10)
 
-# keep taxa by prevalence; thr = 0 only removes taxa that occur in no sample
+# filter at genus level (see passes_filter in 00_setup.R); 
+# thr = 0 only removes taxa that occur in no sample
 X_thr <- lapply(thresholds, function(t) {
-  keep <- if (t == 0) prev > 0 else prev >= t
-  Xf <- X_tss[, keep, drop = FALSE]
+  Xf <- X_tss[, passes_filter(X_tss, cohort, level, t), drop = FALSE]
   # drops samples with no taxa left
   Xf <- Xf[rowSums(Xf) > 0, , drop = FALSE]      
   Xf / rowSums(Xf)
