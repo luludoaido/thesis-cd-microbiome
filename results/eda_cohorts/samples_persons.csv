@@ -1,0 +1,7 @@
+cohort,diagnosis,persons,samples,min_samples,median_samples,max_samplex,median_followup_weeks,max_followup_weeks
+Franzosa,control,56,56,1,1,1,NA,NA
+Franzosa,cd,88,88,1,1,1,NA,NA
+HMP2,control,14,219,10,14,24,46,57
+HMP2,cd,30,352,1,12.5,26,39,52
+Hall,control,12,71,1,7,8,25.714285714285715,30
+Hall,cd,9,87,6,9,12,38.57142857142857,47.142857142857146

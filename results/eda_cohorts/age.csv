@@ -1,0 +1,5 @@
+cohort,diagnosis,persons,median,mean,q1,q3,min,max
+Franzosa,control,56,32,36.96428571428571,26,46.25,22,82
+Franzosa,cd,88,42,42.95454545454545,30,55,21,77
+HMP2,control,14,47.5,44.857142857142854,29.75,56.75,21,69
+HMP2,cd,30,38.5,38.5,27,44.75,18,76

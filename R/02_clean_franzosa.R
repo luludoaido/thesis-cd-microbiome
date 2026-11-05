@@ -1,8 +1,10 @@
 # --- Data Cleaning: Franzosa ---
 library(readxl)
+library(tidyverse)
 source("R/00_setup.R")
 
 out_dir <- file.path(dir_processed, "franzosa") # Output folder
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 #function to turn a block of feature rows into one row per sample
 features_by_sample <- function(block) {
@@ -13,43 +15,53 @@ features_by_sample <- function(block) {
 }
 
 # --- Metadata (rows 3-10) ---
-raw_species <- read_excel(file.path(dir_raw, "franzosa/supplDataset4_species.xlsx"),
+raw_species <- read_excel(file.path(dir_raw, "franzosa/SupplDataset4_species.xlsx"),
                           col_names = FALSE)
 
 sample_ids <- as.character(raw_species[2, -1])
 
 meta_block <- raw_species[3:10, ]
-franzosa_meta <- as.data.frame(t(meta_block[,-1]))
-colnames(franzosa_meta) <- meta_block[[1]]
-# sample Id as first column
-franzosa_meta <- data.frame(sample_id = sample_ids, franzosa_meta, check.names = FALSE)
-franzosa_meta$Age <- as.numeric(franzosa_meta$Age)
-franzosa_meta$Fecal.Calprotectin <- as.numeric(franzosa_meta$Fecal.Calprotectin)
+meta_raw <- as.data.frame(t(meta_block[,-1]))
+colnames(meta_raw) <- meta_block[[1]]
+meta_raw$sample_id <- sample_ids
 
-#CD and Control only
-franzosa_meta <- franzosa_meta[franzosa_meta$Diagnosis != "UC", ]
-write.csv(franzosa_meta, file.path(out_dir, "franzosa_meta.csv"), row.names = FALSE)
+# CD and controls only, Franzosa has one sample per person and no read counts
+franzosa_meta <- meta_raw %>%
+  filter(Diagnosis != "UC") %>%
+  transmute(sample_id, subject_id = sample_id, diagnosis = Diagnosis, time = NA_real_,
+            age = as.numeric(Age), antibiotic, site = sub("[|].*", "", sample_id),
+            reads = NA_real_, 
+            calprotectin = as.numeric(Fecal.Calprotectin), immunosuppressant, mesalamine, steroids, SRA_metagenome_name) %>%
+  finish_meta()
+
+write_csv(franzosa_meta, file.path(out_dir, "franzosa_meta.csv"))
 
 # --- Species (from row 11 on Supplementary Dataset 4) ---
 species <- features_by_sample(raw_species[11:nrow(raw_species), ])
-write.csv(merge(franzosa_meta, species, by = "sample_id"), 
-          file.path(out_dir, "franzosa_features_merged.csv"), 
-          row.names = FALSE)
+
+# --- Genus ---
+# sum the species of each genus (genus = everything before the first "_")
+genus <- species %>%
+  pivot_longer(-sample_id, names_to = "species", values_to = "abundance") %>%
+  mutate(genus = sub("_.*", "", species)) %>%
+  group_by(sample_id, genus) %>%
+  summarise(abundance = sum(abundance), .groups = "drop") %>%
+  pivot_wider(names_from = genus, values_from = abundance)
+save_table(genus, franzosa_meta, "franzosa", "genus")
+
+colnames(species)[-1] <- clean_species(colnames(species)[-1])
+save_table(species, franzosa_meta, "franzosa", "species")
 
 # --- Enzymes (from row 11 of Supplementary Data set 6) ---
 raw_enzymes <- read_excel(file.path(dir_raw, "franzosa/SupplDataset6_enzymes.xlsx"), col_names = FALSE)
 enzymes <- features_by_sample(raw_enzymes[11:nrow(raw_enzymes), ])
-write.csv(merge(franzosa_meta, enzymes, by = "sample_id"),
-          file.path(out_dir, "franzosa_enz_merged.csv"), row.names = FALSE)
+save_table(enzymes, franzosa_meta, "franzosa", "enzymes")
 
 # --- Metabolites (from row 10 Supplementary Data set 2) ---
 raw_metab <- read_excel(file.path(dir_raw, "franzosa/SupplDataset2_metabolites.xlsx"),
                         col_names =  FALSE)
 metabolites <- features_by_sample(raw_metab[10:nrow(raw_metab), ])
-
-write.csv(merge(franzosa_meta, metabolites, by = "sample_id"),
-          file.path(out_dir,
-                    "franzosa_metab_merged.csv"), row.names = FALSE)
+save_table(metabolites, franzosa_meta, "franzosa", "metabolites")
 
 # --- Butyrate and Propionate ---
 # Data set 1 annotates the clusters: 
@@ -64,6 +76,4 @@ write.csv(scfa_lookup, file.path(dir_processed, "franzosa", "franzosa_scfa_looku
 
 scfa <- metabolites[, c("sample_id", "HILIC.neg_Cluster_0013", "HILIC.neg_Cluster_0003")]
 colnames(scfa) <- c("sample_id", "butyrate", "propionate")
-
-write.csv(merge(franzosa_meta, scfa, by = "sample_id"),
-          file.path(out_dir, "franzosa_h3a_merged.csv"), row.names = FALSE)
+save_table(scfa, franzosa_meta, "franzosa", "scfa")

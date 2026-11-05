@@ -14,9 +14,9 @@ path <- "data"
 check_ids <- c("p9216_mo2", "SKST037_3_G103026", "SKST006_10_G102994")
 
 meta  <- read.csv(file.path(path, "raw/cmd/HallAB_2017_metadata.csv"))
-genus <- read_csv(file.path(path, "processed/hall/hall_genus_merged.csv"), show_col_types = FALSE)
-first_bac <- which(colnames(genus) == "Abiotrophia")
-X <- genus %>% select(sample_id, all_of(first_bac:ncol(genus))) %>%
+# all CD and control samples before the exclusions, because this script checks excluded samples
+genus <- read_csv(file.path(path, "processed/hall/hall_genus_before_exclusions.csv"), show_col_types = FALSE)
+X <- genus %>%
   column_to_rownames("sample_id") %>% as.matrix()
 raw_sum <- rowSums(X)                 # share of reads assigned to a genus (in %)
 X <- X / rowSums(X)                   # TSS, without prevalence filter

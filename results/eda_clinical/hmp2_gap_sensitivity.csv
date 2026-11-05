@@ -1,0 +1,4 @@
+max_gap_weeks,calpro_samples,calpro_person_cd,calpro_person_control,calpro_median_cd,calpro_median_control,calpro_p_wilcoxon,hbi_sample_cd,hbi_share_remission
+2,349,22,11,50.42217,15.64728,0.004983839759194018,333,0.79
+1,223,21,11,62.07,14.82121,0.01218720664481655,329,0.79
+0,189,21,11,66.45023,15.148495,0.004843483965213422,327,0.79
