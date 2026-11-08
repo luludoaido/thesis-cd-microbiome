@@ -61,7 +61,7 @@ top_genera <- bind_rows(
 ) %>% ungroup() %>% arrange(cohort, group, desc(mean_pct))
 
 print(top_genera, n = Inf)
-write_csv(top_genera, file.path(outdir, paste0(unit, "_top_bottom.csv")))
+write_csv(top_genera, file.path(outdir, paste0(unit, "_top_bottom_overall.csv")))
 
 plot_genera <- function(which, file, log_x = FALSE) {
   d <- top_genera %>% filter(group == which) %>%
@@ -79,6 +79,51 @@ plot_genera <- function(which, file, log_x = FALSE) {
     theme_plot
   if (log_x) p <- p + scale_x_log10()
   ggsave(file.path(outdir, file), p, width = 12, height = 5, dpi = 200)
+}
+plot_genera("most abundant",  paste0(unit, "_most_abundant_overall.png"))
+plot_genera("least abundant", paste0(unit, "_least_abundant_overall.png"), log_x = TRUE)
+
+# --- Most and least abundant genera, separately for controls and CD ---
+# Samples are averaged per person first, so that people with many samples do not count more.
+genera <- imap_dfr(data, function(d, key) {
+  m <- d$meta[match(rownames(d$X), d$meta$sample_id), ]
+  map_dfr(c("control", "cd"), function(g) {
+    in_group <- m$diagnosis == g
+    per_person <- apply(d$X[in_group, , drop = FALSE], 2, function(x) tapply(x, m$subject_id[in_group], mean))
+    tibble(cohort     = cohorts[[key]],
+           diagnosis  = g,
+           genus      = colnames(d$X),
+           people     = nrow(per_person),
+           mean_pct   = colMeans(per_person) * 100,
+           median_pct = apply(per_person, 2, median) * 100,
+           prevalence = colMeans(per_person > 0) * 100)
+  })
+})
+
+# least abundant: only taxa that occur in this group at all
+top_genera <- bind_rows(
+  genera %>% group_by(cohort, diagnosis) %>% slice_max(mean_pct, n = n_top, with_ties = FALSE) %>% mutate(group = "most abundant"),
+  genera %>% filter(mean_pct > 0) %>% group_by(cohort, diagnosis) %>% slice_min(mean_pct, n = n_top, with_ties = FALSE) %>% mutate(group = "least abundant")
+) %>% ungroup() %>% arrange(cohort, diagnosis, group, desc(mean_pct))
+
+print(top_genera, n = Inf)
+write_csv(top_genera, file.path(outdir, paste0(unit, "_top_bottom.csv")))
+
+plot_genera <- function(which, file, log_x = FALSE) {
+  d <- top_genera %>% filter(group == which) %>%
+    mutate(diagnosis = factor(diagnosis, levels = c("control", "cd")),
+           cohort = factor(cohort, levels = cohorts),
+           genus_lab = sort_within(genus, mean_pct, paste(cohort, diagnosis)))
+  p <- ggplot(d, aes(mean_pct, genus_lab, fill = diagnosis)) +
+    facet_wrap(cohort ~ diagnosis, scales = "free_y", ncol = 2) +
+    scale_y_discrete(labels = remove_suffix) +
+    scale_fill_manual(values = col_diag) +
+    labs(x = "mean relative abundance per person (%)", y = NULL, fill = NULL,
+         title = sprintf("%d %s %s per cohort and group (%s %% prevalence filter)", n_top, which, unit, prev_thr * 100)) +
+    theme_plot
+  # bars have no meaningful start on a log axis, so the log plot uses points
+  p <- if (log_x) p + geom_point(shape = 21, size = 3) + scale_x_log10() else p + geom_col(width = .7)
+  ggsave(file.path(outdir, file), p, width = 11, height = 11, dpi = 200)
 }
 plot_genera("most abundant",  paste0(unit, "_most_abundant.png"))
 plot_genera("least abundant", paste0(unit, "_least_abundant.png"), log_x = TRUE)
