@@ -35,6 +35,65 @@ coef_row <- function(m, term) {
   tibble(term = term, estimate = s[term, "Estimate"], se = s[term, "Std. Error"], p = s[term, p_col])
 }
 
+# --- How much does each variable explain? ---
+# Marginal R2: variance explained by the fixed effects together. Conditional R2: fixed effects and person
+# together (Nakagawa & Schielzeth 2013). For Franzosa, with one sample per person, this is the usual R2.
+# unique_r2: how much the marginal R2 falls without this variable. Variables that overlap share variance,
+# so the values do not add up to the model R2. Small negative values mean no contribution.
+r2_parts <- function(m) {
+  if (inherits(m, "lm")) return(c(marginal = summary(m)$r.squared, conditional = NA_real_))
+  var_fixed <- var(as.vector(model.matrix(m) %*% fixef(m)))
+  vc <- as.data.frame(VarCorr(m))
+  var_person <- vc$vcov[vc$grp == "subject_id"]; var_res <- vc$vcov[vc$grp == "Residual"]
+  c(marginal = var_fixed / (var_fixed + var_person + var_res),
+    conditional = (var_fixed + var_person) / (var_fixed + var_person + var_res))
+}
+
+r2_tab <- imap_dfr(alpha, function(a, co) {
+  d <- a %>% mutate(log_reads = log10(reads))
+  repeated <- co != "franzosa"
+  vars <- c("diagnosis", if (n_distinct(d$site) > 1) "site", if (any(!is.na(d$age))) "age",
+            if (any(!is.na(d$reads))) "log_reads", if (repeated) "time")
+  map_dfr(c("Shannon", "Richness"), function(y) {
+    dd <- d %>% select(all_of(c(y, vars, "subject_id"))) %>% drop_na()
+    fit <- function(v) {
+      f <- reformulate(c(v, if (repeated) "(1 | subject_id)"), y)
+      if (repeated) lmer(f, data = dd) else lm(f, data = dd)
+    }
+    full <- fit(vars)
+    r2 <- r2_parts(full)
+    tibble(cohort = co, outcome = y, samples = nrow(dd), persons = n_distinct(dd$subject_id),
+           variable = vars,
+           unique_r2 = map_dbl(vars, ~ r2[["marginal"]] - r2_parts(fit(setdiff(vars, .x)))[["marginal"]]),
+           marginal_r2 = r2[["marginal"]], conditional_r2 = r2[["conditional"]],
+           person_r2 = r2[["conditional"]] - r2[["marginal"]])
+  })
+})
+print(r2_tab, n = Inf)
+write_csv(r2_tab, file.path(outdir, "variance_explained.csv"))
+
+# one bar per variable, plus the share of the person and the rest
+r2_labels <- c(diagnosis = "CD vs control", site = "centre", age = "age", log_reads = "log10 reads",
+               time = "time", person = "person", rest = "not explained")
+r2_long <- r2_tab %>%
+  select(cohort, outcome, variable, share = unique_r2) %>%
+  bind_rows(r2_tab %>% filter(!is.na(person_r2)) %>% distinct(cohort, outcome, share = person_r2) %>% mutate(variable = "person"),
+            r2_tab %>% distinct(cohort, outcome, marginal_r2, conditional_r2) %>%
+              transmute(cohort, outcome, share = 1 - coalesce(conditional_r2, marginal_r2), variable = "rest")) %>%
+  mutate(share = pmax(share, 0),
+         cohort = factor(cohort, c("franzosa", "hmp2", "hall"), c("Franzosa", "HMP2", "Hall")),
+         variable = factor(variable, rev(names(r2_labels)), rev(r2_labels)))
+
+p_r2 <- ggplot(r2_long, aes(share, variable, fill = variable == "CD vs control")) +
+  geom_col(width = .7) +
+  geom_text(aes(label = sprintf("%.3f", share)), hjust = -.15, size = 3) +
+  scale_fill_manual(values = c(`TRUE` = unname(col_diag["cd"]), `FALSE` = okabe_ito[["grey"]]), guide = "none") +
+  scale_x_continuous(expand = expansion(mult = c(0, .18))) +
+  facet_grid(outcome ~ cohort) +
+  labs(x = "share of the variance", y = NULL, title = paste0("What explains the diversity? (", level, ", 10 % filter)"),
+       caption = "Each variable: drop in the fixed-effects R2 without it; shared variance is not counted") + theme_plot
+save_plot(p_r2, "variance_explained.png", 10, 6.5)
+
 # --- 1. Calprotectin and HBI ---
 # calprotectin (µg/g): < 50 normal, 50-250 grey zone, > 250 active inflammation
 # HBI (CD only): < 5 remission, 5-7 mild, 8-16 moderate, > 16 severe
