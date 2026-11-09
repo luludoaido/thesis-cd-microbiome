@@ -94,7 +94,7 @@ p_r2 <- ggplot(r2_long, aes(share, variable, fill = variable == "CD vs control")
        caption = "Each variable: drop in the fixed-effects R2 without it; shared variance is not counted") + theme_plot
 save_plot(p_r2, "variance_explained.png", 10, 6.5)
 
-# --- 1. Calprotectin and HBI ---
+# --- Calprotectin and HBI ---
 # calprotectin (µg/g): < 50 normal, 50-250 grey zone, > 250 active inflammation
 # HBI (CD only): < 5 remission, 5-7 mild, 8-16 moderate, > 16 severe
 calpro_cat <- function(x) cut(x, c(-Inf, 50, 250, Inf), right = FALSE,
@@ -191,7 +191,74 @@ p_hbi_time <- ggplot(d, aes(time, hbi, group = subject_id)) +
   labs(x = "weeks since first sample", y = "HBI", title = "HBI per CD person over time") + theme_plot
 save_plot(p_hbi_time, "clinical_hbi_time.png", 8.5, 4.2)
 
-# --- 2. Franzosa: outliers ---
+# --- Does disease activity explain the CD effect? ---
+# Compares CD samples with low and with high activity against the controls.
+# Calprotectin: 150 µg/g is the main cut-off (AGA guideline 2023), 50 and 250 are sensitivity analyses.
+# HBI: below 5 counts as remission.
+diversity <- map_dfr(alpha, ~ select(.x, sample_id, Shannon, Richness))
+activity <- clinical %>%
+  select(cohort, sample_id, subject_id, diagnosis, calpro, hbi) %>%
+  left_join(diversity, by = "sample_id")
+
+# person as random effect when people have several samples
+fit_activity <- function(f, d) {
+  if (any(table(d$subject_id) > 1)) lmer(update(f, . ~ . + (1 | subject_id)), data = d) else lm(f, data = d)
+}
+
+# CD low and CD high against the controls; skipped if a group has fewer than 5 samples
+compare_activity <- function(d, definition) {
+  d <- mutate(d, group = factor(group, c("control", "low", "high")))
+  if (min(table(d$group)) < 5) return(NULL)
+  m <- fit_activity(Shannon ~ group, d)
+  bind_rows(coef_row(m, "grouplow"), coef_row(m, "grouphigh")) %>%
+    transmute(cohort = d$cohort[1], definition, activity = c("low", "high"),
+              samples = c(sum(d$group == "low"), sum(d$group == "high")),
+              persons = c(n_distinct(d$subject_id[d$group == "low"]), n_distinct(d$subject_id[d$group == "high"])),
+              controls = sum(d$group == "control"), shannon_vs_control = estimate, se, p)
+}
+
+activity_tab <- activity %>% group_split(cohort) %>% map_dfr(function(d) {
+  bind_rows(
+    map_dfr(c(150, 50, 250), function(cut) {
+      d %>% filter(!is.na(calpro)) %>%
+        mutate(group = case_when(diagnosis == "control" ~ "control", calpro < cut ~ "low", TRUE ~ "high")) %>%
+        compare_activity(paste("calprotectin", cut))
+    }),
+    d %>% filter(diagnosis == "control" | !is.na(hbi)) %>%
+      mutate(group = case_when(diagnosis == "control" ~ "control", hbi < 5 ~ "low", TRUE ~ "high")) %>%
+      compare_activity("HBI 5")
+  )
+})
+print(activity_tab, n = Inf)
+write_csv(activity_tab, file.path(outdir, "activity_vs_controls.csv"))
+
+# within CD: does diversity follow the activity scores? (values below 1 are set to 1 for the log)
+activity_cd <- activity %>% filter(diagnosis == "cd") %>% mutate(log_calpro = log10(pmax(calpro, 1)))
+within_cd <- map_dfr(c("log_calpro", "hbi"), function(x) {
+  activity_cd %>% filter(!is.na(.data[[x]])) %>% group_split(cohort) %>% map_dfr(function(d) {
+    map_dfr(c("Shannon", "Richness"), function(y) {
+      coef_row(fit_activity(reformulate(x, y), d), x) %>%
+        transmute(cohort = d$cohort[1], outcome = y, predictor = x, samples = nrow(d),
+                  persons = n_distinct(d$subject_id), estimate, se, p)
+    })
+  })
+})
+print(within_cd, n = Inf)
+write_csv(within_cd, file.path(outdir, "activity_within_cd.csv"))
+
+p_activity <- activity_tab %>%
+  mutate(definition = factor(definition, rev(c("calprotectin 150", "calprotectin 50", "calprotectin 250", "HBI 5"))),
+         activity = factor(activity, c("high", "low"))) %>%
+  ggplot(aes(definition, shannon_vs_control, shape = activity)) +
+  geom_hline(yintercept = 0, colour = okabe_ito[["grey"]]) +
+  geom_pointrange(aes(ymin = shannon_vs_control - 1.96 * se, ymax = shannon_vs_control + 1.96 * se),
+                  colour = col_diag["cd"], position = position_dodge(width = .5)) +
+  coord_flip() + facet_wrap(~ cohort) +
+  labs(x = NULL, y = "Shannon, CD - control (95 % CI)", shape = "activity",
+       title = paste0("Is the CD effect only in active disease? (", level, ")")) + theme_plot
+save_plot(p_activity, "activity_vs_controls.png", 9, 4.2)
+
+# --- Franzosa: outliers ---
 # outliers by the boxplot rule, plus the 10 lowest CD samples
 fr <- alpha$franzosa %>%
   mutate(calpro = calprotectin) %>%
@@ -249,7 +316,7 @@ p_fr <- ggplot(fr, aes(diagnosis, Shannon, colour = diagnosis)) +
   labs(x = NULL, y = paste0("Shannon (", level, ")"), shape = NULL, title = "Franzosa: who are the outliers?") + theme_plot
 save_plot(p_fr, "franzosa_outliers.png", 7.5, 4.8)
 
-# --- 3. Number of reads and samples per person (HMP2 and Hall) ---
+# --- Number of reads and samples per person (HMP2 and Hall) ---
 # Franzosa has no read counts and only one sample per person
 long <- bind_rows(HMP2 = select(alpha$hmp2, sample_id, subject_id, diagnosis, time, site, reads, Shannon, Richness, evenness),
                   Hall = select(alpha$hall, sample_id, subject_id, diagnosis, time, site, reads, Shannon, Richness, evenness),
@@ -343,7 +410,7 @@ p_sd <- ggplot(sd_person, aes(n_samples, sd_shannon, colour = diagnosis)) +
        title = "Does the number of samples drive the SD?") + theme_plot
 save_plot(p_sd, "sd_vs_samples_per_person.png", 8.5, 4.5)
 
-# --- 4. Change over time ---
+# --- Change over time ---
 # possible reasons for the trend: richness or evenness, reads, or the centre (almost all HMP2 controls are from M)
 time_fit <- function(f, d) lmer(f, data = d, REML = FALSE,
                                 control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e5)))
@@ -415,7 +482,7 @@ p_trend <- long %>% filter(cohort == "HMP2") %>%
   theme_plot
 save_plot(p_trend, "hmp2_time_metrics.png", 11, 4.2)
 
-# --- 5. Hall: Boston only ---
+# --- Hall: Boston only ---
 bo <- alpha$hall %>% filter(site == "Boston")
 print(bo %>% group_by(diagnosis) %>%
   summarise(persons = n_distinct(subject_id), samples = n(),
