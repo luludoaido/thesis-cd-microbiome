@@ -1,18 +1,10 @@
-# --- Data cleaning: HMP2 ---
+# --- 02 Clean HMP2 ---
+# Turns the HMP2 metadata and bioBakery 3 profiles into clean tables with one row per sample.
 
-# What this script does
-# Reads the HMP2 metadata (Lloyd-Price 2019) and the bioBakery 3 profiles (Beghini 2021) and turns
-# them into clean tables with one row per sample: metadata with clinical values, species, genus,
-# taxonomy, and the butyrate pathways and enzymes.
+# Results: metadata of adult CD and controls with HBI, calprotectin and antibiotics;
+# species, genus, taxonomy, butyrate pathways and enzymes
 
-# Decisions
-# 1. Metagenome samples of CD and non-IBD controls only. nonIBD is called control.
-# 2. Adults with a known age only, for comparability with the other cohorts (own decision).
-# 3. HBI, calprotectin and antibiotics come from the same sample, or else from the nearest visit
-#    of the same person at most 2 weeks away (own decision).
-# 4. Sample MSM6J2MF is removed, because it has no enzyme data and all tables should contain the same samples.
-# 5. The centre is the first letter of the Participant ID.
-# 6. Butyrate is described by three pathways and three enzymes, using only the total rows.
+# Methods: docs/methods.md, 1.1 and section 4
 
 library(data.table)
 library(tidyverse)
@@ -31,7 +23,7 @@ features_by_sample <- function(tab, suffix) {
 # --- Metadata ---
 hmp2_meta_raw <- read.csv(file.path(dir_raw, "hmp2/hmp2_metadata_2018-08-20.csv"), sep = ";", check.names = FALSE)
 
-# metagenome samples, CD and controls, adults with known age only
+# metagenome samples, CD and controls, adults with known age only (see methods 4.2, 4.3)
 hmp2_meta <- hmp2_meta_raw[hmp2_meta_raw$data_type == "metagenomics" &
                              hmp2_meta_raw$diagnosis %in% c("CD", "nonIBD") &
                              !is.na(hmp2_meta_raw$consent_age) &
@@ -41,10 +33,7 @@ hmp2_meta <- hmp2_meta_raw[hmp2_meta_raw$data_type == "metagenomics" &
 hmp2_meta$diagnosis[hmp2_meta$diagnosis == "nonIBD"] <- "control"
 
 # --- Clinical values ---
-# HBI, calprotectin and antibiotics are often recorded at a different visit than the stool sample.
-# For each sample, the value comes from the same sample if there is one, otherwise from the nearest
-# visit of the same person within max_gap weeks. The 2 weeks are an own decision;
-# 03_eda_clinical.R repeats the comparison with 1 and 0 weeks.
+# same sample, else the nearest visit within max_gap weeks (see methods 4.4)
 max_gap <- 2
 
 hmp2_visits <- hmp2_meta_raw %>% transmute(visit_id = `External ID`, `Participant ID`, visit_week = week_num,
@@ -75,7 +64,7 @@ hmp2_meta <- hmp2_meta %>%
   left_join(match_var("calpro"), by = "External ID") %>%
   left_join(match_var("abx"), by = "External ID")
 
-# MSM6J2MF has no enzyme data and is removed, so that all tables contain the same samples
+# MSM6J2MF has no enzyme data (see methods 4.5)
 hmp2_meta <- hmp2_meta %>%
   filter(`External ID` != "MSM6J2MF") %>%
   transmute(sample_id = `External ID`, subject_id = `Participant ID`, diagnosis, time = week_num,
@@ -109,10 +98,7 @@ colnames(genus)[-1] <- sub(".*g__", "", colnames(genus)[-1])
 save_table(genus, hmp2_meta, "hmp2", "genus")
 
 # --- Butyrate pathways and enzymes (HUMAnN 3) ---
-# Butyrate production is commonly studied through the genes of its pathways. Single genes such as but
-# and buk can be misannotated, so whole pathways are more robust (Vital 2014).
-# The selection of these pathways and enzymes is an own decision; succinate fermentation is not covered by Vital 2014.
-# Only the total rows are used; rows split by species are not.
+# total rows only (see methods 4.8)
 butanoate_pathways <- c("CENTFERM-PWY: pyruvate fermentation to butanoate",
                         "PWY-5676: acetyl-CoA fermentation to butanoate II",
                         "PWY-5677: succinate fermentation to butanoate")
@@ -130,11 +116,3 @@ ecs <- ecs[ecs[[1]] %in% butyrate_ecs]
 ecs[, (2:ncol(ecs)) := lapply(.SD, as.numeric), .SDcols = 2:ncol(ecs)]
 ecs <- features_by_sample(ecs, "_level4ec$")
 save_table(ecs, hmp2_meta, "hmp2", "enzymes")
-
-# --- Literature ---
-# Beghini F et al. (2021). Integrating taxonomic, functional, and strain-level profiling of diverse
-#   microbial communities with bioBakery 3. eLife 10:e65088. doi:10.7554/eLife.65088
-# Lloyd-Price J et al. (2019). Multi-omics of the gut microbial ecosystem in inflammatory bowel
-#   diseases. Nature 569(7758):655-662. doi:10.1038/s41586-019-1237-9
-# Vital M et al. (2014). Revealing the bacterial butyrate synthesis pathways by analyzing
-#   (meta)genomic data. mBio 5(2):e00889-14. doi:10.1128/mbio.00889-14

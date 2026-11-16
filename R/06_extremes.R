@@ -1,17 +1,12 @@
-# --- Extreme genera and samples ---
-#
-# What this script does
-# Shows which genera or species are the most and least abundant, separately for controls and CD,
-# and which samples have the lowest and highest Shannon diversity (Shannon 1948).
-# One overview per cohort, after the 10 % prevalence filter.
-# Started by run_levels.R, which sets level.
+# --- 06 Most and least abundant taxa, extreme samples ---
+# Lists the most and least abundant genera or species, separately for controls and CD, and the
+# samples with the lowest and highest Shannon. 10 % filter; started by run_levels.R.
 
-# Decisions
-# 1. Samples are averaged per person first, so that people with many samples do not count more.
-# 2. The lists show 10 taxa or samples per cohort and group (own decision).
-# 3. The least abundant taxa are only those that occur in the group at all.
-# 4. These lists are descriptive: the least abundant taxa often occur in only one person.
+# Results (per cohort):
+# - 10 most and 10 least abundant taxa in CD and in controls (mean per person)
+# - 10 samples with the lowest and highest Shannon diversity
 
+# Methods: docs/methods.md, section 8
 library(tidyverse)
 library(vegan)
 source("R/00_setup.R")
@@ -95,7 +90,7 @@ plot_genera("most abundant",  paste0(unit, "_most_abundant_overall.png"))
 plot_genera("least abundant", paste0(unit, "_least_abundant_overall.png"), log_x = TRUE)
 
 # --- Most and least abundant genera, separately for controls and CD ---
-# Samples are averaged per person first, so that people with many samples do not count more.
+# averaged per person first (see methods 8.1)
 genera <- imap_dfr(data, function(d, key) {
   m <- d$meta[match(rownames(d$X), d$meta$sample_id), ]
   map_dfr(c("control", "cd"), function(g) {
@@ -111,7 +106,7 @@ genera <- imap_dfr(data, function(d, key) {
   })
 })
 
-# least abundant: only taxa that occur in this group at all
+# least abundant: only taxa that occur in this group at all (see methods 8.2)
 top_genera <- bind_rows(
   genera %>% group_by(cohort, diagnosis) %>% slice_max(mean_pct, n = n_top, with_ties = FALSE) %>% mutate(group = "most abundant"),
   genera %>% filter(mean_pct > 0) %>% group_by(cohort, diagnosis) %>% slice_min(mean_pct, n = n_top, with_ties = FALSE) %>% mutate(group = "least abundant")
@@ -189,7 +184,3 @@ for (g in levels(d$group)) {
     scale_x_continuous(limits = c(0, ceiling(max(d$Shannon))))
   ggsave(file.path(outdir, paste0("samples_", sub(" diversity", "", g), "_shannon.png")), p, width = 14, height = 5, dpi = 200)
 }
-
-# --- Literature ---
-# Shannon CE (1948). A mathematical theory of communication.
-#   Bell Syst Tech J 27(3):379-423. doi:10.1002/j.1538-7305.1948.tb01338.x

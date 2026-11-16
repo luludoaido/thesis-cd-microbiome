@@ -1,15 +1,14 @@
-# --- EDA of the clinical data (Franzosa, Hall, HMP2) ---
+# --- 03 EDA of the clinical data ---
+# Describes calprotectin, HBI and medication in the three cohorts. Description only;
+# the link to diversity is in 07_robustness.R.
 
-# What this script does
-# Describes calprotectin, HBI and medication in the three cohorts, and how much data each cohort
-# has. It only describes the clinical data; the link to diversity is in 07_robustness.R.
+# Results:
+# - calprotectin in CD vs. controls per cohort (Wilcoxon, one value per person)
+# - HBI per CD person and in categories; agreement of HBI and calprotectin
+# - HMP2: where the clinical values come from, and whether a 2, 1 or 0 week window matters
+# - medication (Franzosa), antibiotics (HMP2), share of missing values per cohort
 
-# Decisions
-# 1. Comparisons use one value per person (the median in Hall and HMP2), because samples of the
-#    same person are not independent.
-# 2. HMP2: the time window for matching clinical values is checked with 2, 1 and 0 weeks.
-# 3. Calprotectin is shown on a log scale, because it is strongly right-skewed.
-# 4. HBI is only analysed in CD.
+# Methods: docs/methods.md, 1.5, 1.8, 4.4 and section 5
 
 library(tidyverse)
 source("R/00_setup.R")
@@ -38,7 +37,7 @@ hmp2_clinical <- meta %>% filter(cohort == "HMP2")
 print(table(hbi = hmp2_clinical$hbi_how, useNA = "ifany"))
 print(table(calprotectin = hmp2_clinical$calpro_how, useNA = "ifany"))
 
-# Sensitivity analysis: repeat the comparison with shorter windows
+# sensitivity analysis with shorter windows (see methods 4.4)
 # 2 = main analysis, 1 = at most 1 week apart, 0 = same visit only
 gap_sensitivity <- map_dfr(c(2,1,0), function(g) {
   calpro_g <- hmp2_clinical %>% filter(!is.na(calprotectin),
@@ -61,7 +60,7 @@ print(gap_sensitivity, width = Inf)
 write_csv(gap_sensitivity, file.path(outdir, "hmp2_gap_sensitivity.csv"))
 
 # --- Calprotectin ---
-# Note: in Hall only 3 of the 12 controls have a value, so the comparison is uncertain.
+# Hall: only 3 of the 12 controls have a value (see methods 5.1)
 
 calpro <- meta %>% filter(!is.na(calprotectin))
 
@@ -73,8 +72,7 @@ calpro_table <- calpro %>%
 print(calpro_table)
 write_csv(calpro_table, file.path(outdir, "calprotectin.csv"))
 
-# CD vs. control with the Wilcoxon rank-sum test (Wilcoxon 1945, Mann & Whitney 1947), which needs
-# no normal distribution. One value per person (median for Hall and HMP2).
+# CD vs. control, Wilcoxon, one value per person (see methods 1.5, 1.8)
 calpro_test <- calpro %>%
   group_by(cohort, person, diagnosis) %>%
   summarise(calprotectin = median(calprotectin), .groups = "drop") %>%
@@ -84,9 +82,7 @@ calpro_test <- calpro %>%
 print(calpro_test)
 write_csv(calpro_test, file.path(outdir, "calprotectin_test.csv"))
 
-# Log scale because strongly right-skewed; values of 0 are dropped.
-# Lines = commonly used cut-offs: there is no single accepted value. Below 50 is the most sensitive
-# range (Rokkas 2018), 250 indicates large ulcers (D'Haens 2012). 
+# log scale, values of 0 dropped; lines = cut-offs (see methods 5.1)
 p_calpro <- ggplot(filter(calpro, calprotectin > 0),
                    aes(calprotectin, fill = diagnosis)) +
   geom_histogram(bins = 30, alpha = .7, position = "identity")+
@@ -101,11 +97,9 @@ print(p_calpro)
 ggsave(file.path(outdir, "calprotectin.png"), p_calpro, width = 10, height = 4, dpi = 200)
 
 # --- HBI (Hall and HMP2, CD only) ---
-# HBI is a symptom score for Crohn's disease (Harvey & Bradshaw 1980)
 hbi <- meta %>% filter(diagnosis == "cd", !is.na(HBI))
 
-# Common categories: <5 remission, 5-7 mild, 8-16 moderate, >16 severe.
-# A score of 4 or less matches a CDAI of 150 or less, the usual definition of remission (Vermeire 2010).
+# categories (see methods 5.2)
 hbi_table <- hbi %>%
   mutate(activity = cut(HBI, c( -Inf, 4, 7, 16, Inf),
                         labels = c("remission", "mild", "moderate", "severe"))) %>% 
@@ -128,7 +122,7 @@ print(p_hbi)
 ggsave(file.path(outdir, "hbi.png"), p_hbi, width = 8, height = 4, dpi = 200)  
   
 # Do HBI and calprotectin agree? (CD samples with both values)
-# They need not: HBI measures symptoms, and calprotectin was not related to symptom scores in CD (D'Haens 2012).
+# they need not agree (see methods 5.3)
 hbi %>%
   filter(!is.na(calprotectin)) %>% 
   group_by(cohort) %>%
@@ -172,16 +166,3 @@ missing_values <- meta %>%
 
 print(missing_values, width = Inf)
 write_csv(missing_values, file.path(outdir, "missing_values.csv"))
-
-# --- Literature ---
-# D'Haens G et al. (2012). Fecal calprotectin is a surrogate marker for endoscopic lesions in
-#   inflammatory bowel disease. Inflamm Bowel Dis 18(12):2218-2224. doi:10.1002/ibd.22917
-# Harvey RF, Bradshaw JM (1980). A simple index of Crohn's-disease activity. Lancet 315(8167):514.
-#   doi:10.1016/s0140-6736(80)92767-1
-# Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically
-#   larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
-# Rokkas T et al. (2018). Fecal calprotectin in assessing inflammatory bowel disease endoscopic activity:
-#   a diagnostic accuracy meta-analysis. J Gastrointestin Liver Dis 27(3):299-306. doi:10.15403/jgld.2014.1121.273.pti
-# Vermeire S et al. (2010). Correlation between the Crohn's disease activity and Harvey-Bradshaw indices
-#   in assessing Crohn's disease severity. Clin Gastroenterol Hepatol 8(4):357-363. doi:10.1016/j.cgh.2010.01.001
-# Wilcoxon F (1945). Individual comparisons by ranking methods. Biometrics Bull 1(6):80-83. doi:10.2307/3001968

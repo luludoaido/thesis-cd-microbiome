@@ -1,19 +1,13 @@
-# --- Fibre-associated taxa (SQ2a and SQ2b) ---
-#
-# What this script does
-# SQ2a: is the Prevotella/Bacteroides ratio lower in CD than in controls?
-# SQ2b: are F. prausnitzii and Roseburia lower in CD than in controls?
-# Only Franzosa and HMP2. Run from the project folder.
+# --- 09 H2: Fibre-associated taxa ---
+# H2a: is the Prevotella/Bacteroides ratio lower in CD? H2b: are F. prausnitzii and Roseburia
+# lower in CD? Franzosa and HMP2 only; the taxa are not prevalence-filtered (see methods 11.1).
 
-# Decisions
-# 1. Taxa were chosen in advance, so no prevalence filter for abundances and ratios.
-# 2. Prevotella is absent from about two thirds of the samples, and a replacement value would
-#    decide the result. SQ2a is therefore tested in parts: occurrence, ratio where both taxa
-#    occur, and Prevotella-dominated samples.
-# 3. SQ2b: MaAsLin2 is the main method. Abundances are TSS-scaled over all species beforehand,
-#    so MaAsLin2 runs with normalization NONE, transform LOG, method LM, and no prevalence filter.
-# 4. SQ2b check: linear models on CLR values, with the 10 % genus filter as in 05_beta_diversity.R.
-# 5. Holm correction over the two SQ2b taxa, per cohort.
+# Results:
+# - detection and abundance of Prevotella, Bacteroides, F. prausnitzii and Roseburia per group
+# - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control)
+# - H2b: CD effect on F. prausnitzii and Roseburia, MaAsLin2 (main) and CLR models (check), Holm-adjusted
+
+# Methods: docs/methods.md, 1.10 and section 11
 
 library(tidyverse)
 library(lme4)
@@ -72,7 +66,7 @@ write_csv(detection, file.path(outdir, "sq2_taxa_detection.csv"))
 fr <- taxa %>% filter(cohort == "franzosa")
 hm <- taxa %>% filter(cohort == "hmp2")
 
-# --- SQ2a, part 1: is Prevotella detected? ---
+# --- SQ2a, part 1: is Prevotella detected? (see methods 11.2) ---
 share <- function(x, dx, g) mean(x[dx == g]) * 100
 
 sq2a_occurrence <- bind_rows(
@@ -101,7 +95,7 @@ sq2a_occurrence <- bind_rows(
 print(sq2a_occurrence, width = Inf)
 write_csv(sq2a_occurrence, file.path(outdir, "sq2a_occurrence.csv"))
 
-# --- SQ2a, part 2: ratio in samples with both taxa ---
+# --- SQ2a, part 2: ratio in samples with both taxa (see methods 11.2) ---
 both <- taxa %>% filter(Prevotella > 0, Bacteroides > 0) %>%
   mutate(log_ratio = log10(Prevotella / Bacteroides))
 
@@ -130,7 +124,7 @@ sq2a_ratio <- bind_rows(
 print(sq2a_ratio, width = Inf)
 write_csv(sq2a_ratio, file.path(outdir, "sq2a_ratio.csv"))
 
-# --- SQ2a, part 3: Prevotella > Bacteroides ---
+# --- SQ2a, part 3: Prevotella > Bacteroides (see methods 11.2) ---
 sq2a_dominated <- bind_rows(
   {
     d <- fr %>% mutate(dom = Prevotella > Bacteroides)
@@ -148,7 +142,7 @@ sq2a_dominated <- bind_rows(
 print(sq2a_dominated, width = Inf)
 write_csv(sq2a_dominated, file.path(outdir, "sq2a_dominated.csv"))
 
-# --- SQ2b: MaAsLin2 (main) ---
+# --- SQ2b: MaAsLin2, main (see methods 11.3, 11.5) ---
 run_maaslin <- function(d, label, random) {
   run_dir <- file.path(outdir, "maaslin2", label)
   dir.create(run_dir, recursive = TRUE, showWarnings = FALSE)
@@ -175,8 +169,8 @@ sq2b_maaslin <- bind_rows(
 print(sq2b_maaslin, n = Inf, width = Inf)
 write_csv(sq2b_maaslin, file.path(outdir, "sq2b_maaslin2.csv"))
 
-# --- SQ2b: CLR models (check) ---
-# same CLR as in 05_beta_diversity.R
+# --- SQ2b: CLR models, check (see methods 11.4, 11.5) ---
+# same CLR as in 05_beta_diversity.R (see methods 7.7)
 clr_tf <- function(X) {
   pc <- min(X[X > 0]) / 2
   L <- log(X + pc)
@@ -254,8 +248,3 @@ p_h2b <- ggplot(plot_h2b, aes(diagnosis, pct, colour = diagnosis)) +
        caption = "Persons without the taxon are shown at the bottom") +
   theme_plot
 ggsave(file.path(outdir, "sq2b_taxa_cd_vs_control.png"), p_h2b, width = 7, height = 6.5, dpi = 200)
-
-# --- Literature ---
-# Aitchison J (1986). The statistical analysis of compositional data. doi:10.1007/978-94-009-4109-0
-# Mallick H et al. (2021). Multivariable association discovery in population-scale meta-omics
-#   studies. PLoS Comput Biol 17(11):e1009442. doi:10.1371/journal.pcbi.1009442

@@ -1,12 +1,11 @@
-# --- EDA of the cohorts (Franzosa, HMP2, Hall) ---
+# --- 03 EDA of the cohorts ---
+# Describes who is in the data, to show how comparable the cohorts are before any analysis.
 
-# What this script does
-# Describes who is in the data: CD and controls, samples per person, follow-up, age and time points.
-# The tables and plots show how comparable the cohorts are before any analysis.
+# Results:
+# - persons and samples per cohort and diagnosis; samples per person
+# - age per person; time points and follow-up in Hall and HMP2
 
-# Decisions
-# 1. Age is summarised per person, so that people with many samples do not count more.
-# 2. Hall has only age categories, so they are shown separately.
+# Methods: docs/methods.md, 6.1
 
 library(tidyverse)
 source("R/00_setup.R")
@@ -70,7 +69,7 @@ print(p_samples)
 ggsave(file.path(outdir, "person_by_samples.png"), p_samples, 
        width = 10, height = 4, dpi = 200)
 
-# --- Age ---
+# --- Age (see methods 6.1) ---
 age_table <- meta %>%
   filter(!is.na(age)) %>%
   distinct(cohort, person, diagnosis, age) %>%

@@ -1,16 +1,9 @@
-# --- Data Cleaning: Hall 2017 ---
+# --- 02 Clean Hall 2017 ---
+# Turns the raw Hall files from 01_download_cmd.R into clean tables with one row per sample.
 
-# What this script does
-# Reads the three Hall 2017 files from 01_download_cmd.R (Hall 2017, Pasolli 2017) and turns them
-# into clean tables with one row per sample: metadata, species, genus and the taxonomy of each species.
+# Results: metadata of CD and controls; species, genus and taxonomy per species
 
-# Decisions
-# 1. CD and controls only, because the thesis compares these two groups. UC samples are removed.
-# 2. Centre: subject IDs starting with SKST are from Atlanta, all others from Boston.
-# 3. Species with a newer name are renamed, so that they match HMP2 and Franzosa.
-# 4. At genus level, the 23 species without a genus in the taxonomy are left out. They stay in the
-#    species table, among them Eubacterium rectale.
-# 5. Rows classified only to genus level are added to that genus.
+# Methods: docs/methods.md, 1.1 and section 3
 
 library(tidyverse)
 source("R/00_setup.R")
@@ -23,8 +16,7 @@ hall_taxa <- read.csv(file.path(dir_raw, "cmd/HallAB_2017_taxa.csv"), check.name
 hall_taxonomy <- read.csv(file.path(dir_raw, "cmd/HallAB_2017_taxonomy.csv"))
 
 # --- Metadata ---
-# In curatedMetagenomicData controls have no disease_subtype, so they get "control".
-# Time is converted from days to weeks, the unit also used for HMP2.
+# controls get "control" (see methods 3.2), centre (see methods 3.3), time in weeks (see methods 3.4)
 hall_meta <- hall_meta_raw %>%
   transmute(sample_id = X, subject_id, diagnosis = ifelse(study_condition == "control",
                                                           "control", disease_subtype),
@@ -47,8 +39,7 @@ species_values <- as.matrix(as.data.frame(species_rows)[, -1])  # species in row
 species <- as.data.frame(t(species_values))
 colnames(species) <- clean_species(gsub("^species:", "", species_rows[[1]]))
 
-# Hall uses a newer taxonomy than HMP2 and Franzosa, so the same species has different names.
-# Only the cases relevant for the hypotheses or frequent ones are renamed; extend the list if needed.
+# rename to the names used in HMP2 and Franzosa (see methods 3.5)
 species_synonyms <- c(
   Phocaeicola_vulgatus     = "Bacteroides_vulgatus",
   Phocaeicola_dorei        = "Bacteroides_dorei",
@@ -83,8 +74,7 @@ species <- data.frame(sample_id = rownames(species),
 save_table(species, hall_meta, "hall", "species")
 
 # --- Genus ---
-# Sums the species of each genus. The 23 species without a genus in the taxonomy
-# are dropped here and kept at the species level.
+# sums the species of each genus; species without a genus are dropped here (see methods 3.6)
 
 genus_lookup <- hall_taxonomy$genus[match(species_rows[[1]],
                                           hall_taxonomy[[1]])]
@@ -93,7 +83,7 @@ has_genus <- !is.na(genus_lookup)
 genus_sums <- rowsum(species_values[has_genus, ],
                      group = genus_lookup[has_genus], na.rm = TRUE)
 
-# there are 3 rows that are classified only to genus level
+# 3 rows are classified only to genus level (see methods 3.7)
 genus_only <- hall_taxa[grepl("^genus:", hall_taxa[[1]]), ]
 genus_only_values <- as.matrix(as.data.frame(genus_only)[, -1])
 rownames(genus_only_values) <- gsub("^genus:", "", genus_only[[1]])
@@ -112,9 +102,3 @@ save_table(genus, hall_meta, "hall", "genus")
 
 # all CD and control samples before the exclusions, for R/checks/check_hall_samples.R
 write_csv(genus[genus$sample_id %in% selected_samples, ], file.path(out_dir, "hall_genus_before_exclusions.csv"))
-
-# --- Literature ---
-# Hall AB et al. (2017). A novel Ruminococcus gnavus clade enriched in inflammatory bowel disease
-#   patients. Genome Med 9:103. doi:10.1186/s13073-017-0490-5
-# Pasolli E et al. (2017). Accessible, curated metagenomic data through ExperimentHub.
-#   Nat Methods 14(11):1023-1024. doi:10.1038/nmeth.4468

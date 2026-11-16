@@ -1,10 +1,10 @@
-# --- Check of conspicuous Hall samples ---
-
-# What this script does
+# --- Check: conspicuous Hall samples ---
 # Checks conspicuous Hall samples with the same three criteria as SKST006:
 #   1. composition: which genus dominates, is that plausible?
 #   2. sequencing depth: number_reads compared with all Hall samples
 #   3. other samples of the same person: is the sample a one-off?
+
+# Methods: docs/methods.md, 1.2 and 3.8
 
 library(tidyverse)
 library(vegan)
@@ -18,8 +18,8 @@ meta  <- read.csv(file.path(path, "raw/cmd/HallAB_2017_metadata.csv"))
 genus <- read_csv(file.path(path, "processed/hall/hall_genus_before_exclusions.csv"), show_col_types = FALSE)
 X <- genus %>%
   column_to_rownames("sample_id") %>% as.matrix()
-raw_sum <- rowSums(X)     # share of reads assigned to a genus (in %)
-X <- X / rowSums(X)      # TSS, without prevalence filter
+raw_sum <- rowSums(X)    # share of reads assigned to a genus (in %)
+X <- X / rowSums(X)     # TSS, without prevalence filter
 
 per_sample <- tibble(sample_id = rownames(X),
                      raw_sum   = raw_sum,
@@ -64,5 +64,3 @@ for (id in check_ids) {
 # for comparison: distribution of richness and Shannon over all Hall samples
 cat("\nRichness all Hall samples:\n"); print(quantile(per_sample$richness, c(0, .05, .5, 1)))
 cat("Shannon all Hall samples:\n");  print(round(quantile(per_sample$shannon, c(0, .05, .5, 1)), 2))
-
-

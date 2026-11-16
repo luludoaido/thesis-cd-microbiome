@@ -1,19 +1,10 @@
-# --- 00_Set up ---
+# --- 00 Setup ---
+# Settings shared by all scripts: paths, exclusion rules, seed, colours, plot theme and helper
+# functions. Every script starts with source("R/00_setup.R"). Run from the project folder.
 
-# What this script does
-# Holds the settings that all scripts share. Every script starts with source("R/00_setup.R"),
-# so paths, exclusion rules, the seed, colours and helper functions are the same everywhere.
-# The scripts have to run from the project folder (open thesis-cd-microbiome.Rproj in RStudio).
+# Results: none, no files are written.
 
-# Decisions
-# 1. HMP2 only contains adults with a known age, for comparability with the other cohorts.
-# 2. One implausible Hall sample and one empty HMP2 sample are excluded.
-# 3. Samples with fewer than 1 million reads are excluded.
-# 4. The first remaining sample of each person is the baseline, because samples of the same
-#    person are not independent.
-# 5. The prevalence filter works at genus level and species are not filtered further.
-# 6. The seed is fixed, so that every run gives the same results.
-# More detail on the exclusions and their effect is in docs/decisions.md.
+# Methods: docs/methods.md, section 1 (and 3.8, 4.3, 4.6)
 
 library(ggplot2)
 
@@ -23,32 +14,30 @@ if (!file.exists("thesis-cd-microbiome.Rproj")) {
 }
 
 # --- Paths ---
-dir_raw       <- "data/raw"         
-dir_processed <- "data/processed"   
-dir_results   <- "results"          
+dir_raw       <- "data/raw"
+dir_processed <- "data/processed"
+dir_results   <- "results"
 
 # --- Exclusion rules ---
-# HMP2: only adults with a known age 
+# HMP2: adults with a known age only (see methods 4.3)
 hmp2_min_age <- 18
 
-# Hall sample with 100 % Streptococcus and Shannon = 0 despite 7.3 million reads, not plausible
+# implausible Hall sample (see methods 3.8)
 exclude_samples <- c("SKST006_10_G102994")
 
-# HMP2 samples without a single count (row sum 0) cannot be normalised
+# HMP2 sample without a single count (see methods 4.6)
 hmp2_empty_samples <- c("CSM7KOOR")
 
-# Samples with very few reads show only the most abundant taxa, which distorts richness and Shannon.
-# The limit of 1 million reads is an own decision. Franzosa has no read counts, so this only applies
-# to Hall and HMP2.
+# minimum sequencing depth (see methods 1.2)
 min_reads <- 1e6
 
-# --- Seed ---
+# --- Seed (see methods 1.7) ---
 seed <- 42
 set.seed(seed)
 
 
 # --- Color ---
-# Okabe-Ito palette, readable with color blindness (Wong 2011)
+# Okabe-Ito palette (see methods 1.9)
 
 okabe_ito <- c(orange = "#E69F00", sky_blue = "#56B4E9", green = "#009E73", yellow = "#F0E442",
                blue = "#0072B2", vermillion = "#D55E00", purple = "#CC79A7", grey = "#999999",
@@ -94,7 +83,7 @@ clean_species <- function(x) {
 # Last cleaning step for all cohorts:
 # writes the diagnosis in lower case (cd or control), removes faulty samples and samples
 # with too few reads, sets the time so that each person's first sample has time = 0
-# and marks that sample in the new column baseline.
+# and marks that sample in the new column baseline (see methods 1.2, 1.5).
 # The table needs the columns sample_id, subject_id, diagnosis, time and reads.
 finish_meta <- function(meta) {
   meta$diagnosis <- tolower(meta$diagnosis)
@@ -131,10 +120,8 @@ save_table <- function(table, meta, cohort, name) {
 
 
 # --- Prevalence filter ---
-# Own decision: the filter always works at genus level. At species level, a species stays if
-# its genus passes, with no further filter on the species. This keeps species that are rare
-# themselves but belong to a common genus. Species without a genus cannot be filtered and stay.
-# X: relative abundances, samples in rows. 
+# Prevalence filter at genus level; a species stays if its genus stays (see methods 1.3).
+# X: relative abundances, samples in rows.
 
 passes_filter <- function(X, cohort, level, thr){
   folder <- file.path(dir_processed, cohort)
@@ -157,8 +144,3 @@ passes_filter <- function(X, cohort, level, thr){
     genus_prev > 0 else genus_prev >= thr]
   colSums(X > 0) > 0 & (is.na(taxon_genus)| taxon_genus %in% passing)
 }
-
-# --- Literature ---
-# Hillmann B et al. (2018). Evaluating the information content of shallow shotgun metagenomics.
-#   mSystems 3(6):e00069-18. doi:10.1128/msystems.00069-18
-# Wong B (2011). Points of view: Color blindness. Nat Methods 8(6):441. doi:10.1038/nmeth.1618

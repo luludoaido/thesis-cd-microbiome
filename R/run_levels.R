@@ -1,7 +1,5 @@
 # --- Run the analyses for genus and species ---
-#
-# What this script does
-# Runs the 05 scripts for every cohort, and then 06 and 07, once per level.
+# Runs the 05 scripts for every cohort, then 06 and 07, once per level.
 # The loop sets "level" and "cohort", which the scripts use.
 
 for (level in c("genus", "species")) {

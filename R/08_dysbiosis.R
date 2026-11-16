@@ -1,24 +1,14 @@
-# --- Dysbiosis (SQ1) ---
+# --- 08 H1: Dysbiosis ---
+# Compares CD and controls in two dysbiosis measures: the MD-index (Gevers) and the median
+# Bray-Curtis distance to the controls (Lloyd-Price). Franzosa and HMP2 only.
 
-# What this script does
-# Tests whether people with CD differ from controls in two dysbiosis measures:
-# - the taxon-based microbial dysbiosis index (MD-index, Gevers 2014)
-# - a distance-based score: median Bray-Curtis distance to the controls (Lloyd-Price 2019)
-# Only Franzosa and HMP2. Run from the project folder.
+# Results:
+# - MD-index and Bray-Curtis score per sample
+# - CD effect on both scores (estimate, SE, p; Wilcoxon as check), with sensitivity analyses
+# - share of dysbiotic samples (above the 90th percentile of the controls) in CD and controls
+# - detection of the Gevers taxa; agreement of the two measures
 
-# Decisions
-# 1. Log10 of the ratio. Gevers 2014 does not state the base.
-# 2. Taxa are those named in the summary of Gevers 2014. Table S2 is not checked yet.
-# 3. A numerator of 0 is replaced by half of the smallest non-zero numerator of the cohort
-#    (own decision, Gevers 2014 does not describe it). Sensitivity: a value 10 times smaller.
-# 4. MD-index: species level, no prevalence filter, so that rare numerator taxa stay.
-# 5. The Bray-Curtis score follows Lloyd-Price 2019 (species level; in HMP2 only control samples
-#    after week 20 serve as reference), with the filter of this thesis: 10 % at genus level, and
-#    a species stays if its genus stays (passes_filter). Sensitivity analyses: no filter,
-#    all controls as reference, genus level, and Aitchison distance (CLR as in 05_beta_diversity.R).
-# 6. A sample counts as dysbiotic above the 90th percentile of the controls (Lloyd-Price 2019).
-#    Sensitivity: 80th and 95th percentile.
-# 7. Franzosa has only species names, so family and order come from the HMP2 taxonomy via the genus.
+# Methods: docs/methods.md, 1.10 and section 10
 
 library(tidyverse)
 library(vegan)
@@ -35,7 +25,7 @@ main_thr <- 0.10
 gevers_up   <- c("Enterobacteriaceae", "Pasteurellaceae", "Veillonellaceae", "Fusobacteriaceae")
 gevers_down <- c("Bacteroidales", "Clostridiales", "Erysipelotrichales")
 
-# --- Taxonomy ---
+# --- Taxonomy (see methods 10.7) ---
 hmp2_tax <- read_csv(file.path(dir_processed, "hmp2/hmp2_taxonomy.csv"), show_col_types = FALSE)
 
 # Franzosa "genera" that are really higher levels, or that HMP2 does not have
@@ -87,7 +77,7 @@ load_cohort <- function(cohort) {
 }
 data <- set_names(map(cohorts, load_cohort), cohorts)
 
-# --- MD-index ---
+# --- MD-index (see methods 10.1-10.4) ---
 md_components <- function(cohort, X) {
   tax <- taxonomy_of(cohort, colnames(X))
   cat(cohort, ": mean share of abundance without an order:",
@@ -105,8 +95,8 @@ md_index <- function(up, down, factor = 0.5) {
   log10(ifelse(up > 0, up, rep_up) / ifelse(down > 0, down, rep_down))
 }
 
-# --- Distance-based score ---
-# same CLR as in 05_beta_diversity.R
+# --- Distance-based score (see methods 10.5) ---
+# same CLR as in 05_beta_diversity.R (see methods 7.7)
 clr_tf <- function(X) {
   pc <- min(X[X > 0]) / 2
   L <- log(X + pc)
@@ -162,7 +152,7 @@ detection <- scores %>%
 print(detection, n = Inf)
 write_csv(detection, file.path(outdir, "dysbiosis_taxa_detection.csv"))
 
-# --- Tests ---
+# --- Tests (see methods 10.8) ---
 median_diff <- function(y, dx) median(y[dx == "cd"]) - median(y[dx == "control"])
 
 test_franzosa <- function(d, y, label) {
@@ -207,7 +197,7 @@ tests <- bind_rows(
 print(tests, n = Inf, width = Inf)
 write_csv(tests, file.path(outdir, "dysbiosis_tests.csv"))
 
-# --- Dysbiotic samples ---
+# --- Dysbiotic samples (see methods 10.6) ---
 dysbiotic <- bind_rows(
   tidyr::expand_grid(q = c(0.80, 0.90, 0.95), m = "bray"),
   tidyr::expand_grid(q = 0.90, m = setdiff(dist_measures, "bray"))
@@ -254,10 +244,3 @@ p <- scores %>%
   labs(x = NULL, y = NULL, title = "Dysbiosis in CD and controls (median per person)") +
   theme_plot
 ggsave(file.path(outdir, "dysbiosis_cd_vs_control.png"), p, width = 7, height = 7, dpi = 200)
-
-# --- Literature ---
-# Aitchison J (1986). The statistical analysis of compositional data. doi:10.1007/978-94-009-4109-0
-# Gevers D et al. (2014). The treatment-naive microbiome in new-onset Crohn's disease.
-#   Cell Host Microbe 15(3):382-392. doi:10.1016/j.chom.2014.02.005
-# Lloyd-Price J et al. (2019). Multi-omics of the gut microbial ecosystem in inflammatory bowel
-#   diseases. Nature 569:655-662. doi:10.1038/s41586-019-1237-9

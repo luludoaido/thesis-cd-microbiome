@@ -1,22 +1,16 @@
-# --- Data Cleaning: Franzosa ---
+# --- 02 Clean Franzosa 2019 ---
+# Turns the Franzosa supplementary datasets into clean tables with one row per sample.
 
-# What this script does
-# Reads the Supplementary Datasets of Franzosa 2019 and turns them into clean tables with one
-# row per sample: metadata, species, genus, enzymes, metabolites, butyrate and propionate.
-# The species profiles were generated with MetaPhlAn 2 (Truong 2015).
+# Results: metadata of 88 CD and 56 controls; species, genus, enzymes, metabolites,
+# butyrate and propionate
 
-# Decisions
-# 1. CD and controls only, because the thesis compares these two groups. UC samples are removed.
-# 2. Each sample is one person, so sample_id is also used as subject_id.
-# 3. The sub-cohort (PRISM or Validation) is used as the centre.
-# 4. A genus is the sum of its species.
-# 5. Butyrate and isobutyrate cannot be separated in this dataset, so they stay together as "butyrate".
+# Methods: docs/methods.md, 1.1 and section 2
 
 library(readxl)
 library(tidyverse)
 source("R/00_setup.R")
 
-out_dir <- file.path(dir_processed, "franzosa") 
+out_dir <- file.path(dir_processed, "franzosa")
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 # function to turn a block of feature rows into one row per sample
@@ -38,8 +32,7 @@ meta_raw <- as.data.frame(t(meta_block[,-1]))
 colnames(meta_raw) <- meta_block[[1]]
 meta_raw$sample_id <- sample_ids
 
-# CD and controls only. Franzosa has one sample per person and no read counts,
-# so time and reads stay empty and the read limit from 00_setup.R does not apply.
+# CD and controls only (see methods 1.1); one sample per person, no time and reads (see methods 2.2)
 franzosa_meta <- meta_raw %>%
   filter(Diagnosis != "UC") %>%
   transmute(sample_id, subject_id = sample_id, diagnosis = Diagnosis, time = NA_real_,
@@ -54,7 +47,7 @@ write_csv(franzosa_meta, file.path(out_dir, "franzosa_meta.csv"))
 species <- features_by_sample(raw_species[11:nrow(raw_species), ])
 
 # --- Genus ---
-# sum the species of each genus (genus = everything before the first "_")
+# sum the species of each genus (see methods 2.4)
 genus <- species %>%
   pivot_longer(-sample_id, names_to = "species", values_to = "abundance") %>%
   mutate(genus = sub("_.*", "", species)) %>%
@@ -78,10 +71,7 @@ metabolites <- features_by_sample(raw_metab[10:nrow(raw_metab), ])
 save_table(metabolites, franzosa_meta, "franzosa", "metabolites")
 
 # --- Butyrate and Propionate ---
-# Dataset 1 annotates the clusters:
-# Cluster_0013 = butyrate/isobutyrate (not separated)
-# Cluster_0003 = propionate
-# The values are peak intensities, not concentrations.
+# Cluster_0013 = butyrate/isobutyrate, Cluster_0003 = propionate (see methods 2.5)
 
 metab_info <- read_excel(file.path(dir_raw, "franzosa/SupplDataset1_metabolite_info.xlsx"), skip = 1)
 colnames(metab_info) <- c("feature", "retention_time", "mz", "cluster_da", "chemical_class", "match_to_standard", "adduct")
@@ -92,9 +82,3 @@ write.csv(scfa_lookup, file.path(dir_processed, "franzosa", "franzosa_scfa_looku
 scfa <- metabolites[, c("sample_id", "HILIC.neg_Cluster_0013", "HILIC.neg_Cluster_0003")]
 colnames(scfa) <- c("sample_id", "butyrate", "propionate")
 save_table(scfa, franzosa_meta, "franzosa", "scfa")
-
-# --- Literature ---
-# Franzosa EA et al. (2019). Gut microbiome structure and metabolic activity in inflammatory bowel
-#   disease. Nat Microbiol 4(2):293-305. doi:10.1038/s41564-018-0306-4
-# Truong DT et al. (2015). MetaPhlAn2 for enhanced metagenomic taxonomic profiling.
-#   Nat Methods 12(10):902-903. doi:10.1038/nmeth.3589
