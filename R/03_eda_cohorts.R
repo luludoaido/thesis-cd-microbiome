@@ -1,5 +1,12 @@
 # --- EDA of the cohorts (Franzosa, HMP2, Hall) ---
-# Who is in the data? CD vs. Control, samples per person, age, time points.
+
+# What this script does
+# Describes who is in the data: CD and controls, samples per person, follow-up, age and time points.
+# The tables and plots show how comparable the cohorts are before any analysis.
+
+# Decisions
+# 1. Age is summarised per person, so that people with many samples do not count more.
+# 2. Hall has only age categories, so they are shown separately.
 
 library(tidyverse)
 source("R/00_setup.R")
@@ -8,13 +15,12 @@ outdir <- file.path(dir_results, "eda_cohorts")
 dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 
 # --- Meta data ---
-# the cleaned metadata from the 02_clean scripts; exclusions and time are already applied
 read_meta <- function(cohort_id, name) {
   read_csv(file.path(dir_processed, cohort_id, paste0(cohort_id, "_meta.csv")), show_col_types = FALSE) %>%
     mutate(cohort = name, person = subject_id)
 }
 
-# Make one table, easier for analysis
+# one table for all cohorts
 meta <- bind_rows(read_meta("franzosa", "Franzosa"), read_meta("hall", "Hall"), read_meta("hmp2", "HMP2")) %>%
   select(cohort, sample_id, person, diagnosis, age, age_category, time) %>%
   mutate(diagnosis = factor(diagnosis, levels = c("control", "cd")))

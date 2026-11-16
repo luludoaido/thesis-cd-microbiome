@@ -1,7 +1,17 @@
 # --- Extreme genera and samples ---
-# Which genera are the most and least abundant, and which samples have the lowest and
-# highest Shannon diversity? One overview per cohort, after the 10 % prevalence filter.
+#
+# What this script does
+# Shows which genera or species are the most and least abundant, separately for controls and CD,
+# and which samples have the lowest and highest Shannon diversity (Shannon 1948).
+# One overview per cohort, after the 10 % prevalence filter.
 # Started by run_levels.R, which sets level.
+
+# Decisions
+# 1. Samples are averaged per person first, so that people with many samples do not count more.
+# 2. The lists show 10 taxa or samples per cohort and group (own decision).
+# 3. The least abundant taxa are only those that occur in the group at all.
+# 4. These lists are descriptive: the least abundant taxa often occur in only one person.
+
 library(tidyverse)
 library(vegan)
 source("R/00_setup.R")
@@ -44,6 +54,7 @@ sort_within <- function(x, by, within) reorder(paste(x, within, sep = "___"), by
 remove_suffix <- function(x) sub("___.*$", "", x)
 
 # --- Most and least abundant genera ---
+# Overview over both groups, averaged per sample. The next section overwrites these files.
 genera <- imap_dfr(data, function(d, key) {
   X <- d$X
   dx <- d$meta$diagnosis[match(rownames(X), d$meta$sample_id)]
@@ -75,7 +86,7 @@ plot_genera <- function(which, file, log_x = FALSE) {
     scale_y_discrete(labels = remove_suffix) +
     scale_fill_manual(values = col_diag) +
     labs(x = "mean relative abundance (%)", y = NULL, fill = NULL,
-         title = sprintf("%d %s %s per cohort (%s %% prevalence filter)", n_top, which, unit, prev_thr * 100)) +
+         title = sprintf("%d %s %s per cohort", n_top, which, unit)) +
     theme_plot
   if (log_x) p <- p + scale_x_log10()
   ggsave(file.path(outdir, file), p, width = 12, height = 5, dpi = 200)
@@ -109,21 +120,23 @@ top_genera <- bind_rows(
 print(top_genera, n = Inf)
 write_csv(top_genera, file.path(outdir, paste0(unit, "_top_bottom.csv")))
 
+plot_cohorts <- c("Franzosa", "HMP2")   # hypothesis cohorts; Hall stays in the CSV
+
 plot_genera <- function(which, file, log_x = FALSE) {
-  d <- top_genera %>% filter(group == which) %>%
-    mutate(diagnosis = factor(diagnosis, levels = c("control", "cd")),
-           cohort = factor(cohort, levels = cohorts),
+  d <- top_genera %>% filter(group == which, cohort %in% plot_cohorts) %>%
+    mutate(diagnosis = factor(diagnosis, levels = c("control", "cd"), labels = c("Control", "CD")),
+           cohort = factor(cohort, levels = plot_cohorts),
            genus_lab = sort_within(genus, mean_pct, paste(cohort, diagnosis)))
   p <- ggplot(d, aes(mean_pct, genus_lab, fill = diagnosis)) +
     facet_wrap(cohort ~ diagnosis, scales = "free_y", ncol = 2) +
     scale_y_discrete(labels = remove_suffix) +
-    scale_fill_manual(values = col_diag) +
+    scale_fill_manual(values = setNames(unname(col_diag), c("Control", "CD"))) +
     labs(x = "mean relative abundance per person (%)", y = NULL, fill = NULL,
-         title = sprintf("%d %s %s per cohort and group (%s %% prevalence filter)", n_top, which, unit, prev_thr * 100)) +
+         title = sprintf("%d %s %s in controls and CD", n_top, which, unit)) +
     theme_plot
   # bars have no meaningful start on a log axis, so the log plot uses points
   p <- if (log_x) p + geom_point(shape = 21, size = 3) + scale_x_log10() else p + geom_col(width = .7)
-  ggsave(file.path(outdir, file), p, width = 11, height = 11, dpi = 200)
+  ggsave(file.path(outdir, file), p, width = 11, height = 7.5, dpi = 200)
 }
 plot_genera("most abundant",  paste0(unit, "_most_abundant.png"))
 plot_genera("least abundant", paste0(unit, "_least_abundant.png"), log_x = TRUE)
@@ -176,3 +189,7 @@ for (g in levels(d$group)) {
     scale_x_continuous(limits = c(0, ceiling(max(d$Shannon))))
   ggsave(file.path(outdir, paste0("samples_", sub(" diversity", "", g), "_shannon.png")), p, width = 14, height = 5, dpi = 200)
 }
+
+# --- Literature ---
+# Shannon CE (1948). A mathematical theory of communication.
+#   Bell Syst Tech J 27(3):379-423. doi:10.1002/j.1538-7305.1948.tb01338.x

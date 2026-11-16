@@ -1,6 +1,15 @@
 # --- Beta diversity ---
-# Does the compositio of the samples differ between CD and controls?
-# Started by run_levels.R, which sets cohort and level.
+
+# What this script does
+# Tests whether the composition of the samples differs between CD and controls, and shows the
+# samples in PCA, PCoA and UMAP. Runs for one cohort and one level (genus or species).
+# Started by run_levels.R, which sets cohort and level; 04_load_abundance.R prepares the data.
+
+# Decisions
+# 1. Aitchison distance on CLR-transformed data is the main distance, Bray-Curtis the sensitivity analysis.
+# 2. PERMANOVA uses the first sample of each person, so that nobody counts twice.
+# 3. The centre is a covariate in the tests. Batch correction is used for figures only.
+# 4. ComBat is used for the main figures only if every centre has both diagnoses.
 
 library(tidyverse)
 library(vegan)
@@ -13,14 +22,16 @@ source("R/00_setup.R")
 source("R/04_load_abundance.R")
 alpha <- readRDS(file.path(outdir, "alpha_results.rds"))$alpha
 
-# CLR with pseudocount of half the smallest non-zero value
+# CLR, because sequencing data are compositional (Aitchison 1986, Gloor 2017). CLR needs positive values,
+# so zeros get a pseudocount of half the smallest non-zero value. This is a convention, not a
+# fixed rule; zero replacement strategies are compared in Lubbe 2021.
 clr_tf <- function(X) {
   pc <- min(X[X > 0]) / 2
   L <- log(X + pc)
   L - rowMeans(L)
 }
 
-#PCA and UMAP coordinates
+# PCA and UMAP (McInnes 2018) coordinates. UMAP is only used for display, and min_dist is an own choice.
 pca_umap <- function(Z) {
   pca <- prcomp(Z, center = TRUE, scale. = FALSE)
   set.seed(seed)
@@ -32,8 +43,8 @@ pca_umap <- function(Z) {
          var2 = 100 * summary(pca)$importance[2, 2])
 }
 
-# Aitchison (Euclidean on CLR) is the main distance
-# Bray-Curtis the sensitivity analysis
+# Aitchison (Euclidean on CLR, Aitchison 2000) is the main distance,
+# Bray-Curtis (Bray & Curtis 1957) the sensitivity analysis
 distances <- function(X, ids) {
   list(aitchison = dist(clr_tf(X)[ids, ]),
        bray      = vegdist(X[ids, ], method = "bray"))
@@ -42,7 +53,8 @@ distances <- function(X, ids) {
 # --- PCA and UMAP at 0, 5 and 10 % ---
 ord <- imap_dfr(X_thr, function(X, nm) {
   sc <- pca_umap(clr_tf(X)) %>% mutate(threshold = nm)
-  # outlier: distance to the median above median + 3 MAD
+  # outlier: distance to the median above median + 3 MAD. The MAD is robust against the outliers
+  # themselves (Leys 2013); the factor 3 is a convention.
   d <- sqrt((sc$PC1 - median(sc$PC1))^2 + (sc$PC2 - median(sc$PC2))^2)
   sc$outlier <- d > median(d) + 3 * mad(d)
   sc
@@ -80,7 +92,7 @@ if (longitudinal) {
 }
 
 # --- PCoA with Bray-Curtis ---
-# Bray-Curtis is not Euclidean, so PCoA instead of PCA
+# Bray-Curtis is not Euclidean, so PCoA (Gower 1966) instead of PCA
 pcoa <- imap_dfr(X_thr, function(X, nm) {
   pc <- cmdscale(vegdist(X, method = "bray"), k = 2, eig = TRUE)
   expl <- 100 * pc$eig / sum(pc$eig[pc$eig > 0])
@@ -97,7 +109,7 @@ p_pcoa <- ggplot(pcoa, aes(PCoA1, PCoA2, colour = diagnosis)) +
   theme_plot
 save_plot(p_pcoa, "pcoa_bray_thresholds.png", 11, 4)
 
-# --- PERMANOVA: do CD and controls differ? ---
+# --- PERMANOVA: do CD and controls differ? (Anderson 2001) ---
 # first sample of each person only, so that nobody counts more than once
 permanova <- imap_dfr(X_thr, function(X, nm) {
   ids <- intersect(rownames(X), meta$sample_id[meta$baseline])
@@ -105,7 +117,7 @@ permanova <- imap_dfr(X_thr, function(X, nm) {
   imap_dfr(distances(X, ids), function(D, dn) {
     set.seed(seed)
     a <- adonis2(D ~ diagnosis, data = d, permutations = 999)
-    # a different spread of the groups can also make PERMANOVA significant
+    # a different spread of the groups can also make PERMANOVA significant, so it is tested as well (Anderson 2006)
     set.seed(seed)
     bd <- permutest(betadisper(D, d$diagnosis), permutations = 999)
     tibble(threshold = nm, distance = dn, n = length(ids),
@@ -150,8 +162,8 @@ if (n_distinct(base_meta$site) > 1) {
 
 # --- Batch correction, for figures only ---
 # batch = site. The tests above use site as a covariate. They must not run on corrected data,
-# because the correction keeps diagnosis in the model and makes p-values too optimistic.
-# limma and ComBat work on CLR, MMUPHin on relative abundances (zeros stay zeros).
+# because the correction keeps diagnosis in the model and can create false differences (Nygaard 2016).
+# limma (Ritchie 2015) and ComBat (Johnson 2007) work on CLR, MMUPHin (Ma 2022) on relative abundances (zeros stay zeros).
 X_main <- X_thr[[main_thr]]
 Z_main <- clr_tf(X_main)
 m_main <- meta[match(rownames(Z_main), meta$sample_id), ]
@@ -274,3 +286,32 @@ outlier_test <- alpha %>% filter(baseline) %>%
             n_without = sum(keep),
             p_without = wilcox.test(Shannon[keep] ~ diagnosis[keep])$p.value)
 print(outlier_test)
+
+# --- Literature ---
+# Aitchison J (1986). The statistical analysis of compositional data. doi:10.1007/978-94-009-4109-0
+# Aitchison J et al. (2000). Logratio analysis and compositional distance.
+#   Math Geol 32(3):271-275. doi:10.1023/a:1007529726302
+# Anderson MJ (2001). A new method for non-parametric multivariate analysis of variance.
+#   Austral Ecol 26(1):32-46. doi:10.1111/j.1442-9993.2001.01070.pp.x
+# Anderson MJ (2006). Distance-based tests for homogeneity of multivariate dispersions.
+#   Biometrics 62(1):245-253. doi:10.1111/j.1541-0420.2005.00440.x
+# Bray JR, Curtis JT (1957). An ordination of the upland forest communities of southern Wisconsin.
+#   Ecol Monogr 27(4):325-349. doi:10.2307/1942268
+# Gloor GB et al. (2017). Microbiome datasets are compositional: and this is not optional.
+#   Front Microbiol 8:2224. doi:10.3389/fmicb.2017.02224
+# Gower JC (1966). Some distance properties of latent root and vector methods used in multivariate
+#   analysis. Biometrika 53(3/4):325-338. doi:10.2307/2333639
+# Johnson WE et al. (2007). Adjusting batch effects in microarray expression data using empirical
+#   Bayes methods. Biostatistics 8(1):118-127. doi:10.1093/biostatistics/kxj037
+# Leys C et al. (2013). Detecting outliers: do not use standard deviation around the mean, use absolute
+#   deviation around the median. J Exp Soc Psychol 49(4):764-766. doi:10.1016/j.jesp.2013.03.013
+# Lubbe S et al. (2021). Comparison of zero replacement strategies for compositional data with large
+#   numbers of zeros. Chemometr Intell Lab Syst. doi:10.1016/j.chemolab.2021.104248
+# Ma S et al. (2022). Population structure discovery in meta-analyzed microbial communities and
+#   inflammatory bowel disease using MMUPHin. Genome Biol 23:208. doi:10.1186/s13059-022-02753-4
+# McInnes L et al. (2018). UMAP: uniform manifold approximation and projection.
+#   J Open Source Softw 3(29):861. doi:10.21105/joss.00861
+# Nygaard V et al. (2016). Methods that remove batch effects while retaining group differences may lead
+#   to exaggerated confidence in downstream analyses. Biostatistics 17(1):29-39. doi:10.1093/biostatistics/kxv027
+# Ritchie ME et al. (2015). limma powers differential expression analyses for RNA-sequencing and
+#   microarray studies. Nucleic Acids Res 43(7):e47. doi:10.1093/nar/gkv007

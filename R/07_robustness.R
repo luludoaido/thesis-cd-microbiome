@@ -1,11 +1,22 @@
 # --- Robustness of the main results ---
-# Uses the results of the 05 scripts, 10 % prevalence filter, so run those first for all cohorts.
-# Started by run_levels.R, which sets level.
-# 1. How active is the disease? (calprotectin and HBI)
-# 2. Which Franzosa samples are outliers, and how much do they change the CD effect?
-# 3. Do the number of reads or samples per person drive the diversity?
-# 4. Does Shannon change over time in CD and controls, and why?
-# 5. Can Hall be analysed with Boston only?
+#
+# What this script does
+# Checks how well the main results hold up, and what else could explain them:
+# - how much each variable explains of the diversity (R2)
+# - how active the disease is (calprotectin and HBI), and whether activity explains the CD effect
+# - which Franzosa samples are outliers, and how much they change the CD effect
+# - whether the number of reads or samples per person drives the diversity
+# - whether Shannon changes over time in CD and controls, and why
+# - whether Hall can be analysed with Boston only
+# Started by run_levels.R, which sets level. Uses the results of the 05 scripts, so run those first.
+
+# Decisions
+# 1. Calprotectin: 150 µg/g is the main cut-off, 50 and 250 are sensitivity analyses.
+# 2. HBI: below 5 counts as remission.
+# 3. Franzosa outliers follow the boxplot rule and are checked, not removed from the main analysis.
+# 4. Reads enter the models as log10(reads).
+# 5. The spread within a person is compared with several corrections for the number of samples.
+
 library(tidyverse)
 library(lme4)
 library(lmerTest)
@@ -72,6 +83,31 @@ r2_tab <- imap_dfr(alpha, function(a, co) {
 print(r2_tab, n = Inf)
 write_csv(r2_tab, file.path(outdir, "variance_explained.csv"))
 
+# --- Effects of the full model ---
+# The same full model as for the R2, shown as summary() shows it: estimate, standard error and p
+# for each variable. For cohorts with several samples per person (lmer, p by Satterthwaite via lmerTest),
+# also the standard deviation of the person and of the residual.
+coef_tab <- imap_dfr(alpha, function(a, co) {
+  d <- a %>% mutate(log_reads = log10(reads))
+  repeated <- co != "franzosa"
+  vars <- c("diagnosis", if (n_distinct(d$site) > 1) "site", if (any(!is.na(d$age))) "age",
+            if (any(!is.na(d$reads))) "log_reads", if (repeated) "time")
+  map_dfr(c("Shannon", "Richness"), function(y) {
+    dd <- d %>% select(all_of(c(y, vars, "subject_id"))) %>% drop_na()
+    f <- reformulate(c(vars, if (repeated) "(1 | subject_id)"), y)
+    m <- if (repeated) lmer(f, data = dd) else lm(f, data = dd)
+    s <- coef(summary(m)); p_col <- grep("^Pr", colnames(s))
+    fixed <- tibble(cohort = co, outcome = y, samples = nrow(dd), term = rownames(s),
+                    estimate = s[, "Estimate"], se = s[, "Std. Error"], p = s[, p_col])
+    if (!repeated) return(fixed)
+    vc <- as.data.frame(VarCorr(m))
+    bind_rows(fixed, tibble(cohort = co, outcome = y, samples = nrow(dd),
+                            term = paste0("sd_", vc$grp), estimate = vc$sdcor))
+  })
+})
+print(coef_tab, n = Inf)
+write_csv(coef_tab, file.path(outdir, "model_coefficients.csv"))
+
 # one bar per variable, plus the share of the person and the rest
 r2_labels <- c(diagnosis = "CD vs control", site = "centre", age = "age", log_reads = "log10 reads",
                time = "time", person = "person", rest = "not explained")
@@ -95,8 +131,10 @@ p_r2 <- ggplot(r2_long, aes(share, variable, fill = variable == "CD vs control")
 save_plot(p_r2, "variance_explained.png", 10, 6.5)
 
 # --- Calprotectin and HBI ---
-# calprotectin (µg/g): < 50 normal, 50-250 grey zone, > 250 active inflammation
-# HBI (CD only): < 5 remission, 5-7 mild, 8-16 moderate, > 16 severe
+# Calprotectin (µg/g) has no single accepted cut-off. These categories describe the cohorts:
+# below 50 is the most sensitive range (Rokkas 2018), 250 indicates large ulcers (D'Haens 2012).
+# HBI (CD only) is a symptom score (Harvey & Bradshaw 1980). Commonly used categories: < 5 remission,
+# 5-7 mild, 8-16 moderate, > 16 severe. A score of 4 or less matches a CDAI of 150 or less (Vermeire 2010).
 calpro_cat <- function(x) cut(x, c(-Inf, 50, 250, Inf), right = FALSE,
                               labels = c("< 50 normal", "50-250 grey zone", "> 250 active"))
 hbi_cat <- function(x) cut(x, c(-Inf, 5, 8, 17, Inf), right = FALSE,
@@ -193,7 +231,7 @@ save_plot(p_hbi_time, "clinical_hbi_time.png", 8.5, 4.2)
 
 # --- Does disease activity explain the CD effect? ---
 # Compares CD samples with low and with high activity against the controls.
-# Calprotectin: 150 µg/g is the main cut-off (AGA guideline 2023), 50 and 250 are sensitivity analyses.
+# Calprotectin: 150 µg/g is the main cut-off (Ananthakrishnan 2023), 50 and 250 are sensitivity analyses.
 # HBI: below 5 counts as remission.
 diversity <- map_dfr(alpha, ~ select(.x, sample_id, Shannon, Richness))
 activity <- clinical %>%
@@ -259,7 +297,7 @@ p_activity <- activity_tab %>%
 save_plot(p_activity, "activity_vs_controls.png", 9, 4.2)
 
 # --- Franzosa: outliers ---
-# outliers by the boxplot rule, plus the 10 lowest CD samples
+# outliers by the boxplot rule (1.5 x IQR, Tukey 1977), plus the 10 lowest CD samples (own decision)
 fr <- alpha$franzosa %>%
   mutate(calpro = calprotectin) %>%
   group_by(diagnosis) %>%
@@ -317,13 +355,15 @@ p_fr <- ggplot(fr, aes(diagnosis, Shannon, colour = diagnosis)) +
 save_plot(p_fr, "franzosa_outliers.png", 7.5, 4.8)
 
 # --- Number of reads and samples per person (HMP2 and Hall) ---
-# Franzosa has no read counts and only one sample per person
+# Franzosa has no read counts and only one sample per person.
+# Samples of one person vary over time (Vandeputte 2021), so people with more samples can look different.
 long <- bind_rows(HMP2 = select(alpha$hmp2, sample_id, subject_id, diagnosis, time, site, reads, Shannon, Richness, evenness),
                   Hall = select(alpha$hall, sample_id, subject_id, diagnosis, time, site, reads, Shannon, Richness, evenness),
                   .id = "cohort") %>%
   mutate(log_reads = log10(reads))
 
-# more reads can mean more rare genera
+# More reads can mean more rare taxa, so richness can depend on depth. Shallow sequencing often
+# gave comparable alpha diversity, but this has to be checked in each dataset (Cattonaro 2020).
 reads_tab <- long %>%
   group_by(cohort) %>%
   group_modify(function(d, key) {
@@ -359,7 +399,7 @@ p_reads <- long %>%
 save_plot(p_reads, "reads_vs_diversity.png", 8.5, 6)
 
 # the SD is too small when a person has few samples, which can bias the comparison;
-# c4 corrects for this: E[s] = c4(n) * sigma
+# c4 corrects for this: E[s] = c4(n) * sigma (Gurland & Tripathi 1971)
 c4 <- function(n) sqrt(2 / (n - 1)) * exp(lgamma(n / 2) - lgamma((n - 1) / 2))
 
 sd_person <- long %>%
@@ -382,7 +422,7 @@ sd_tab <- sd_person %>%
             p_sd_c4_corrected = wilcox.test(sd_corrected ~ diagnosis)$p.value,
             p_sd_adj_n = coef_row(lm(sd_shannon ~ diagnosis + log(n_samples)), "diagnosiscd")$p)
 
-# same comparison with exactly 4 random samples per person, 1000 times
+# same comparison with exactly 4 random samples per person, 1000 times (own decision)
 k_sub <- 4
 sub_tab <- map_dfr(c("HMP2", "Hall"), function(co) {
   d <- long %>% filter(cohort == co) %>% group_by(subject_id) %>% filter(n() >= k_sub) %>% ungroup()
@@ -503,7 +543,7 @@ boston_tab <- bind_rows(
 print(boston_tab)
 
 # which CD effect could be detected with so few controls? Simulated with the variance
-# between and within persons from Boston and the real number of samples per person
+# between and within persons from Boston and the real number of samples per person (Arnold 2011)
 vc <- as.data.frame(VarCorr(m_bo))
 sd_between <- vc$sdcor[vc$grp == "subject_id"]; sd_within <- vc$sdcor[vc$grp == "Residual"]
 n_i <- bo %>% count(subject_id, diagnosis)
@@ -551,3 +591,35 @@ saveRDS(list(clinical = clinical, clinical_tab = clinical_tab, franzosa_outliers
              reads = reads_tab, sd = sd_tab, trend = trend_tab, strat = strat_tab,
              boston = boston_tab, boston_power = power_tab),
         file.path(outdir, "robustness_results.rds"))
+
+# --- Literature ---
+# Ananthakrishnan AN et al. (2023). AGA clinical practice guideline on the role of biomarkers for the
+#   management of Crohn's disease. Gastroenterology 165(6):1367-1399. doi:10.1053/j.gastro.2023.09.029
+# Arnold BF et al. (2011). Simulation methods to estimate design power: an overview for applied
+#   research. BMC Med Res Methodol 11:94. doi:10.1186/1471-2288-11-94
+# Bates D et al. (2015). Fitting linear mixed-effects models using lme4.
+#   J Stat Softw 67(1). doi:10.18637/jss.v067.i01
+# Cattonaro F et al. (2020). Do you cov me? Effect of coverage reduction on metagenome shotgun
+#   sequencing studies. F1000Res 7:1767. doi:10.12688/f1000research.16804.4
+# D'Haens G et al. (2012). Fecal calprotectin is a surrogate marker for endoscopic lesions in
+#   inflammatory bowel disease. Inflamm Bowel Dis 18(12):2218-2224. doi:10.1002/ibd.22917
+# Gurland J, Tripathi RC (1971). A simple approximation for unbiased estimation of the standard
+#   deviation. Am Stat 25(4):30-32. doi:10.1080/00031305.1971.10477279
+# Harvey RF, Bradshaw JM (1980). A simple index of Crohn's-disease activity. Lancet 315(8167):514.
+#   doi:10.1016/s0140-6736(80)92767-1
+# Hodges JL, Lehmann EL (1963). Estimates of location based on rank tests.
+#   Ann Math Stat 34(2):598-611. doi:10.1214/aoms/1177704172
+# Kuznetsova A et al. (2017). lmerTest package: tests in linear mixed effects models.
+#   J Stat Softw 82(13). doi:10.18637/jss.v082.i13
+# Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically
+#   larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
+# Nakagawa S, Schielzeth H (2013). A general and simple method for obtaining R2 from generalized
+#   linear mixed-effects models. Methods Ecol Evol 4(2):133-142. doi:10.1111/j.2041-210x.2012.00261.x
+# Rokkas T et al. (2018). Fecal calprotectin in assessing inflammatory bowel disease endoscopic activity:
+#   a diagnostic accuracy meta-analysis. J Gastrointestin Liver Dis 27(3):299-306. doi:10.15403/jgld.2014.1121.273.pti
+# Tukey JW (1977). Exploratory data analysis. Addison-Wesley.
+# Vandeputte D et al. (2021). Temporal variability in quantitative human gut microbiome profiles and
+#   implications for clinical research. Nat Commun 12:6740. doi:10.1038/s41467-021-27098-7
+# Vermeire S et al. (2010). Correlation between the Crohn's disease activity and Harvey-Bradshaw indices
+#   in assessing Crohn's disease severity. Clin Gastroenterol Hepatol 8(4):357-363. doi:10.1016/j.cgh.2010.01.001
+# Wilcoxon F (1945). Individual comparisons by ranking methods. Biometrics Bull 1(6):80-83. doi:10.2307/3001968

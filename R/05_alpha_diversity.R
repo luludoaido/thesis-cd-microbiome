@@ -1,7 +1,16 @@
 # --- Alpha diversity ---
-# Does the diversity within a sample differ between CD and controls? 
-# looks at both levels (species and genus)
-# Started by run_levels.R, which sets cohort and level.
+
+# What this script does
+# Tests whether the diversity within a sample differs between CD and controls, and how stable
+# it is within a person and over time. Runs for one cohort and one level (genus or species).
+# Started by run_levels.R, which sets cohort and level; 04_load_abundance.R prepares the data.
+
+# Decisions
+# 1. Richness, Shannon and Simpson are all calculated; Shannon is the main measure.
+# 2. The cross-sectional test uses the first sample of each person, so that nobody counts twice.
+# 3. All samples of Hall and HMP2 are analysed with a mixed model, with person as random effect.
+# 4. All filters (0, 5 and 10 %) run, to show how much the filter matters.
+# 5. Age, antibiotics and centre are checked as possible explanations of the CD effect.
 
 library(tidyverse)
 library(vegan)
@@ -20,6 +29,8 @@ p_few <- ggplot(few, aes(n_genera, fill = diagnosis)) +
 save_plot(p_few, "few_genera.png", 9, 4)
 
 # --- Alpha diversity per sample ---
+# Richness counts the taxa. Shannon (Shannon 1948) and Simpson (Simpson 1949) also use their
+# abundances, so rare taxa count less.
 alpha <- imap_dfr(X_thr, function(X, nm) {
   tibble(sample_id = rownames(X),
          Richness = rowSums(X > 0),
@@ -29,6 +40,7 @@ alpha <- imap_dfr(X_thr, function(X, nm) {
 }) %>% left_join(meta, by = "sample_id")
 
 # --- CD vs. control: first sample of each person ---
+# Wilcoxon rank-sum test (Wilcoxon 1945, Mann & Whitney 1947), which needs no normal distribution.
 baseline_tab <- alpha %>% 
   filter(baseline) %>%
   group_by(threshold) %>%
@@ -51,7 +63,7 @@ save_plot(p_alpha, "alpha_baseline.png", 9, 4)
 
 # --- CD vs. control: all samples (Hall and HMP2) ---
 if (longitudinal){
-  #median per person
+  # median per person, so that every person counts once
   alpha_person <- alpha %>% 
     group_by(threshold, subject_id, diagnosis) %>%
     summarise(n_samples = n(), Shannon = median(Shannon), Richness = median(Richness),
@@ -71,7 +83,8 @@ if (longitudinal){
   
   save_plot(p_alpha_med, "alpha_median_person.png", 9, 4)
   
-  #mixed model: all samples with person as random effect
+  # Mixed model: all samples with person as random effect (Bates 2015), p-values from
+  # lmerTest (Kuznetsova 2017). The ICC is the share of the variance between people.
   mixed_tab <- alpha %>%
     group_by(threshold) %>%
     group_modify(function(d, key) {
@@ -99,7 +112,7 @@ if (longitudinal){
 
 # --- Stability within a person (Hall and HMP2) ---
 if (longitudinal){
-  #variation of Shannon, for people with at least 3 samples
+  # variation of Shannon, for people with at least 3 samples (own decision)
   alpha_var <- alpha %>%
     group_by(threshold, subject_id, diagnosis) %>%
     summarise(n_samples = n(), sd_shannon = sd(Shannon), range_shannon = max(Shannon) - min(Shannon),
@@ -111,7 +124,7 @@ if (longitudinal){
     summarise(p_sd_shannon = wilcox.test(sd_shannon ~diagnosis)$p.value)
   
   print(alpha_var_test)
-  # Bray-Curtis distance between all pairs of samples (0 = identical, 1 = nothing shared)
+  # Bray-Curtis distance (Bray & Curtis 1957) between all pairs of samples (0 = identical, 1 = nothing shared)
   beta_pairs <- imap_dfr(X_thr, function(X,nm){
     D <- as.matrix(vegdist(X, method = "bray"))
     m <- meta[match(rownames(X), meta$sample_id), ]
@@ -139,7 +152,7 @@ if (longitudinal){
   
   save_plot(p_within, "beta_within_between.png", 7, 5)
   
-  #distance between two samples in a row of the same person
+  # distance between two samples in a row of the same person
   next_sample <- meta %>%
     filter(!is.na(time)) %>%
     arrange(subject_id, time) %>%
@@ -165,7 +178,7 @@ if (longitudinal){
   write_csv(left_join(alpha_var_test, stability_test, by = "threshold"), 
             file.path(outdir, "stability_tests.csv"))
   
-  # lm
+  # linear trend of the distance with the time between the two samples
   p_gap <- consecutive %>% filter(threshold == main_thr) %>%
     ggplot(aes(gap_weeks, bray, colour = diagnosis)) +
     geom_jitter(width = .2, alpha = .5) + 
@@ -215,7 +228,7 @@ if (longitudinal) {
   print(time_slope_tab)
   write_csv(time_slope_tab, file.path(outdir, "time_model_slopes.csv"))
   
-  # how many people with at least 5 samples increase over time?
+  # how many people with at least 5 samples (own decision) increase over time?
   person_slopes <- alpha %>% filter(threshold == main_thr) %>%
     group_by(subject_id, diagnosis) %>% filter(n() >= 5) %>%
     summarise(n = n(), slope = coef(lm(Shannon ~ time))[2], .groups = "drop")
@@ -275,7 +288,7 @@ if (any(alpha$antibiotic == "Yes", na.rm = TRUE)) {
 site_tab <- alpha %>%
   group_by(threshold) %>%
   group_modify(function(d, key) {
-    # centres with at least 3 persons of both diagnoses
+    # centres with at least 3 persons of both diagnoses (own decision)
     ok <- d %>% distinct(subject_id, diagnosis, site) %>% count(site, diagnosis) %>%
       group_by(site) %>% filter(n_distinct(diagnosis) == 2, min(n) >= 3) %>% pull(site) %>% unique()
     if (length(unique(d$site)) < 2 || length(ok) == 0) return(tibble(note = "centre cannot be separated from diagnosis"))
@@ -303,3 +316,17 @@ print(site_tab)
 write_csv(alpha_tests, file.path(outdir, "alpha_tests.csv"))
 write_csv(site_tab, file.path(outdir, "alpha_by_centre.csv"))
 saveRDS(list(alpha = alpha, few = few), file.path(outdir, "alpha_results.rds")) 
+
+# --- Literature ---
+# Bates D et al. (2015). Fitting linear mixed-effects models using lme4.
+#   J Stat Softw 67(1). doi:10.18637/jss.v067.i01
+# Bray JR, Curtis JT (1957). An ordination of the upland forest communities of southern Wisconsin.
+#   Ecol Monogr 27(4):325-349. doi:10.2307/1942268
+# Kuznetsova A et al. (2017). lmerTest package: tests in linear mixed effects models.
+#   J Stat Softw 82(13). doi:10.18637/jss.v082.i13
+# Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically
+#   larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
+# Shannon CE (1948). A mathematical theory of communication.
+#   Bell Syst Tech J 27(3):379-423. doi:10.1002/j.1538-7305.1948.tb01338.x
+# Simpson EH (1949). Measurement of diversity. Nature 163(4148):688. doi:10.1038/163688a0
+# Wilcoxon F (1945). Individual comparisons by ranking methods. Biometrics Bull 1(6):80-83. doi:10.2307/3001968

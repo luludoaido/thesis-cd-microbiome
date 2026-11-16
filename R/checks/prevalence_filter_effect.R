@@ -1,6 +1,12 @@
 # --- Effect of the prevalence filter ---
-# How many genera or species does the filter remove per cohort, how much abundance is lost,
-# and are CD and controls affected differently? Only prints to the console.
+
+# What this script does
+# Shows how many genera or species the filter removes per cohort, how much abundance is lost,
+# and whether CD and controls are affected differently. Only prints to the console.
+
+# Decisions
+# 1. Uses the same filter as the analysis (passes_filter in 00_setup.R).
+
 library(tidyverse)
 source("R/00_setup.R")
 
@@ -58,3 +64,5 @@ for (level in c("genus", "species")) {
         " | people:", n_distinct(meta$subject_id[lost > .05]), "\n")
   }
 }
+
+
