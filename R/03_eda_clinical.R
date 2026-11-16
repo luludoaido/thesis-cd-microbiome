@@ -4,13 +4,16 @@
 
 # Results:
 # - calprotectin in CD vs. controls per cohort (Wilcoxon, one value per person)
-# - HBI per CD person and in categories; agreement of HBI and calprotectin
+# - HBI per CD person and in categories
+# - agreement of HBI and calprotectin (mixed model; Spearman per person as check)
 # - HMP2: where the clinical values come from, and whether a 2, 1 or 0 week window matters
 # - medication (Franzosa), antibiotics (HMP2), share of missing values per cohort
 
 # Methods: docs/methods.md, 1.5, 1.8, 4.4 and section 5
 
 library(tidyverse)
+library(lme4)
+library(lmerTest)
 source("R/00_setup.R")
 
 outdir <- file.path(dir_results, "eda_clinical")
@@ -123,13 +126,23 @@ ggsave(file.path(outdir, "hbi.png"), p_hbi, width = 8, height = 4, dpi = 200)
   
 # Do HBI and calprotectin agree? (CD samples with both values)
 # they need not agree (see methods 5.3)
-hbi %>%
-  filter(!is.na(calprotectin)) %>% 
-  group_by(cohort) %>%
-  summarise(samples = n(),
-            rho = cor(HBI, calprotectin, method = "spearman"),
-            p = cor.test(HBI, calprotectin, method = "spearman", exact = FALSE)$p.value) %>%
-  print()
+# several samples per person: mixed model with person as random effect (see methods 1.5);
+# check: Spearman on the median per person. Values below 1 are set to 1 for the log (see methods 9.2)
+hbi_calpro <- hbi %>%
+  filter(!is.na(calprotectin)) %>%
+  mutate(log_calpro = log10(pmax(calprotectin, 1))) %>%
+  group_split(cohort) %>%
+  map_dfr(function(d) {
+    m <- lmer(log_calpro ~ HBI + (1 | person), data = d)
+    pp <- d %>% group_by(person) %>% summarise(HBI = median(HBI), calprotectin = median(calprotectin))
+    tibble(cohort = d$cohort[1], samples = nrow(d), persons = n_distinct(d$person),
+           slope_log10_calpro_per_hbi = fixef(m)[["HBI"]],
+           p_mixed = coef(summary(m))["HBI", "Pr(>|t|)"],
+           rho_person = cor(pp$HBI, pp$calprotectin, method = "spearman"),
+           p_spearman_person = cor.test(pp$HBI, pp$calprotectin, method = "spearman", exact = FALSE)$p.value)
+  })
+print(hbi_calpro)
+write_csv(hbi_calpro, file.path(outdir, "hbi_vs_calprotectin.csv"))
 
 # --- Medication ---
 # Franzosa: medication at the time of sampling

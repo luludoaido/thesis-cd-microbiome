@@ -4,7 +4,8 @@
 
 # Results:
 # - detection and abundance of Prevotella, Bacteroides, F. prausnitzii and Roseburia per group
-# - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control)
+# - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control);
+#   HMP2 always with a mixed model on all samples, one value per person as check
 # - H2b: CD effect on F. prausnitzii and Roseburia, MaAsLin2 (main) and CLR models (check), Holm-adjusted
 
 # Methods: docs/methods.md, 1.10 and section 11
@@ -133,11 +134,17 @@ sq2a_dominated <- bind_rows(
            p_fisher = fisher.test(table(d$diagnosis, d$dom))$p.value)
   },
   {
-    pp <- hm %>% group_by(subject_id, diagnosis) %>%
-      summarise(dom = any(Prevotella > Bacteroides), .groups = "drop")
+    # all samples with person as random effect (see methods 1.5); Fisher per person as check
+    d <- hm %>% mutate(dom = Prevotella > Bacteroides)
+    pp <- d %>% group_by(subject_id, diagnosis) %>% summarise(dom = any(dom), .groups = "drop")
+    fit <- glmer(dom ~ diagnosis + site + (1 | subject_id), data = d, family = binomial,
+                 control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5)))
     tibble(cohort = "hmp2", unit = "persons (at least one sample)", n = nrow(pp),
            control_pct = share(pp$dom, pp$diagnosis, "control"), cd_pct = share(pp$dom, pp$diagnosis, "cd"),
-           p_fisher = fisher.test(table(pp$diagnosis, pp$dom))$p.value)
+           p_fisher = fisher.test(table(pp$diagnosis, pp$dom))$p.value,
+           model = "logistic mixed: diagnosis + site + (1 | person)",
+           model_estimate = fixef(fit)[["diagnosiscd"]],
+           model_p = coef(summary(fit))["diagnosiscd", "Pr(>|z|)"])
   })
 print(sq2a_dominated, width = Inf)
 write_csv(sq2a_dominated, file.path(outdir, "sq2a_dominated.csv"))

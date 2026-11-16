@@ -6,6 +6,7 @@
 # - MD-index and Bray-Curtis score per sample
 # - CD effect on both scores (estimate, SE, p; Wilcoxon as check), with sensitivity analyses
 # - share of dysbiotic samples (above the 90th percentile of the controls) in CD and controls
+#   (Franzosa: Fisher; HMP2: logistic mixed model, Wilcoxon per person as check)
 # - detection of the Gevers taxa; agreement of the two measures
 
 # Methods: docs/methods.md, 1.10 and section 10
@@ -208,17 +209,23 @@ dysbiotic <- bind_rows(
     d <- d %>% mutate(dysbiotic = .data[[m]] > limit)
     if (ch == "franzosa") {
       p <- fisher.test(table(d$diagnosis, d$dysbiotic))$p.value
+      p_check <- NA_real_
       unit <- "samples (Fisher)"
       s <- d %>% group_by(diagnosis) %>% summarise(v = mean(dysbiotic) * 100)
     } else {
-      # several samples per person: share of dysbiotic time points per person
+      # several samples per person: logistic mixed model on all samples (see methods 1.5);
+      # check: Wilcoxon on the share of dysbiotic time points per person
+      fit <- glmer(dysbiotic ~ diagnosis + site + (1 | subject_id), data = d, family = binomial,
+                   control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5)))
+      p <- coef(summary(fit))["diagnosiscd", "Pr(>|z|)"]
       pp <- d %>% group_by(subject_id, diagnosis) %>% summarise(v = mean(dysbiotic) * 100, .groups = "drop")
-      p <- wilcox.test(v ~ diagnosis, data = pp, exact = FALSE)$p.value
-      unit <- "mean share per person (Wilcoxon)"
+      p_check <- wilcox.test(v ~ diagnosis, data = pp, exact = FALSE)$p.value
+      unit <- "logistic mixed model; check: Wilcoxon on share per person"
       s <- pp %>% group_by(diagnosis) %>% summarise(v = mean(v))
     }
     tibble(cohort = ch, measure = m, percentile = q * 100, limit = unname(limit), unit = unit,
-           control_pct = s$v[s$diagnosis == "control"], cd_pct = s$v[s$diagnosis == "cd"], p = p)
+           control_pct = s$v[s$diagnosis == "control"], cd_pct = s$v[s$diagnosis == "cd"],
+           p = p, p_check = p_check)
   })
 })
 print(dysbiotic, n = Inf, width = Inf)

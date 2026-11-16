@@ -3,7 +3,8 @@
 # Runs for one cohort and level; started by run_levels.R, data from 04_load_abundance.R.
 
 # Results (per cohort and level):
-# - PERMANOVA CD vs. control (R2, p), dispersion test, adjusted for centre, without antibiotics
+# - PERMANOVA CD vs. control (R2, p): Hall and HMP2 on all samples with whole persons permuted (main),
+#   first sample as check; dispersion test, adjusted for centre, without antibiotics
 # - variance explained by centre before and after batch correction
 # - PCA, PCoA and UMAP figures, also over the three filters
 # - samples that stand out, and the alpha test without them
@@ -12,7 +13,9 @@
 
 library(tidyverse)
 library(vegan)
-library(uwot)    
+library(lme4)
+library(lmerTest)
+library(uwot)
 library(limma)     
 library(sva)       
 library(MMUPHin)   
@@ -121,6 +124,38 @@ permanova <- imap_dfr(X_thr, function(X, nm) {
 })
 print(permanova %>% arrange(distance, threshold))
 write_csv(permanova, file.path(outdir, "permanova.csv"))
+
+# PERMANOVA with all samples (Hall and HMP2): whole persons are permuted, because samples of
+# one person are not exchangeable (see methods 7.9)
+pseudo_F <- function(D2, g) {   # D2 = squared distances, g = diagnosis per sample
+  N <- length(g); a <- nlevels(g)
+  sst <- sum(D2) / (2 * N)
+  ssw <- sum(map_dbl(levels(g), function(l) { i <- g == l; sum(D2[i, i]) / (2 * sum(i)) }))
+  c(F = ((sst - ssw) / (a - 1)) / (ssw / (N - a)), R2 = (sst - ssw) / sst)
+}
+permanova_persons <- function(D, diagnosis, person, nperm = 999) {
+  D2 <- as.matrix(D)^2
+  obs <- pseudo_F(D2, diagnosis)
+  label <- tapply(as.character(diagnosis), person, `[`, 1)   # one diagnosis per person
+  set.seed(seed)
+  F_perm <- replicate(nperm, {
+    perm <- setNames(sample(label), names(label))
+    pseudo_F(D2, factor(perm[as.character(person)], levels(diagnosis)))[["F"]]
+  })
+  c(obs, p = (sum(F_perm >= obs[["F"]]) + 1) / (nperm + 1))
+}
+if (longitudinal) {
+  permanova_all <- imap_dfr(X_thr, function(X, nm) {
+    d <- meta[match(rownames(X), meta$sample_id), ]
+    imap_dfr(distances(X, rownames(X)), function(D, dn) {
+      r <- permanova_persons(D, d$diagnosis, d$subject_id)
+      tibble(threshold = nm, distance = dn, samples = nrow(d), persons = n_distinct(d$subject_id),
+             R2 = r[["R2"]], p = r[["p"]])
+    })
+  })
+  print(permanova_all %>% arrange(distance, threshold))
+  write_csv(permanova_all, file.path(outdir, "permanova_all_samples.csv"))
+}
 
 # without persons on antibiotics (Franzosa only)
 if (any(meta$antibiotic == "Yes", na.rm = TRUE)) {
@@ -272,11 +307,20 @@ write_csv(outliers, file.path(outdir, "outliers.csv"))
 saveRDS(list(outliers = outliers), file.path(outdir, "beta_results.rds")) 
 
 # same alpha test without the outliers
-# a person whose first sample is an outlier drops out
-outlier_test <- alpha %>% filter(baseline) %>%
+# Hall and HMP2: mixed model on all samples (see methods 1.5); Franzosa: Wilcoxon on the first sample
+outlier_test <- alpha %>%
   mutate(keep = !sample_id %in% outliers$sample_id) %>%
   group_by(threshold) %>%
-  summarise(n_with = n(), p_with = wilcox.test(Shannon ~ diagnosis)$p.value,
-            n_without = sum(keep),
-            p_without = wilcox.test(Shannon[keep] ~ diagnosis[keep])$p.value)
+  group_modify(function(d, key) {
+    if (longitudinal) {
+      p_of <- function(dd) coef(summary(lmer(Shannon ~ diagnosis + (1 | subject_id), data = dd)))["diagnosiscd", "Pr(>|t|)"]
+      tibble(test = "mixed model, all samples", n_with = nrow(d), p_with = p_of(d),
+             n_without = sum(d$keep), p_without = p_of(filter(d, keep)))
+    } else {
+      b <- filter(d, baseline)
+      tibble(test = "Wilcoxon, first sample", n_with = nrow(b),
+             p_with = wilcox.test(Shannon ~ diagnosis, data = b)$p.value,
+             n_without = sum(b$keep), p_without = wilcox.test(Shannon ~ diagnosis, data = filter(b, keep))$p.value)
+    }
+  })
 print(outlier_test)

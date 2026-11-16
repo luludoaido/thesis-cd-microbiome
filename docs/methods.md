@@ -143,11 +143,12 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Code:** `R/04_load_abundance.R`.
 
 ### 1.5 Repeated samples per person
-- **Rule:** cross-sectional comparisons (alpha diversity, PERMANOVA) use the earliest sample per person (`baseline`). Analyses over all samples use a mixed model with person as random effect. Descriptive comparisons use one value per person (median).
+- **Rule:** in Hall and HMP2 the main test uses all samples: a mixed model with person as random effect, or for PERMANOVA a permutation of whole persons (7.9). One value per person (earliest sample `baseline`, or median) is used as check, and for measures that are defined per person anyway (SD, stability, 7.4, 9.5). Descriptive comparisons use one value per person (median). Franzosa has one sample per person.
 - **Why:** several samples of the same person are not independent. In HMP2 the ICC was 0.58, so 141 samples correspond to about 53 independent observations.
 - **Covariates:** sex is not used (decided 2026-11-16).
 - **Source:** Bates 2015 (lme4); Kuznetsova 2017 (lmerTest, p-values by Satterthwaite).
 - **Code:** `finish_meta()` in `R/00_setup.R` sets `baseline` and `time` (weeks since the first sample).
+- **Changes:** 2026-11-16: mixed model / person permutation became the main test in `03`, `05`, `08` and `09`; before, several tests used only the earliest sample or one value per person, and the HBI–calprotectin correlation in `03` treated all samples as independent.
 
 ### 1.6 Centre and batch correction
 - **Rule:** in tests, the centre (`site`) is a covariate. Corrected data are used for figures only (PCA/UMAP), and only if every centre has both diagnoses. ComBat is used for the main figures; limma and MMUPHin are compared.
@@ -289,9 +290,10 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Source:** Harvey & Bradshaw 1980; Vermeire 2010.
 
 ### 5.3 HBI and calprotectin are compared, not merged
-- **Rule:** samples with both values are compared, but the two scores are used separately.
+- **Rule:** samples with both values are compared, but the two scores are used separately. Test: mixed model log10(calprotectin) ~ HBI + (1 | person); check: Spearman on the median per person.
 - **Why:** HBI measures symptoms, and calprotectin was not related to symptom scores in CD.
 - **Source:** D'Haens 2012.
+- **Changes:** 2026-11-16: before, a Spearman correlation over all samples, which treated repeated samples as independent (HMP2 p < 0.001; now p = 0.10, per person p = 0.035).
 
 ---
 
@@ -335,9 +337,10 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Source:** Aitchison 2000; Bray & Curtis 1957; Gower 1966.
 
 ### 7.9 PERMANOVA
-- **Rule:** baseline samples only (1.5), adjusted for centre, and repeated without people on antibiotics (Franzosa). The spread of the groups is tested as well.
-- **Why:** a different spread can also make PERMANOVA significant.
-- **Source:** Anderson 2001; Anderson 2006.
+- **Rule:** Hall and HMP2: main test on all samples, the diagnosis is permuted between whole persons (999 permutations), so that samples of one person stay together. Check: earliest sample per person. Adjustment for centre, the dispersion test and the run without antibiotics (Franzosa) use the earliest sample.
+- **Why:** samples of one person are not exchangeable, so permuting single samples would be invalid. A different spread can also make PERMANOVA significant, hence the dispersion test. Centre and all samples together are not combined, because restricted permutations with a covariate get complicated; this is a limitation.
+- **Source:** Anderson 2001; Anderson 2006; Anderson & ter Braak 2003.
+- **Changes:** 2026-11-16: all-samples version added as main test; before, only the earliest sample.
 
 ### 7.10 Outliers in the ordination
 - **Rule:** distance to the median above median + 3 MAD. The alpha test is repeated without them.
@@ -416,8 +419,9 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Source:** Lloyd-Price 2019; Aitchison 1986.
 
 ### 10.6 Dysbiotic samples
-- **Rule:** a sample is dysbiotic above the 90th percentile of the controls. Sensitivity: 80th and 95th percentile. In HMP2 the share of dysbiotic time points per person is compared (Wilcoxon), in Franzosa the samples (Fisher).
+- **Rule:** a sample is dysbiotic above the 90th percentile of the controls. Sensitivity: 80th and 95th percentile. In Franzosa the samples are compared with Fisher. In HMP2: logistic mixed model dysbiotic ~ diagnosis + site + (1 | person) on all samples; check: Wilcoxon on the share of dysbiotic time points per person.
 - **Source:** Lloyd-Price 2019.
+- **Changes:** 2026-11-16: HMP2 main test changed from the Wilcoxon per person to the mixed model.
 
 ### 10.7 Taxonomy for Franzosa
 - **Rule:** Franzosa has only species names, so family and order come from the HMP2 taxonomy via the genus. Franzosa "genera" that are really higher levels or missing in HMP2 are listed by hand; genera with more than one family in HMP2 are checked.
@@ -436,7 +440,8 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 ### 11.2 Prevotella/Bacteroides in three parts
 - **Rule:** (1) is Prevotella detected, (2) log10 ratio in samples with both taxa, (3) Prevotella-dominated samples (Prevotella > Bacteroides).
 - **Why:** Prevotella is absent from about two thirds of the samples, and a replacement value would decide the result.
-- **Tests:** (1) logistic model / GLMM, Fisher as check; (2) lm / lmer, Wilcoxon as check; (3) Fisher.
+- **Tests:** (1) logistic model / GLMM, Fisher as check; (2) lm / lmer, Wilcoxon as check; (3) Franzosa: Fisher; HMP2: GLMM dom ~ diagnosis + site + (1 | person), Fisher per person (at least one dominated sample) as check. The GLMM estimate in (3) is very uncertain, because a person is almost always or never Prevotella-dominated.
+- **Changes:** 2026-11-16: GLMM added as HMP2 main test for (3); before, Fisher per person only.
 
 ### 11.3 H2b main method: MaAsLin2
 - **Rule:** abundances are TSS-scaled over all species beforehand, so MaAsLin2 runs with normalization NONE, transform LOG, method LM, no prevalence filter. MaAsLin2 corrects over all terms including site; the hypothesis is only about diagnosis.
@@ -456,6 +461,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Aitchison J et al. (2000). Logratio analysis and compositional distance. Math Geol 32(3):271-275. doi:10.1023/a:1007529726302
 - Ananthakrishnan AN et al. (2023). AGA clinical practice guideline on the role of biomarkers for the management of Crohn's disease. Gastroenterology 165(6):1367-1399. doi:10.1053/j.gastro.2023.09.029
 - Anderson MJ (2001). A new method for non-parametric multivariate analysis of variance. Austral Ecol 26(1):32-46. doi:10.1111/j.1442-9993.2001.01070.pp.x
+- Anderson MJ, ter Braak CJF (2003). Permutation tests for multi-factorial analysis of variance. J Stat Comput Simul 73(2):85-113. (to check in full text)
 - Anderson MJ (2006). Distance-based tests for homogeneity of multivariate dispersions. Biometrics 62(1):245-253. doi:10.1111/j.1541-0420.2005.00440.x
 - Arnold BF et al. (2011). Simulation methods to estimate design power: an overview for applied research. BMC Med Res Methodol 11:94. doi:10.1186/1471-2288-11-94
 - Bates D et al. (2015). Fitting linear mixed-effects models using lme4. J Stat Softw 67(1). doi:10.18637/jss.v067.i01

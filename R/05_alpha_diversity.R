@@ -3,8 +3,9 @@
 # Runs for one cohort and level; started by run_levels.R, data from 04_load_abundance.R.
 
 # Results (per cohort and level, all three filters):
-# - CD vs. control on the first sample: richness, Shannon, Simpson (Wilcoxon p)
-# - Hall and HMP2, all samples: CD effect in a mixed model (estimate, p) and ICC
+# - CD vs. control on the first sample: richness, Shannon (Wilcoxon p; main for Franzosa)
+# - Hall and HMP2, all samples: CD effect on Shannon and richness in a mixed model (main), ICC;
+#   Wilcoxon on first sample and median per person as checks
 # - stability: SD of Shannon within persons; Bray-Curtis within vs. between persons
 # - change over time: time x diagnosis model, slopes per person
 # - CD effect adjusted for age, without antibiotics, and per centre
@@ -81,15 +82,17 @@ if (longitudinal){
   
   save_plot(p_alpha_med, "alpha_median_person.png", 9, 4)
   
-  # mixed model with person as random effect (see methods 1.5)
-  # ICC = share of the variance between people
+  # main test for Hall and HMP2: mixed model on all samples, person as random effect (see methods 1.5)
+  # the Wilcoxon tests above are checks
   mixed_tab <- alpha %>%
     group_by(threshold) %>%
     group_modify(function(d, key) {
-      m <- lmer(Shannon ~ diagnosis + (1 | subject_id), data = d)
-      vc <- as.data.frame(VarCorr(m))
-      tibble(estimate_cd = fixef(m)[2], p_mixed = coef(summary(m))[2, "Pr(>|t|)"],
-             icc = vc$vcov[1]/sum(vc$vcov)) #calculates the share of the variance between people
+      fit <- function(y) lmer(reformulate(c("diagnosis", "(1 | subject_id)"), y), data = d)
+      m_sh <- fit("Shannon"); m_ri <- fit("Richness")
+      vc <- as.data.frame(VarCorr(m_sh))
+      tibble(estimate_cd = fixef(m_sh)[2], p_mixed = coef(summary(m_sh))[2, "Pr(>|t|)"],
+             estimate_cd_richness = fixef(m_ri)[2], p_mixed_richness = coef(summary(m_ri))[2, "Pr(>|t|)"],
+             icc = vc$vcov[1] / sum(vc$vcov))  # share of the variance between people
     })
   print(mixed_tab)
   
