@@ -178,6 +178,12 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Why:** part of the Hall cohort was processed with a different lab kit, so the samples within the cohort are no longer comparable and the data cannot be used for the hypotheses.
 - **Changes:** Hall was used for SQ1/SQ2 from 2026-09-29 (9 CD / 12 control persons after exclusions). Not used for the hypotheses since 2026-11-09; reason recorded 2026-11-16.
 
+### 1.11 Main test and checks
+- **Rule:** continuous outcomes in Franzosa (one sample per person): Wilcoxon rank-sum test is the main test; lm with centre is the check and gives the effect size. Hall and HMP2: mixed model on all samples (1.5), Wilcoxon on the median per person as check. Every model effect is reported with a 95 % CI (t quantile, Satterthwaite df for lmer; `ci_cd()` in `R/00_setup.R`). Exceptions: binary outcomes (Fisher / logistic models, 10.6, 11.2) and H2b (MaAsLin2, 11.3).
+- **Why:** the values are often skewed; Wilcoxon needs no normal distribution. The centre was checked in Franzosa: no effect on Shannon (p = 1.0) and MD-index (p = 0.47), but on richness (p < 0.001), Bray-Curtis score (p = 0.03) and Aitchison score (p < 0.001). The CD effect stays the same after adjustment, so a Wilcoxon stratified by centre (van Elteren) is not needed. Residuals of lm/lmer are not normal but nearly symmetric; both are robust to this.
+- **Source:** Wilcoxon 1945; Mann & Whitney 1947; Lumley 2002; Schielzeth 2020; Satterthwaite 1946.
+- **Changes:** 2026-11-16: HMP2 Wilcoxon check in `08` changed from the earliest sample to the median per person; 95 % CI added in `08` and `09`.
+
 ---
 
 ## 2 Franzosa 2019
@@ -427,7 +433,8 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Rule:** Franzosa has only species names, so family and order come from the HMP2 taxonomy via the genus. Franzosa "genera" that are really higher levels or missing in HMP2 are listed by hand; genera with more than one family in HMP2 are checked.
 
 ### 10.8 Models
-- **Rule:** Franzosa: `lm(score ~ diagnosis + site)`; HMP2: `lmer(score ~ diagnosis + site + (1 | person))`. Wilcoxon on baseline samples as check.
+- **Rule:** Franzosa: Wilcoxon as main test, `lm(score ~ diagnosis + site)` as check (1.11). HMP2: `lmer(score ~ diagnosis + site + (1 | person))` as main test, Wilcoxon on the median per person as check. Effects with 95 % CI.
+- **Changes:** 2026-11-16: Franzosa main test changed from lm to Wilcoxon; HMP2 Wilcoxon check changed from the earliest sample to the median per person.
 
 ---
 
@@ -484,6 +491,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Leys C et al. (2013). Detecting outliers: do not use standard deviation around the mean, use absolute deviation around the median. J Exp Soc Psychol 49(4):764-766. doi:10.1016/j.jesp.2013.03.013
 - Lloyd-Price J et al. (2019). Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases. Nature 569(7758):655-662. doi:10.1038/s41586-019-1237-9
 - Lubbe S et al. (2021). Comparison of zero replacement strategies for compositional data with large numbers of zeros. Chemometr Intell Lab Syst. doi:10.1016/j.chemolab.2021.104248
+- Lumley T et al. (2002). The importance of the normality assumption in large public health data sets. Annu Rev Public Health 23:151-169. (to check in full text)
 - Ma S et al. (2022). Population structure discovery in meta-analyzed microbial communities and inflammatory bowel disease using MMUPHin. Genome Biol 23:208. doi:10.1186/s13059-022-02753-4
 - Mallick H et al. (2021). Multivariable association discovery in population-scale meta-omics studies. PLoS Comput Biol 17(11):e1009442. doi:10.1371/journal.pcbi.1009442
 - Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
@@ -494,6 +502,8 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Pasolli E et al. (2017). Accessible, curated metagenomic data through ExperimentHub. Nat Methods 14(11):1023-1024. doi:10.1038/nmeth.4468
 - Ritchie ME et al. (2015). limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Res 43(7):e47. doi:10.1093/nar/gkv007
 - Rokkas T et al. (2018). Fecal calprotectin in assessing inflammatory bowel disease endoscopic activity: a diagnostic accuracy meta-analysis. J Gastrointestin Liver Dis 27(3):299-306. doi:10.15403/jgld.2014.1121.273.pti
+- Satterthwaite FE (1946). An approximate distribution of estimates of variance components. Biometrics Bull 2(6):110-114. (to check in full text)
+- Schielzeth H et al. (2020). Robustness of linear mixed-effects models to violations of distributional assumptions. Methods Ecol Evol 11(9):1141-1152. (to check in full text)
 - Shannon CE (1948). A mathematical theory of communication. Bell Syst Tech J 27(3):379-423. doi:10.1002/j.1538-7305.1948.tb01338.x
 - Simpson EH (1949). Measurement of diversity. Nature 163(4148):688. doi:10.1038/163688a0
 - Truong DT et al. (2015). MetaPhlAn2 for enhanced metagenomic taxonomic profiling. Nat Methods 12(10):902-903. doi:10.1038/nmeth.3589

@@ -103,24 +103,26 @@ both <- taxa %>% filter(Prevotella > 0, Bacteroides > 0) %>%
 sq2a_ratio <- bind_rows(
   {
     d <- both %>% filter(cohort == "franzosa")
-    s <- coef(summary(lm(log_ratio ~ diagnosis + site, data = d)))
+    fit <- lm(log_ratio ~ diagnosis + site, data = d); s <- coef(summary(fit))
     tibble(cohort = "franzosa", samples = nrow(d), persons = n_distinct(d$subject_id),
            n_control = sum(d$diagnosis == "control"), n_cd = sum(d$diagnosis == "cd"),
            median_control = median(d$log_ratio[d$diagnosis == "control"]),
            median_cd = median(d$log_ratio[d$diagnosis == "cd"]),
            p_wilcoxon = wilcox.test(log_ratio ~ diagnosis, data = d, exact = FALSE)$p.value,
-           model_estimate = s["diagnosiscd", "Estimate"], model_p = s["diagnosiscd", "Pr(>|t|)"])
+           model_estimate = s["diagnosiscd", "Estimate"], ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
+           model_p = s["diagnosiscd", "Pr(>|t|)"])
   },
   {
     d <- both %>% filter(cohort == "hmp2")
     pp <- d %>% group_by(subject_id, diagnosis) %>% summarise(v = median(log_ratio), .groups = "drop")
-    s <- coef(summary(lmer(log_ratio ~ diagnosis + site + (1 | subject_id), data = d)))
+    fit <- lmer(log_ratio ~ diagnosis + site + (1 | subject_id), data = d); s <- coef(summary(fit))
     tibble(cohort = "hmp2", samples = nrow(d), persons = n_distinct(d$subject_id),
            n_control = sum(pp$diagnosis == "control"), n_cd = sum(pp$diagnosis == "cd"),
            median_control = median(pp$v[pp$diagnosis == "control"]),
            median_cd = median(pp$v[pp$diagnosis == "cd"]),
            p_wilcoxon = wilcox.test(v ~ diagnosis, data = pp, exact = FALSE)$p.value,
-           model_estimate = s["diagnosiscd", "Estimate"], model_p = s["diagnosiscd", "Pr(>|t|)"])
+           model_estimate = s["diagnosiscd", "Estimate"], ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
+           model_p = s["diagnosiscd", "Pr(>|t|)"])
   })
 print(sq2a_ratio, width = Inf)
 write_csv(sq2a_ratio, file.path(outdir, "sq2a_ratio.csv"))
@@ -200,10 +202,10 @@ sq2b_clr <- clr_values %>%
   group_split(cohort, taxon) %>%
   map_dfr(function(d) {
     if (d$cohort[1] == "franzosa") {
-      s <- coef(summary(lm(clr ~ diagnosis + site, data = d)))
+      fit <- lm(clr ~ diagnosis + site, data = d); s <- coef(summary(fit))
       v <- d %>% transmute(diagnosis, v = clr)
     } else {
-      s <- coef(summary(lmer(clr ~ diagnosis + site + (1 | subject_id), data = d)))
+      fit <- lmer(clr ~ diagnosis + site + (1 | subject_id), data = d); s <- coef(summary(fit))
       v <- d %>% group_by(subject_id, diagnosis) %>% summarise(v = median(clr), .groups = "drop")
     }
     tibble(cohort = d$cohort[1], taxon = d$taxon[1], n = nrow(d),
@@ -211,6 +213,7 @@ sq2b_clr <- clr_values %>%
            median_cd = median(v$v[v$diagnosis == "cd"]),
            p_wilcoxon = wilcox.test(v ~ diagnosis, data = v, exact = FALSE)$p.value,
            model_estimate = s["diagnosiscd", "Estimate"], model_se = s["diagnosiscd", "Std. Error"],
+           ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
            model_p = s["diagnosiscd", grep("^Pr", colnames(s), value = TRUE)])
   }) %>%
   group_by(cohort) %>% mutate(model_p_holm = p.adjust(model_p, "holm")) %>% ungroup()

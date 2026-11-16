@@ -4,7 +4,8 @@
 
 # Results:
 # - MD-index and Bray-Curtis score per sample
-# - CD effect on both scores (estimate, SE, p; Wilcoxon as check), with sensitivity analyses
+# - CD effect on both scores: Franzosa Wilcoxon (main), lm with centre as check; HMP2 lmer (main),
+#   Wilcoxon on the median per person as check; estimate, SE, 95 % CI, p; with sensitivity analyses
 # - share of dysbiotic samples (above the 90th percentile of the controls) in CD and controls
 #   (Franzosa: Fisher; HMP2: logistic mixed model, Wilcoxon per person as check)
 # - detection of the Gevers taxa; agreement of the two measures
@@ -166,20 +167,23 @@ test_franzosa <- function(d, y, label) {
          p_wilcoxon = wilcox.test(y ~ diagnosis, data = d, exact = FALSE)$p.value,
          model_estimate = coef(summary(fit))["diagnosiscd", "Estimate"],
          model_se = coef(summary(fit))["diagnosiscd", "Std. Error"],
+         ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
          model_p = coef(summary(fit))["diagnosiscd", "Pr(>|t|)"])
 }
 
+# HMP2: main test lmer on all samples; check: Wilcoxon on the median per person (see methods 1.5)
 test_hmp2 <- function(d, y, label) {
   d$y <- d[[y]]
-  base <- d %>% filter(baseline)
+  pp <- d %>% group_by(subject_id, diagnosis) %>% summarise(v = median(y), .groups = "drop")
   fit <- lmer(y ~ diagnosis + site + (1 | subject_id), data = d)
   tibble(cohort = "hmp2", measure = y, analysis = label, samples = nrow(d),
          persons = n_distinct(d$subject_id),
-         median_control = median(base$y[base$diagnosis == "control"]),
-         median_cd = median(base$y[base$diagnosis == "cd"]),
-         p_wilcoxon = wilcox.test(y ~ diagnosis, data = base, exact = FALSE)$p.value,
+         median_control = median(pp$v[pp$diagnosis == "control"]),
+         median_cd = median(pp$v[pp$diagnosis == "cd"]),
+         p_wilcoxon = wilcox.test(v ~ diagnosis, data = pp, exact = FALSE)$p.value,
          model_estimate = coef(summary(fit))["diagnosiscd", "Estimate"],
          model_se = coef(summary(fit))["diagnosiscd", "Std. Error"],
+         ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
          model_p = coef(summary(fit))["diagnosiscd", "Pr(>|t|)"])
 }
 

@@ -1,43 +1,43 @@
-2026-11-16 16:24:59.598255 INFO::Writing function arguments to log file
-2026-11-16 16:24:59.608246 DEBUG::Function arguments
-2026-11-16 16:24:59.615757 DEBUG::Output folder: results/hypotheses/maaslin2/franzosa
-2026-11-16 16:24:59.616326 DEBUG::Min Abundance: 0.000000
-2026-11-16 16:24:59.616778 DEBUG::Min Prevalence: 0.000000
-2026-11-16 16:24:59.617285 DEBUG::Normalization: NONE
-2026-11-16 16:24:59.617851 DEBUG::Transform: LOG
-2026-11-16 16:24:59.618354 DEBUG::Analysis method: LM
-2026-11-16 16:24:59.61879 DEBUG::Max significance: 0.250000
-2026-11-16 16:24:59.619454 DEBUG::Random effects:
-2026-11-16 16:24:59.620069 DEBUG::Fixed effects: diagnosis,site
-2026-11-16 16:24:59.620798 DEBUG::Correction method: holm
-2026-11-16 16:24:59.621489 DEBUG::Standardize: FALSE
-2026-11-16 16:24:59.622101 DEBUG::Cores: 1
-2026-11-16 16:24:59.622744 INFO::Verifying options selected are valid
-2026-11-16 16:24:59.655294 INFO::Determining format of input files
-2026-11-16 16:24:59.656459 INFO::Input format is data samples as rows and metadata samples as rows
-2026-11-16 16:24:59.657745 DEBUG::A total of 144 samples were found in both the data and metadata
-2026-11-16 16:24:59.658365 DEBUG::Reordering data/metadata to use same sample ordering
-2026-11-16 16:24:59.659299 INFO::Formula for fixed effects: expr ~  diagnosis + site
-2026-11-16 16:24:59.660964 INFO::Filter data based on min abundance and min prevalence
-2026-11-16 16:24:59.661888 INFO::Total samples in data: 144
-2026-11-16 16:24:59.662711 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
-2026-11-16 16:24:59.663727 INFO::Total filtered features: 0
-2026-11-16 16:24:59.664836 INFO::Filtered feature names from abundance and prevalence filtering:
-2026-11-16 16:24:59.666402 INFO::Total filtered features with variance filtering: 0
-2026-11-16 16:24:59.667475 INFO::Filtered feature names from variance filtering:
-2026-11-16 16:24:59.668251 INFO::Running selected normalization method: NONE
-2026-11-16 16:24:59.669074 INFO::Bypass z-score application to metadata
-2026-11-16 16:24:59.669821 INFO::Running selected transform method: LOG
-2026-11-16 16:24:59.670989 INFO::Running selected analysis method: LM
-2026-11-16 16:24:59.685592 INFO::Fitting model to feature number 1, F_prausnitzii
-2026-11-16 16:24:59.689175 INFO::Fitting model to feature number 2, Roseburia
-2026-11-16 16:24:59.695281 INFO::Counting total values for each feature
-2026-11-16 16:24:59.696959 INFO::Writing filtered data to file results/hypotheses/maaslin2/franzosa/features/filtered_data.tsv
-2026-11-16 16:24:59.699642 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/franzosa/features/filtered_data_norm.tsv
-2026-11-16 16:24:59.701524 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/franzosa/features/filtered_data_norm_transformed.tsv
-2026-11-16 16:24:59.703461 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/franzosa/fits/residuals.rds
-2026-11-16 16:24:59.705383 INFO::Writing residuals to file results/hypotheses/maaslin2/franzosa/fits/residuals.rds
-2026-11-16 16:24:59.706727 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/franzosa/fits/fitted.rds
-2026-11-16 16:24:59.707889 INFO::Writing fitted values to file results/hypotheses/maaslin2/franzosa/fits/fitted.rds
-2026-11-16 16:24:59.709139 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa/all_results.tsv
-2026-11-16 16:24:59.710713 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa/significant_results.tsv
+2026-11-16 16:54:47.477423 INFO::Writing function arguments to log file
+2026-11-16 16:54:47.490741 DEBUG::Function arguments
+2026-11-16 16:54:47.500022 DEBUG::Output folder: results/hypotheses/maaslin2/franzosa
+2026-11-16 16:54:47.50068 DEBUG::Min Abundance: 0.000000
+2026-11-16 16:54:47.501181 DEBUG::Min Prevalence: 0.000000
+2026-11-16 16:54:47.501757 DEBUG::Normalization: NONE
+2026-11-16 16:54:47.502247 DEBUG::Transform: LOG
+2026-11-16 16:54:47.502705 DEBUG::Analysis method: LM
+2026-11-16 16:54:47.503203 DEBUG::Max significance: 0.250000
+2026-11-16 16:54:47.503698 DEBUG::Random effects:
+2026-11-16 16:54:47.504179 DEBUG::Fixed effects: diagnosis,site
+2026-11-16 16:54:47.504612 DEBUG::Correction method: holm
+2026-11-16 16:54:47.505075 DEBUG::Standardize: FALSE
+2026-11-16 16:54:47.505758 DEBUG::Cores: 1
+2026-11-16 16:54:47.506245 INFO::Verifying options selected are valid
+2026-11-16 16:54:47.554199 INFO::Determining format of input files
+2026-11-16 16:54:47.555772 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-16 16:54:47.557238 DEBUG::A total of 144 samples were found in both the data and metadata
+2026-11-16 16:54:47.55784 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-16 16:54:47.558958 INFO::Formula for fixed effects: expr ~  diagnosis + site
+2026-11-16 16:54:47.560906 INFO::Filter data based on min abundance and min prevalence
+2026-11-16 16:54:47.561885 INFO::Total samples in data: 144
+2026-11-16 16:54:47.562823 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-16 16:54:47.564144 INFO::Total filtered features: 0
+2026-11-16 16:54:47.565451 INFO::Filtered feature names from abundance and prevalence filtering:
+2026-11-16 16:54:47.56743 INFO::Total filtered features with variance filtering: 0
+2026-11-16 16:54:47.568655 INFO::Filtered feature names from variance filtering:
+2026-11-16 16:54:47.569634 INFO::Running selected normalization method: NONE
+2026-11-16 16:54:47.57073 INFO::Bypass z-score application to metadata
+2026-11-16 16:54:47.571842 INFO::Running selected transform method: LOG
+2026-11-16 16:54:47.573128 INFO::Running selected analysis method: LM
+2026-11-16 16:54:47.580314 INFO::Fitting model to feature number 1, F_prausnitzii
+2026-11-16 16:54:47.584414 INFO::Fitting model to feature number 2, Roseburia
+2026-11-16 16:54:47.590015 INFO::Counting total values for each feature
+2026-11-16 16:54:47.59195 INFO::Writing filtered data to file results/hypotheses/maaslin2/franzosa/features/filtered_data.tsv
+2026-11-16 16:54:47.595048 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/franzosa/features/filtered_data_norm.tsv
+2026-11-16 16:54:47.597296 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/franzosa/features/filtered_data_norm_transformed.tsv
+2026-11-16 16:54:47.599796 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/franzosa/fits/residuals.rds
+2026-11-16 16:54:47.601839 INFO::Writing residuals to file results/hypotheses/maaslin2/franzosa/fits/residuals.rds
+2026-11-16 16:54:47.603452 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/franzosa/fits/fitted.rds
+2026-11-16 16:54:47.605135 INFO::Writing fitted values to file results/hypotheses/maaslin2/franzosa/fits/fitted.rds
+2026-11-16 16:54:47.606723 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa/all_results.tsv
+2026-11-16 16:54:47.608669 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa/significant_results.tsv

@@ -119,6 +119,15 @@ save_table <- function(table, meta, cohort, name) {
 }
 
 
+# --- Confidence interval of the CD effect ---
+# 95 % CI of the coefficient diagnosiscd in lm or lmer: t quantile with the model's degrees of
+# freedom (Satterthwaite for lmer, see methods 1.11). Returns c(low, high).
+ci_cd <- function(fit) {
+  s <- coef(summary(fit))["diagnosiscd", ]
+  df <- if ("df" %in% names(s)) s[["df"]] else df.residual(fit)
+  s[["Estimate"]] + c(-1, 1) * qt(0.975, df) * s[["Std. Error"]]
+}
+
 # --- Prevalence filter ---
 # Prevalence filter at genus level; a species stays if its genus stays (see methods 1.3).
 # X: relative abundances, samples in rows.
