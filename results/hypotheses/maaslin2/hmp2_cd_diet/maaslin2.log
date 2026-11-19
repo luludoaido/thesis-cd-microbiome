@@ -1,0 +1,61 @@
+2026-11-19 18:41:33.661777 INFO::Writing function arguments to log file
+2026-11-19 18:41:33.664123 DEBUG::Function arguments
+2026-11-19 18:41:33.665038 DEBUG::Output folder: results/hypotheses/maaslin2/hmp2_cd_diet
+2026-11-19 18:41:33.665988 DEBUG::Min Abundance: 0.000000
+2026-11-19 18:41:33.667188 DEBUG::Min Prevalence: 0.000000
+2026-11-19 18:41:33.668404 DEBUG::Normalization: NONE
+2026-11-19 18:41:33.669382 DEBUG::Transform: LOG
+2026-11-19 18:41:33.670267 DEBUG::Analysis method: LM
+2026-11-19 18:41:33.671166 DEBUG::Max significance: 0.250000
+2026-11-19 18:41:33.67213 DEBUG::Random effects: subject_id
+2026-11-19 18:41:33.672857 DEBUG::Fixed effects: diagnosis,site
+2026-11-19 18:41:33.673625 DEBUG::Correction method: holm
+2026-11-19 18:41:33.674207 DEBUG::Standardize: FALSE
+2026-11-19 18:41:33.674866 DEBUG::Cores: 1
+2026-11-19 18:41:33.675364 INFO::Verifying options selected are valid
+2026-11-19 18:41:33.676822 INFO::Determining format of input files
+2026-11-19 18:41:33.679007 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-19 18:41:33.681116 DEBUG::A total of 571 samples were found in both the data and metadata
+2026-11-19 18:41:33.681871 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-19 18:41:33.683728 INFO::Formula for random effects: expr ~ (1 | subject_id)
+2026-11-19 18:41:33.685888 INFO::Formula for fixed effects: expr ~  diagnosis + site
+2026-11-19 18:41:33.688566 INFO::Filter data based on min abundance and min prevalence
+2026-11-19 18:41:33.690209 INFO::Total samples in data: 571
+2026-11-19 18:41:33.758461 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-19 18:41:33.761363 INFO::Total filtered features: 0
+2026-11-19 18:41:33.763776 INFO::Filtered feature names from abundance and prevalence filtering:
+2026-11-19 18:41:33.766518 INFO::Total filtered features with variance filtering: 0
+2026-11-19 18:41:33.768357 INFO::Filtered feature names from variance filtering:
+2026-11-19 18:41:33.770082 INFO::Running selected normalization method: NONE
+2026-11-19 18:41:33.77146 INFO::Bypass z-score application to metadata
+2026-11-19 18:41:33.772907 INFO::Running selected transform method: LOG
+2026-11-19 18:41:33.7755 INFO::Running selected analysis method: LM
+2026-11-19 18:41:36.297327 INFO::Fitting model to feature number 1, Faecalibacterium_prausnitzii
+2026-11-19 18:41:36.477504 INFO::Fitting model to feature number 2, Roseburia
+2026-11-19 18:41:36.543349 INFO::Fitting model to feature number 3, Eubacterium_rectale
+2026-11-19 18:41:36.605267 INFO::Fitting model to feature number 4, Anaerostipes_hadrus
+2026-11-19 18:41:36.667774 INFO::Fitting model to feature number 5, Eubacterium_hallii
+2026-11-19 18:41:36.742405 INFO::Fitting model to feature number 6, Coprococcus
+2026-11-19 18:41:36.836022 INFO::Fitting model to feature number 7, Ruminococcus_bromii
+2026-11-19 18:41:36.920392 INFO::Fitting model to feature number 8, Bifidobacterium_adolescentis
+2026-11-19 18:41:37.012276 INFO::Fitting model to feature number 9, Prevotella
+2026-11-19 18:41:37.122917 INFO::Fitting model to feature number 10, Bacteroides
+2026-11-19 18:41:37.205833 INFO::Fitting model to feature number 11, Alistipes
+2026-11-19 18:41:37.276505 INFO::Fitting model to feature number 12, Bilophila_wadsworthia
+2026-11-19 18:41:37.346971 INFO::Fitting model to feature number 13, Escherichia_coli
+2026-11-19 18:41:37.422244 INFO::Fitting model to feature number 14, Ruminococcus_gnavus
+2026-11-19 18:41:37.48434 INFO::Fitting model to feature number 15, Fusobacterium_nucleatum
+2026-11-19 18:41:37.545893 INFO::Fitting model to feature number 16, Dialister_invisus
+2026-11-19 18:41:37.609496 INFO::Fitting model to feature number 17, Akkermansia_muciniphila
+2026-11-19 18:41:37.67816 INFO::Counting total values for each feature
+2026-11-19 18:41:37.681841 INFO::Writing filtered data to file results/hypotheses/maaslin2/hmp2_cd_diet/features/filtered_data.tsv
+2026-11-19 18:41:37.694884 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/hmp2_cd_diet/features/filtered_data_norm.tsv
+2026-11-19 18:41:37.710839 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/hmp2_cd_diet/features/filtered_data_norm_transformed.tsv
+2026-11-19 18:41:37.73041 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/hmp2_cd_diet/fits/residuals.rds
+2026-11-19 18:41:37.733968 INFO::Writing residuals to file results/hypotheses/maaslin2/hmp2_cd_diet/fits/residuals.rds
+2026-11-19 18:41:37.743096 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/hmp2_cd_diet/fits/fitted.rds
+2026-11-19 18:41:37.746325 INFO::Writing fitted values to file results/hypotheses/maaslin2/hmp2_cd_diet/fits/fitted.rds
+2026-11-19 18:41:37.750522 WARNING::Deleting existing ranef file: results/hypotheses/maaslin2/hmp2_cd_diet/fits/ranef.rds
+2026-11-19 18:41:37.753535 INFO::Writing extracted random effects to file results/hypotheses/maaslin2/hmp2_cd_diet/fits/ranef.rds
+2026-11-19 18:41:37.756432 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_cd_diet/all_results.tsv
+2026-11-19 18:41:37.758956 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_cd_diet/significant_results.tsv

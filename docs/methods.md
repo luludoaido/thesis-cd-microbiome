@@ -32,6 +32,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 | 9 | Robustness | `07_robustness.R` |
 | 10 | H1: dysbiosis | `08_dysbiosis.R` |
 | 11 | H2: fibre-associated taxa | `09_fibre_taxa.R` |
+| 12 | Diet- and CD-associated taxa | `10_species_cd_diet.R` |
 
 ---
 
@@ -460,6 +461,24 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 ### 11.5 Multiple testing
 - **Rule:** Holm correction over the two H2b taxa, per cohort.
 
+### 11.6 Other butyrate producers (exploratory)
+- **Rule:** E. rectale, A. hadrus, E. hallii and the genus Coprococcus are tested like H2b (MaAsLin2 main, CLR models as check, person as random effect in HMP2). Holm correction over these four taxa, separately from the two pre-specified H2b taxa. Exploratory, because they were chosen after the week 8 meeting.
+- **Why:** they are butyrate producers present in both cohorts (prevalence ≥ 45 %) and are linked to fibre intake. Butyricicoccus (too rare), Subdoligranulum (Franzosa only) and R. bromii (degrades resistant starch but does not produce butyrate) are not included.
+- **Source:** Louis & Flint 2009; Louis & Flint 2017; Duncan 2007; Walker 2011; Rivière 2016.
+- **Changes:** 2026-11-16: added. MaAsLin2 results of 11.3 and 11.6 now with a 95 % CI (normal approximation, coefficient ± 1.96 SE).
+
+---
+
+## 12 Diet- and CD-associated taxa
+
+### 12.1 Literature list
+- **Rule:** 17 taxa linked to diet in studies of healthy people (fibre/plant or animal/fat) or reported as changed in CD/IBD, present in both cohorts. A taxon can have both links. Tested like H2b (11.3; person as random effect in HMP2; no prevalence filter, 11.1); Roseburia, Coprococcus, Prevotella, Bacteroides and Alistipes as genus, as in section 11. Holm correction over the 17 taxa per cohort. Expected direction for the diet taxa: lower (fibre/plant) or higher (animal/fat) in CD, if CD patients eat less fibre (diet proxy, see 0). Two forest plots (diet, CD) show only taxa with Holm p < 0.05 in at least one cohort; all results are in the CSV. Exploratory, because the list was chosen after the week 8 meeting.
+- **Why:** the top-6 tables show which taxa are common, not which differ, and give no test.
+- **Source:** diet: Wu 2011; De Filippo 2010; David 2014; Walker 2011; Ze 2012; Ramirez-Farias 2009; Louis & Flint 2017. CD: Sokol 2008; Joossens 2011; Darfeuille-Michaud 2004; Gevers 2014; Png 2010; Lloyd-Price 2019.
+- **Note:** B. wadsworthia is also linked to colitis (milk fat in mice), but only listed under diet. The coefficients of the H2b taxa are the same as in 11.3 and 11.6; only the Holm values differ.
+- **Open:** full-text check of the expected direction per taxon.
+- **Changes:** 2026-11-19: added; replaces the top-6 table of the week 8 slides.
+
 ---
 
 ## Literature
@@ -476,7 +495,11 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Bray JR, Curtis JT (1957). An ordination of the upland forest communities of southern Wisconsin. Ecol Monogr 27(4):325-349. doi:10.2307/1942268
 - Cao Q et al. (2021). Effects of rare microbiome taxa filtering on statistical analysis. Front Microbiol 11:607325. doi:10.3389/fmicb.2020.607325
 - Cattonaro F et al. (2020). Do you cov me? Effect of coverage reduction on metagenome shotgun sequencing studies. F1000Res 7:1767. doi:10.12688/f1000research.16804.4
+- Darfeuille-Michaud A et al. (2004). High prevalence of adherent-invasive Escherichia coli associated with ileal mucosa in Crohn's disease. Gastroenterology 127(2):412-421. doi:10.1053/j.gastro.2004.04.061
+- David LA et al. (2014). Diet rapidly and reproducibly alters the human gut microbiome. Nature 505(7484):559-563. doi:10.1038/nature12820
+- De Filippo C et al. (2010). Impact of diet in shaping gut microbiota revealed by a comparative study in children from Europe and rural Africa. Proc Natl Acad Sci USA 107(33):14691-14696. doi:10.1073/pnas.1005963107
 - D'Haens G et al. (2012). Fecal calprotectin is a surrogate marker for endoscopic lesions in inflammatory bowel disease. Inflamm Bowel Dis 18(12):2218-2224. doi:10.1002/ibd.22917
+- Duncan SH et al. (2007). Reduced dietary intake of carbohydrates by obese subjects results in decreased concentrations of butyrate and butyrate-producing bacteria in feces. Appl Environ Microbiol 73(4):1073-1078.
 - Franzosa EA et al. (2019). Gut microbiome structure and metabolic activity in inflammatory bowel disease. Nat Microbiol 4(2):293-305. doi:10.1038/s41564-018-0306-4
 - Gevers D et al. (2014). The treatment-naive microbiome in new-onset Crohn's disease. Cell Host Microbe 15(3):382-392. doi:10.1016/j.chom.2014.02.005
 - Gloor GB et al. (2017). Microbiome datasets are compositional: and this is not optional. Front Microbiol 8:2224. doi:10.3389/fmicb.2017.02224
@@ -487,9 +510,12 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Hillmann B et al. (2018). Evaluating the information content of shallow shotgun metagenomics. mSystems 3(6):e00069-18. doi:10.1128/msystems.00069-18
 - Hodges JL, Lehmann EL (1963). Estimates of location based on rank tests. Ann Math Stat 34(2):598-611. doi:10.1214/aoms/1177704172
 - Johnson WE et al. (2007). Adjusting batch effects in microarray expression data using empirical Bayes methods. Biostatistics 8(1):118-127. doi:10.1093/biostatistics/kxj037
+- Joossens M et al. (2011). Dysbiosis of the faecal microbiota in patients with Crohn's disease and their unaffected relatives. Gut 60(5):631-637. doi:10.1136/gut.2010.223263
 - Kuznetsova A et al. (2017). lmerTest package: tests in linear mixed effects models. J Stat Softw 82(13). doi:10.18637/jss.v082.i13
 - Leys C et al. (2013). Detecting outliers: do not use standard deviation around the mean, use absolute deviation around the median. J Exp Soc Psychol 49(4):764-766. doi:10.1016/j.jesp.2013.03.013
 - Lloyd-Price J et al. (2019). Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases. Nature 569(7758):655-662. doi:10.1038/s41586-019-1237-9
+- Louis P, Flint HJ (2009). Diversity, metabolism and microbial ecology of butyrate-producing bacteria from the human large intestine. FEMS Microbiol Lett 294(1):1-8. doi:10.1111/j.1574-6968.2009.01514.x
+- Louis P, Flint HJ (2017). Formation of propionate and butyrate by the human colonic microbiota. Environ Microbiol 19(1):29-41. doi:10.1111/1462-2920.13589
 - Lubbe S et al. (2021). Comparison of zero replacement strategies for compositional data with large numbers of zeros. Chemometr Intell Lab Syst. doi:10.1016/j.chemolab.2021.104248
 - Lumley T et al. (2002). The importance of the normality assumption in large public health data sets. Annu Rev Public Health 23:151-169. (to check in full text)
 - Ma S et al. (2022). Population structure discovery in meta-analyzed microbial communities and inflammatory bowel disease using MMUPHin. Genome Biol 23:208. doi:10.1186/s13059-022-02753-4
@@ -500,16 +526,23 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Nearing JT et al. (2022). Microbiome differential abundance methods produce different results across 38 datasets. Nat Commun 13:342. doi:10.1038/s41467-022-28034-z
 - Nygaard V et al. (2016). Methods that remove batch effects while retaining group differences may lead to exaggerated confidence in downstream analyses. Biostatistics 17(1):29-39. doi:10.1093/biostatistics/kxv027
 - Pasolli E et al. (2017). Accessible, curated metagenomic data through ExperimentHub. Nat Methods 14(11):1023-1024. doi:10.1038/nmeth.4468
+- Png CW et al. (2010). Mucolytic bacteria with increased prevalence in IBD mucosa augment in vitro utilization of mucin by other bacteria. Am J Gastroenterol 105(11):2420-2428. doi:10.1038/ajg.2010.281
+- Ramirez-Farias C et al. (2009). Effect of inulin on the human gut microbiota: stimulation of Bifidobacterium adolescentis and Faecalibacterium prausnitzii. Br J Nutr 101(4):541-550. doi:10.1017/s0007114508019880
 - Ritchie ME et al. (2015). limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Res 43(7):e47. doi:10.1093/nar/gkv007
+- Rivière A et al. (2016). Bifidobacteria and butyrate-producing colon bacteria: importance and strategies for their stimulation in the human gut. Front Microbiol 7:979. doi:10.3389/fmicb.2016.00979
 - Rokkas T et al. (2018). Fecal calprotectin in assessing inflammatory bowel disease endoscopic activity: a diagnostic accuracy meta-analysis. J Gastrointestin Liver Dis 27(3):299-306. doi:10.15403/jgld.2014.1121.273.pti
 - Satterthwaite FE (1946). An approximate distribution of estimates of variance components. Biometrics Bull 2(6):110-114. (to check in full text)
 - Schielzeth H et al. (2020). Robustness of linear mixed-effects models to violations of distributional assumptions. Methods Ecol Evol 11(9):1141-1152. (to check in full text)
 - Shannon CE (1948). A mathematical theory of communication. Bell Syst Tech J 27(3):379-423. doi:10.1002/j.1538-7305.1948.tb01338.x
 - Simpson EH (1949). Measurement of diversity. Nature 163(4148):688. doi:10.1038/163688a0
+- Sokol H et al. (2008). Faecalibacterium prausnitzii is an anti-inflammatory commensal bacterium identified by gut microbiota analysis of Crohn disease patients. Proc Natl Acad Sci USA 105(43):16731-16736. doi:10.1073/pnas.0804812105
 - Truong DT et al. (2015). MetaPhlAn2 for enhanced metagenomic taxonomic profiling. Nat Methods 12(10):902-903. doi:10.1038/nmeth.3589
 - Tukey JW (1977). Exploratory data analysis. Addison-Wesley.
 - Vandeputte D et al. (2021). Temporal variability in quantitative human gut microbiome profiles and implications for clinical research. Nat Commun 12:6740. doi:10.1038/s41467-021-27098-7
 - Vermeire S et al. (2010). Correlation between the Crohn's disease activity and Harvey-Bradshaw indices in assessing Crohn's disease severity. Clin Gastroenterol Hepatol 8(4):357-363. doi:10.1016/j.cgh.2010.01.001
 - Vital M et al. (2014). Revealing the bacterial butyrate synthesis pathways by analyzing (meta)genomic data. mBio 5(2):e00889-14. doi:10.1128/mbio.00889-14
+- Walker AW et al. (2011). Dominant and diet-responsive groups of bacteria within the human colonic microbiota. ISME J 5(2):220-230.
 - Wilcoxon F (1945). Individual comparisons by ranking methods. Biometrics Bull 1(6):80-83. doi:10.2307/3001968
 - Wong B (2011). Points of view: Color blindness. Nat Methods 8(6):441. doi:10.1038/nmeth.1618
+- Wu GD et al. (2011). Linking long-term dietary patterns with gut microbial enterotypes. Science 334(6052):105-108. doi:10.1126/science.1208344
+- Ze X et al. (2012). Ruminococcus bromii is a keystone species for the degradation of resistant starch in the human colon. ISME J 6(8):1535-1543. doi:10.1038/ismej.2012.4
