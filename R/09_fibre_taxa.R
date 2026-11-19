@@ -7,6 +7,7 @@
 # - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control);
 #   HMP2 always with a mixed model on all samples, one value per person as check
 # - H2b: CD effect on F. prausnitzii and Roseburia, MaAsLin2 (main) and CLR models (check), Holm-adjusted
+# - H2b extension (exploratory): E. rectale, A. hadrus, E. hallii, Coprococcus, same tests
 
 # Methods: docs/methods.md, 1.10 and section 11
 
@@ -152,10 +153,10 @@ print(sq2a_dominated, width = Inf)
 write_csv(sq2a_dominated, file.path(outdir, "sq2a_dominated.csv"))
 
 # --- SQ2b: MaAsLin2, main (see methods 11.3, 11.5) ---
-run_maaslin <- function(d, label, random) {
+run_maaslin <- function(d, label, random, features = c("F_prausnitzii", "Roseburia")) {
   run_dir <- file.path(outdir, "maaslin2", label)
   dir.create(run_dir, recursive = TRUE, showWarnings = FALSE)
-  feat <- d %>% select(sample_id, F_prausnitzii, Roseburia) %>% column_to_rownames("sample_id") %>% as.data.frame()
+  feat <- d %>% select(sample_id, all_of(features)) %>% column_to_rownames("sample_id") %>% as.data.frame()
   m <- d %>% select(sample_id, diagnosis, site, subject_id) %>%
     mutate(diagnosis = as.character(diagnosis)) %>% column_to_rownames("sample_id") %>% as.data.frame()
   Maaslin2(input_data = feat, input_metadata = m, output = run_dir,
@@ -167,8 +168,9 @@ run_maaslin <- function(d, label, random) {
            plot_heatmap = FALSE, plot_scatter = FALSE, cores = 1)
   # MaAsLin2 corrects over all terms including site, the hypothesis is only about diagnosis
   read_tsv(file.path(run_dir, "all_results.tsv"), show_col_types = FALSE) %>% filter(metadata == "diagnosis") %>%
-    transmute(analysis = label, taxon = feature, value, samples = N, not_zero = N.not.0, coef, stderr, pval,
-              p_holm = p.adjust(pval, "holm"))
+    transmute(analysis = label, taxon = feature, value, samples = N, not_zero = N.not.0, coef, stderr,
+              ci_low = coef - qnorm(0.975) * stderr, ci_high = coef + qnorm(0.975) * stderr,  # normal approximation
+              pval, p_holm = p.adjust(pval, "holm"))
 }
 
 sq2b_maaslin <- bind_rows(
@@ -186,19 +188,25 @@ clr_tf <- function(X) {
   L - rowMeans(L)
 }
 
-clr_values <- imap_dfr(data, function(d, cohort) {
+# CLR parts after the 10 % genus filter; all species of `genus` become one part,
+# because the hypothesis is about the genus
+clr_parts <- function(d, cohort, genus) {
   X <- d$X[, passes_filter(d$X, cohort, "species", main_thr), drop = FALSE]
-  g <- genus_of(cohort, colnames(X))
-  is_ros <- g %in% "Roseburia"
-  # all Roseburia species become one part, because the hypothesis is about the genus
-  parts <- cbind(X[, !is_ros, drop = FALSE], Roseburia = rowSums(X[, is_ros, drop = FALSE]))
-  parts <- parts / rowSums(parts)
-  Z <- clr_tf(parts)
+  in_genus <- genus_of(cohort, colnames(X)) %in% genus
+  parts <- cbind(X[, !in_genus, drop = FALSE], rowSums(X[, in_genus, drop = FALSE]))
+  colnames(parts)[ncol(parts)] <- genus
+  clr_tf(parts / rowSums(parts))
+}
+
+clr_values <- imap_dfr(data, function(d, cohort) {
+  Z <- clr_parts(d, cohort, "Roseburia")
   tibble(sample_id = rownames(Z), F_prausnitzii = Z[, fp_name], Roseburia = Z[, "Roseburia"], cohort = cohort)
 }) %>% left_join(taxa %>% select(sample_id, subject_id, diagnosis, site, antibiotic), by = "sample_id")
 
-sq2b_clr <- clr_values %>%
-  pivot_longer(c(F_prausnitzii, Roseburia), names_to = "taxon", values_to = "clr") %>%
+# CD effect on CLR values: lm (Franzosa) or lmer (HMP2), Wilcoxon as check, Holm per cohort
+clr_tests <- function(values, taxa_names) values %>%
+  pivot_longer(all_of(taxa_names), names_to = "taxon", values_to = "clr") %>%
+  filter(!is.na(clr)) %>%
   group_split(cohort, taxon) %>%
   map_dfr(function(d) {
     if (d$cohort[1] == "franzosa") {
@@ -217,8 +225,43 @@ sq2b_clr <- clr_values %>%
            model_p = s["diagnosiscd", grep("^Pr", colnames(s), value = TRUE)])
   }) %>%
   group_by(cohort) %>% mutate(model_p_holm = p.adjust(model_p, "holm")) %>% ungroup()
+
+sq2b_clr <- clr_tests(clr_values, c("F_prausnitzii", "Roseburia"))
 print(sq2b_clr, n = Inf, width = Inf)
 write_csv(sq2b_clr, file.path(outdir, "sq2b_clr.csv"))
+
+# --- SQ2b extension: other butyrate producers, exploratory (see methods 11.6) ---
+# Present in both cohorts; Holm over these four taxa, separately from the main hypothesis
+extra <- c("E_rectale", "A_hadrus", "E_hallii", "Coprococcus")
+extra_species <- c(E_rectale = "Eubacterium_rectale", A_hadrus = "Anaerostipes_hadrus", E_hallii = "Eubacterium_hallii")
+
+butyrate_extra <- imap_dfr(data, function(d, cohort) {
+  g <- genus_of(cohort, colnames(d$X))
+  stopifnot(extra_species %in% colnames(d$X))
+  tibble(sample_id = rownames(d$X),
+         E_rectale = d$X[, extra_species[["E_rectale"]]], A_hadrus = d$X[, extra_species[["A_hadrus"]]],
+         E_hallii = d$X[, extra_species[["E_hallii"]]],
+         Coprococcus = rowSums(d$X[, g %in% "Coprococcus", drop = FALSE]))
+}) %>% left_join(taxa %>% select(sample_id, subject_id, diagnosis, site, antibiotic, cohort), by = "sample_id")
+
+sq2b_extra_maaslin <- bind_rows(
+  run_maaslin(filter(butyrate_extra, cohort == "franzosa"), "franzosa_extra", NULL, extra),
+  run_maaslin(filter(butyrate_extra, cohort == "hmp2"), "hmp2_extra", "subject_id", extra))
+print(sq2b_extra_maaslin, n = Inf, width = Inf)
+write_csv(sq2b_extra_maaslin, file.path(outdir, "sq2b_extra_maaslin2.csv"))
+
+# CLR check; a species removed by the genus filter stays NA and is not tested
+clr_extra <- imap_dfr(data, function(d, cohort) {
+  Z <- clr_parts(d, cohort, "Coprococcus")
+  col <- function(s) if (s %in% colnames(Z)) Z[, s] else NA_real_
+  tibble(sample_id = rownames(Z), E_rectale = col(extra_species[["E_rectale"]]),
+         A_hadrus = col(extra_species[["A_hadrus"]]), E_hallii = col(extra_species[["E_hallii"]]),
+         Coprococcus = Z[, "Coprococcus"], cohort = cohort)
+}) %>% left_join(taxa %>% select(sample_id, subject_id, diagnosis, site, antibiotic), by = "sample_id")
+
+sq2b_extra_clr <- clr_tests(clr_extra, extra)
+print(sq2b_extra_clr, n = Inf, width = Inf)
+write_csv(sq2b_extra_clr, file.path(outdir, "sq2b_extra_clr.csv"))
 
 # --- Plot ---
 plot_data <- taxa %>%
@@ -258,3 +301,25 @@ p_h2b <- ggplot(plot_h2b, aes(diagnosis, pct, colour = diagnosis)) +
        caption = "Persons without the taxon are shown at the bottom") +
   theme_plot
 ggsave(file.path(outdir, "sq2b_taxa_cd_vs_control.png"), p_h2b, width = 7, height = 6.5, dpi = 200)
+
+# extension: the four other butyrate producers
+plot_extra <- butyrate_extra %>%
+  group_by(cohort, subject_id, diagnosis) %>%
+  summarise(across(all_of(extra), median), .groups = "drop") %>%
+  pivot_longer(all_of(extra), names_to = "taxon", values_to = "abund") %>%
+  mutate(cohort = recode(cohort, franzosa = "Franzosa", hmp2 = "HMP2"),
+         taxon = factor(taxon, extra, c("E. rectale", "A. hadrus", "E. hallii", "Coprococcus")),
+         diagnosis = factor(diagnosis, c("control", "cd"), c("Control", "CD")),
+         pct = pmax(abund * 100, 1e-4))
+
+p_extra <- ggplot(plot_extra, aes(diagnosis, pct, colour = diagnosis)) +
+  geom_boxplot(outlier.shape = NA, width = .55) +
+  geom_jitter(width = .15, alpha = .6, size = 1.2) +
+  scale_y_log10(labels = scales::label_number(drop0trailing = TRUE)) +
+  scale_colour_manual(values = setNames(unname(col_diag), c("Control", "CD")), guide = "none") +
+  facet_grid(cohort ~ taxon) +
+  labs(x = NULL, y = "relative abundance (%, log scale)",
+       title = "Other butyrate producers in controls and CD (median per person)",
+       caption = "Persons without the taxon are shown at the bottom") +
+  theme_plot
+ggsave(file.path(outdir, "sq2b_extra_cd_vs_control.png"), p_extra, width = 10, height = 6.5, dpi = 200)
