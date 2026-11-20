@@ -380,6 +380,8 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 
 ### 9.2 Disease activity
 - **Rule:** CD samples with low and high activity are compared with controls, using the cut-offs of 5.1 and 5.2. A group with fewer than 5 samples is skipped. Within CD, diversity is related to the scores; values below 1 are set to 1 for the log.
+- **Why:** the literature is mixed: lower diversity is also found in CD in remission (Magro 2019; Pisani 2022, IBD in remission, CD and UC together), but in HMP2 it is mainly reported for active, dysbiotic periods (Lloyd-Price 2019).
+- **Source:** Magro 2019; Pisani 2022; Lloyd-Price 2019.
 
 ### 9.3 Franzosa outliers
 - **Rule:** boxplot rule (1.5 × IQR) plus the 10 lowest CD samples (own decision). They are checked, not removed from the main analysis. The CD effect is compared with and without them, also as Hodges-Lehmann estimate.
@@ -401,6 +403,13 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 ### 9.7 Hall with Boston only
 - **Rule:** Hall is analysed with Boston only, and a simulation estimates which CD effect could be detected with so few controls, using the variance between and within persons and the real number of samples per person.
 - **Source:** Arnold 2011.
+
+### 9.8 HMP2 vs. Franzosa
+- **Rule:** the weaker CD effects in HMP2 are explained with existing results only, no new test: cohort description (6), centre (1.6, 7.6), disease activity (9.2) and the H1/H2 effect sizes (10, 11). Genus level.
+- **Why:** HMP2 shows the same direction as Franzosa, but smaller and mostly not significant effects. Three possible reasons were checked: centre, activity and the taxa effects themselves.
+- **Note:** HMP2 controls are people without IBD after the first colonoscopy (screening or non-specific symptoms), described as not completely healthy; 22 of the 56 Franzosa controls come from a general population study (LifeLines-DEEP), the other 34 are PRISM non-IBD controls. In HMP2, dysbiosis occurs in episodes (about a quarter of CD samples), is only weakly tied to activity and not to medication.
+- **Source:** Lloyd-Price 2019; Franzosa 2019.
+- **Changes:** 2026-11-20: added.
 
 ---
 
@@ -519,6 +528,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Lubbe S et al. (2021). Comparison of zero replacement strategies for compositional data with large numbers of zeros. Chemometr Intell Lab Syst. doi:10.1016/j.chemolab.2021.104248
 - Lumley T et al. (2002). The importance of the normality assumption in large public health data sets. Annu Rev Public Health 23:151-169. (to check in full text)
 - Ma S et al. (2022). Population structure discovery in meta-analyzed microbial communities and inflammatory bowel disease using MMUPHin. Genome Biol 23:208. doi:10.1186/s13059-022-02753-4
+- Magro DO et al. (2019). Remission in Crohn's disease is accompanied by alterations in the gut microbiota and mucins production. Sci Rep 9:13263. doi:10.1038/s41598-019-49893-5
 - Mallick H et al. (2021). Multivariable association discovery in population-scale meta-omics studies. PLoS Comput Biol 17(11):e1009442. doi:10.1371/journal.pcbi.1009442
 - Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
 - McInnes L et al. (2018). UMAP: uniform manifold approximation and projection. J Open Source Softw 3(29):861. doi:10.21105/joss.00861
@@ -526,6 +536,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Nearing JT et al. (2022). Microbiome differential abundance methods produce different results across 38 datasets. Nat Commun 13:342. doi:10.1038/s41467-022-28034-z
 - Nygaard V et al. (2016). Methods that remove batch effects while retaining group differences may lead to exaggerated confidence in downstream analyses. Biostatistics 17(1):29-39. doi:10.1093/biostatistics/kxv027
 - Pasolli E et al. (2017). Accessible, curated metagenomic data through ExperimentHub. Nat Methods 14(11):1023-1024. doi:10.1038/nmeth.4468
+- Pisani A et al. (2022). Dysbiosis in the gut microbiota in patients with inflammatory bowel disease during remission. Microbiol Spectr 10(3):e0061622. doi:10.1128/spectrum.00616-22
 - Png CW et al. (2010). Mucolytic bacteria with increased prevalence in IBD mucosa augment in vitro utilization of mucin by other bacteria. Am J Gastroenterol 105(11):2420-2428. doi:10.1038/ajg.2010.281
 - Ramirez-Farias C et al. (2009). Effect of inulin on the human gut microbiota: stimulation of Bifidobacterium adolescentis and Faecalibacterium prausnitzii. Br J Nutr 101(4):541-550. doi:10.1017/s0007114508019880
 - Ritchie ME et al. (2015). limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Res 43(7):e47. doi:10.1093/nar/gkv007
