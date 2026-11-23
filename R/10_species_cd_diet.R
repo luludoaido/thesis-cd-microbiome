@@ -27,7 +27,7 @@ lit <- tribble(
   "Eubacterium_rectale",          "species", "E. rectale",      "fibre/plant",  NA,
   "Anaerostipes_hadrus",          "species", "A. hadrus",       "fibre/plant",  NA,
   "Eubacterium_hallii",           "species", "E. hallii",       "fibre/plant",  NA,
-  "Coprococcus",                  "genus",   "Coprococcus",     "fibre/plant",  NA,
+  "Coprococcus",                  "genus",   "Coprococcus",     NA,             "lower",
   "Ruminococcus_bromii",          "species", "R. bromii",       "fibre/plant",  NA,
   "Bifidobacterium_adolescentis", "species", "B. adolescentis", "fibre/plant",  "lower",
   "Prevotella",                   "genus",   "Prevotella",      "fibre/plant",  NA,

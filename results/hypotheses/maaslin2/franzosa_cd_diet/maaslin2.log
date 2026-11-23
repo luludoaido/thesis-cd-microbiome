@@ -1,58 +1,58 @@
-2026-11-19 18:41:33.328252 INFO::Writing function arguments to log file
-2026-11-19 18:41:33.351845 DEBUG::Function arguments
-2026-11-19 18:41:33.360238 DEBUG::Output folder: results/hypotheses/maaslin2/franzosa_cd_diet
-2026-11-19 18:41:33.361236 DEBUG::Min Abundance: 0.000000
-2026-11-19 18:41:33.362047 DEBUG::Min Prevalence: 0.000000
-2026-11-19 18:41:33.362737 DEBUG::Normalization: NONE
-2026-11-19 18:41:33.363429 DEBUG::Transform: LOG
-2026-11-19 18:41:33.364139 DEBUG::Analysis method: LM
-2026-11-19 18:41:33.364788 DEBUG::Max significance: 0.250000
-2026-11-19 18:41:33.365698 DEBUG::Random effects:
-2026-11-19 18:41:33.366413 DEBUG::Fixed effects: diagnosis,site
-2026-11-19 18:41:33.366937 DEBUG::Correction method: holm
-2026-11-19 18:41:33.367447 DEBUG::Standardize: FALSE
-2026-11-19 18:41:33.367989 DEBUG::Cores: 1
-2026-11-19 18:41:33.368531 INFO::Verifying options selected are valid
-2026-11-19 18:41:33.4269 INFO::Determining format of input files
-2026-11-19 18:41:33.429387 INFO::Input format is data samples as rows and metadata samples as rows
-2026-11-19 18:41:33.431324 DEBUG::A total of 144 samples were found in both the data and metadata
-2026-11-19 18:41:33.432023 DEBUG::Reordering data/metadata to use same sample ordering
-2026-11-19 18:41:33.433191 INFO::Formula for fixed effects: expr ~  diagnosis + site
-2026-11-19 18:41:33.436214 INFO::Filter data based on min abundance and min prevalence
-2026-11-19 18:41:33.438053 INFO::Total samples in data: 144
-2026-11-19 18:41:33.439822 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
-2026-11-19 18:41:33.441657 INFO::Total filtered features: 0
-2026-11-19 18:41:33.443278 INFO::Filtered feature names from abundance and prevalence filtering:
-2026-11-19 18:41:33.447017 INFO::Total filtered features with variance filtering: 0
-2026-11-19 18:41:33.449318 INFO::Filtered feature names from variance filtering:
-2026-11-19 18:41:33.452801 INFO::Running selected normalization method: NONE
-2026-11-19 18:41:33.454594 INFO::Bypass z-score application to metadata
-2026-11-19 18:41:33.456881 INFO::Running selected transform method: LOG
-2026-11-19 18:41:33.459114 INFO::Running selected analysis method: LM
-2026-11-19 18:41:33.473708 INFO::Fitting model to feature number 1, Faecalibacterium_prausnitzii
-2026-11-19 18:41:33.491773 INFO::Fitting model to feature number 2, Roseburia
-2026-11-19 18:41:33.497574 INFO::Fitting model to feature number 3, Eubacterium_rectale
-2026-11-19 18:41:33.503354 INFO::Fitting model to feature number 4, Anaerostipes_hadrus
-2026-11-19 18:41:33.508022 INFO::Fitting model to feature number 5, Eubacterium_hallii
-2026-11-19 18:41:33.513573 INFO::Fitting model to feature number 6, Coprococcus
-2026-11-19 18:41:33.519168 INFO::Fitting model to feature number 7, Ruminococcus_bromii
-2026-11-19 18:41:33.524796 INFO::Fitting model to feature number 8, Bifidobacterium_adolescentis
-2026-11-19 18:41:33.529401 INFO::Fitting model to feature number 9, Prevotella
-2026-11-19 18:41:33.535919 INFO::Fitting model to feature number 10, Bacteroides
-2026-11-19 18:41:33.540698 INFO::Fitting model to feature number 11, Alistipes
-2026-11-19 18:41:33.546167 INFO::Fitting model to feature number 12, Bilophila_wadsworthia
-2026-11-19 18:41:33.551449 INFO::Fitting model to feature number 13, Escherichia_coli
-2026-11-19 18:41:33.556933 INFO::Fitting model to feature number 14, Ruminococcus_gnavus
-2026-11-19 18:41:33.561136 INFO::Fitting model to feature number 15, Fusobacterium_nucleatum
-2026-11-19 18:41:33.565966 INFO::Fitting model to feature number 16, Dialister_invisus
-2026-11-19 18:41:33.571348 INFO::Fitting model to feature number 17, Akkermansia_muciniphila
-2026-11-19 18:41:33.583539 INFO::Counting total values for each feature
-2026-11-19 18:41:33.589383 INFO::Writing filtered data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data.tsv
-2026-11-19 18:41:33.59822 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data_norm.tsv
-2026-11-19 18:41:33.607035 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data_norm_transformed.tsv
-2026-11-19 18:41:33.615129 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/franzosa_cd_diet/fits/residuals.rds
-2026-11-19 18:41:33.620109 INFO::Writing residuals to file results/hypotheses/maaslin2/franzosa_cd_diet/fits/residuals.rds
-2026-11-19 18:41:33.624498 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/franzosa_cd_diet/fits/fitted.rds
-2026-11-19 18:41:33.627366 INFO::Writing fitted values to file results/hypotheses/maaslin2/franzosa_cd_diet/fits/fitted.rds
-2026-11-19 18:41:33.630238 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_cd_diet/all_results.tsv
-2026-11-19 18:41:33.634969 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_cd_diet/significant_results.tsv
+2026-11-23 18:03:34.734921 INFO::Writing function arguments to log file
+2026-11-23 18:03:34.752394 DEBUG::Function arguments
+2026-11-23 18:03:34.764473 DEBUG::Output folder: results/hypotheses/maaslin2/franzosa_cd_diet
+2026-11-23 18:03:34.765624 DEBUG::Min Abundance: 0.000000
+2026-11-23 18:03:34.766551 DEBUG::Min Prevalence: 0.000000
+2026-11-23 18:03:34.767504 DEBUG::Normalization: NONE
+2026-11-23 18:03:34.768527 DEBUG::Transform: LOG
+2026-11-23 18:03:34.769528 DEBUG::Analysis method: LM
+2026-11-23 18:03:34.770337 DEBUG::Max significance: 0.250000
+2026-11-23 18:03:34.771189 DEBUG::Random effects:
+2026-11-23 18:03:34.771901 DEBUG::Fixed effects: diagnosis,site
+2026-11-23 18:03:34.772826 DEBUG::Correction method: holm
+2026-11-23 18:03:34.773587 DEBUG::Standardize: FALSE
+2026-11-23 18:03:34.774323 DEBUG::Cores: 1
+2026-11-23 18:03:34.775015 INFO::Verifying options selected are valid
+2026-11-23 18:03:34.843408 INFO::Determining format of input files
+2026-11-23 18:03:34.845595 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-23 18:03:34.847958 DEBUG::A total of 144 samples were found in both the data and metadata
+2026-11-23 18:03:34.849211 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-23 18:03:34.850961 INFO::Formula for fixed effects: expr ~  diagnosis + site
+2026-11-23 18:03:34.853677 INFO::Filter data based on min abundance and min prevalence
+2026-11-23 18:03:34.855056 INFO::Total samples in data: 144
+2026-11-23 18:03:34.856844 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-23 18:03:34.858959 INFO::Total filtered features: 0
+2026-11-23 18:03:34.860377 INFO::Filtered feature names from abundance and prevalence filtering:
+2026-11-23 18:03:34.862875 INFO::Total filtered features with variance filtering: 0
+2026-11-23 18:03:34.864245 INFO::Filtered feature names from variance filtering:
+2026-11-23 18:03:34.865617 INFO::Running selected normalization method: NONE
+2026-11-23 18:03:34.867158 INFO::Bypass z-score application to metadata
+2026-11-23 18:03:34.868691 INFO::Running selected transform method: LOG
+2026-11-23 18:03:34.871386 INFO::Running selected analysis method: LM
+2026-11-23 18:03:34.881234 INFO::Fitting model to feature number 1, Faecalibacterium_prausnitzii
+2026-11-23 18:03:34.981569 INFO::Fitting model to feature number 2, Roseburia
+2026-11-23 18:03:34.988133 INFO::Fitting model to feature number 3, Eubacterium_rectale
+2026-11-23 18:03:34.993801 INFO::Fitting model to feature number 4, Anaerostipes_hadrus
+2026-11-23 18:03:34.998939 INFO::Fitting model to feature number 5, Eubacterium_hallii
+2026-11-23 18:03:35.003524 INFO::Fitting model to feature number 6, Coprococcus
+2026-11-23 18:03:35.008009 INFO::Fitting model to feature number 7, Ruminococcus_bromii
+2026-11-23 18:03:35.012566 INFO::Fitting model to feature number 8, Bifidobacterium_adolescentis
+2026-11-23 18:03:35.017684 INFO::Fitting model to feature number 9, Prevotella
+2026-11-23 18:03:35.021967 INFO::Fitting model to feature number 10, Bacteroides
+2026-11-23 18:03:35.026125 INFO::Fitting model to feature number 11, Alistipes
+2026-11-23 18:03:35.030915 INFO::Fitting model to feature number 12, Bilophila_wadsworthia
+2026-11-23 18:03:35.035324 INFO::Fitting model to feature number 13, Escherichia_coli
+2026-11-23 18:03:35.039546 INFO::Fitting model to feature number 14, Ruminococcus_gnavus
+2026-11-23 18:03:35.044155 INFO::Fitting model to feature number 15, Fusobacterium_nucleatum
+2026-11-23 18:03:35.048876 INFO::Fitting model to feature number 16, Dialister_invisus
+2026-11-23 18:03:35.053234 INFO::Fitting model to feature number 17, Akkermansia_muciniphila
+2026-11-23 18:03:35.066105 INFO::Counting total values for each feature
+2026-11-23 18:03:35.07087 INFO::Writing filtered data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data.tsv
+2026-11-23 18:03:35.078916 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data_norm.tsv
+2026-11-23 18:03:35.086367 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/franzosa_cd_diet/features/filtered_data_norm_transformed.tsv
+2026-11-23 18:03:35.094469 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/franzosa_cd_diet/fits/residuals.rds
+2026-11-23 18:03:35.097788 INFO::Writing residuals to file results/hypotheses/maaslin2/franzosa_cd_diet/fits/residuals.rds
+2026-11-23 18:03:35.117276 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/franzosa_cd_diet/fits/fitted.rds
+2026-11-23 18:03:35.120105 INFO::Writing fitted values to file results/hypotheses/maaslin2/franzosa_cd_diet/fits/fitted.rds
+2026-11-23 18:03:35.123268 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_cd_diet/all_results.tsv
+2026-11-23 18:03:35.128192 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_cd_diet/significant_results.tsv

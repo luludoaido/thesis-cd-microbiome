@@ -485,10 +485,10 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 
 ### 11.7 Plant/animal taxa ratio (David 2014)
 - **Rule:** second H2a measure: log10 [(Roseburia + E. rectale + R. bromii) / (Alistipes + Bilophila + Bacteroides)] on all samples; Roseburia, Alistipes, Bilophila and Bacteroides as genus. Zeros replaced as for the MD-index (10.3), sensitivity with a value 10 times smaller. Tests as in 1.11; without antibiotics in Franzosa only (7.6).
-- **Why:** Prevotella/Bacteroides can only be tested as ratio in samples with both taxa (Franzosa 54 of 144, 11.2), which costs power. The six taxa changed in opposite directions under a plant-based vs. animal-based diet in the same controlled study (David 2014), and are rarely zero (zeros in plant / animal part: Franzosa 1 / 2 of 144 samples, HMP2 34 / 23 of 571). A log-ratio between taxa does not depend on the total microbial load (Morton 2019). Prevotella/Bacteroides stays the main H2a measure as a marker of long-term diet (Wu 2011; Hjorth 2018).
+- **Why:** Prevotella/Bacteroides can only be tested as ratio in samples with both taxa (Franzosa 54 of 144, 11.2), which costs power. The six taxa changed in opposite directions under a plant-based vs. animal-based diet in the same controlled study (David 2014), and are rarely zero (zeros in plant / animal part: Franzosa 1 / 2 of 144 samples, HMP2 34 / 23 of 571). A log-ratio between taxa does not depend on the total microbial load (Morton 2019). Prevotella/Bacteroides stays the main H2a measure: it separates long-term carbohydrate from protein/animal-fat diets (Wu 2011), and a high ratio predicts a larger response to a high-fibre diet (Hjorth 2019).
 - **Not used:** Firmicutes/Bacteroidetes, because it is not diet-specific and disputed as a marker (Magne 2020; Wei 2021).
 - **Note:** all six taxa are also in the list of 12.1; chosen before looking at the ratio results.
-- **Source:** David 2014; Morton 2019; Hjorth 2018; Magne 2020; Wei 2021.
+- **Source:** David 2014; Morton 2019; Hjorth 2019; Magne 2020; Wei 2021.
 - **Changes:** 2026-11-23: added after the week 8 meeting (slide 9).
 
 ---
@@ -498,11 +498,12 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 ### 12.1 Literature list
 - **Rule:** 17 taxa linked to diet in studies of healthy people (fibre/plant or animal/fat) or reported as changed in CD/IBD, present in both cohorts. A taxon can have both links. Tested like H2b (11.3; person as random effect in HMP2; no prevalence filter, 11.1); Roseburia, Coprococcus, Prevotella, Bacteroides and Alistipes as genus, as in section 11. Holm correction over the 17 taxa per cohort. Expected direction for the diet taxa: lower (fibre/plant) or higher (animal/fat) in CD, if CD patients eat less fibre (diet proxy, see 0). Two forest plots (diet, CD) show only taxa with Holm p < 0.05 in at least one cohort; all results are in the CSV. Exploratory, because the list was chosen after the week 8 meeting.
 - **Why:** the top-6 tables show which taxa are common, not which differ, and give no test.
-- **Source:** diet: Wu 2011; De Filippo 2010; David 2014; Walker 2011; Ze 2012; Ramirez-Farias 2009; Louis & Flint 2017. CD: Sokol 2008; Joossens 2011; Darfeuille-Michaud 2004; Gevers 2014; Png 2010; Lloyd-Price 2019.
+- **Source:** diet: Wu 2011; De Filippo 2010; David 2014; Walker 2011; Ze 2012; Ramirez-Farias 2009; Duncan 2007; Vandeputte 2017 (Anaerostipes); Benítez-Páez 2019 (E. hallii). CD: Sokol 2008; Joossens 2011; Darfeuille-Michaud 2004; Gevers 2014; Png 2010; Lloyd-Price 2019.
 - **Note:** B. wadsworthia is also linked to colitis (milk fat in mice), but only listed under diet. The coefficients of the H2b taxa are the same as in 11.3 and 11.6; only the Holm values differ.
 - **Note:** Gevers 2014 report R. gnavus lower in CD in 43 stool metagenomes (text; not significant in Table S2F), against the expected direction.
-- **Open:** full-text check of the expected direction per taxon.
-- **Changes:** 2026-11-19: added; replaces the top-6 table of the week 8 slides.
+- **Note:** Coprococcus is listed under CD only (lower in CD biopsies and stool metagenomes, Gevers 2014), not under diet: no study found where it rises with fibre, and inulin lowered it in people with high habitual fibre intake (Healey 2018). It stays in H2b as a butyrate producer (11.6).
+- **Checked:** expected directions checked in abstracts and, where open access, full texts (2026-11-23). Well supported: F. prausnitzii, Roseburia, E. rectale, R. bromii, B. adolescentis, Prevotella, Bacteroides, Alistipes, B. wadsworthia, F. nucleatum, E. hallii (Benítez-Páez 2019). Weaker: A. hadrus (fibre effect shown for the genus Anaerostipes only, Vandeputte 2017); D. invisus (Joossens 2011 only, p = 0.04); R. gnavus (Gevers 2014 report it lower in stool); E. coli and A. muciniphila are mucosal findings (Darfeuille-Michaud 2004; Png 2010), not stool.
+- **Changes:** 2026-11-19: added; replaces the top-6 table of the week 8 slides. 2026-11-23: Coprococcus moved from diet to CD; diet sources for A. hadrus and E. hallii added.
 
 ---
 
@@ -532,6 +533,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Arnold BF et al. (2011). Simulation methods to estimate design power: an overview for applied research. BMC Med Res Methodol 11:94. doi:10.1186/1471-2288-11-94
 - Bates D et al. (2015). Fitting linear mixed-effects models using lme4. J Stat Softw 67(1). doi:10.18637/jss.v067.i01
 - Beghini F et al. (2021). Integrating taxonomic, functional, and strain-level profiling of diverse microbial communities with bioBakery 3. eLife 10:e65088. doi:10.7554/eLife.65088
+- Benítez-Páez A et al. (2019). A multi-omics approach to unraveling the microbiome-mediated effects of arabinoxylan oligosaccharides in overweight humans. mSystems 4(4):e00209-19. doi:10.1128/msystems.00209-19
 - Bray JR, Curtis JT (1957). An ordination of the upland forest communities of southern Wisconsin. Ecol Monogr 27(4):325-349. doi:10.2307/1942268
 - Cao Q et al. (2021). Effects of rare microbiome taxa filtering on statistical analysis. Front Microbiol 11:607325. doi:10.3389/fmicb.2020.607325
 - Cattonaro F et al. (2020). Do you cov me? Effect of coverage reduction on metagenome shotgun sequencing studies. F1000Res 7:1767. doi:10.12688/f1000research.16804.4
@@ -547,8 +549,9 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Gurland J, Tripathi RC (1971). A simple approximation for unbiased estimation of the standard deviation. Am Stat 25(4):30-32. doi:10.1080/00031305.1971.10477279
 - Hall AB et al. (2017). A novel Ruminococcus gnavus clade enriched in inflammatory bowel disease patients. Genome Med 9:103. doi:10.1186/s13073-017-0490-5
 - Harvey RF, Bradshaw JM (1980). A simple index of Crohn's-disease activity. Lancet 315(8167):514. doi:10.1016/s0140-6736(80)92767-1
+- Healey G et al. (2018). Habitual dietary fibre intake influences gut microbiota response to an inulin-type fructan prebiotic: a randomised, double-blind, placebo-controlled, cross-over, human intervention study. Br J Nutr 119(2):176-189. doi:10.1017/s0007114517003440
 - Hillmann B et al. (2018). Evaluating the information content of shallow shotgun metagenomics. mSystems 3(6):e00069-18. doi:10.1128/msystems.00069-18
-- Hjorth MF et al. (2018). Prevotella-to-Bacteroides ratio predicts body weight and fat loss success on 24-week diets varying in macronutrient composition and dietary fiber: results from a post-hoc analysis. Int J Obes 43:149-157. doi:10.1038/s41366-018-0093-2
+- Hjorth MF et al. (2019). Prevotella-to-Bacteroides ratio predicts body weight and fat loss success on 24-week diets varying in macronutrient composition and dietary fiber: results from a post-hoc analysis. Int J Obes 43(1):149-157. doi:10.1038/s41366-018-0093-2
 - Hodges JL, Lehmann EL (1963). Estimates of location based on rank tests. Ann Math Stat 34(2):598-611. doi:10.1214/aoms/1177704172
 - Johnson WE et al. (2007). Adjusting batch effects in microarray expression data using empirical Bayes methods. Biostatistics 8(1):118-127. doi:10.1093/biostatistics/kxj037
 - Joossens M et al. (2011). Dysbiosis of the faecal microbiota in patients with Crohn's disease and their unaffected relatives. Gut 60(5):631-637. doi:10.1136/gut.2010.223263
@@ -583,6 +586,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Sokol H et al. (2008). Faecalibacterium prausnitzii is an anti-inflammatory commensal bacterium identified by gut microbiota analysis of Crohn disease patients. Proc Natl Acad Sci USA 105(43):16731-16736. doi:10.1073/pnas.0804812105
 - Truong DT et al. (2015). MetaPhlAn2 for enhanced metagenomic taxonomic profiling. Nat Methods 12(10):902-903. doi:10.1038/nmeth.3589
 - Tukey JW (1977). Exploratory data analysis. Addison-Wesley.
+- Vandeputte D et al. (2017). Prebiotic inulin-type fructans induce specific changes in the human gut microbiota. Gut 66(11):1968-1974. doi:10.1136/gutjnl-2016-313271
 - Vandeputte D et al. (2021). Temporal variability in quantitative human gut microbiome profiles and implications for clinical research. Nat Commun 12:6740. doi:10.1038/s41467-021-27098-7
 - Vermeire S et al. (2010). Correlation between the Crohn's disease activity and Harvey-Bradshaw indices in assessing Crohn's disease severity. Clin Gastroenterol Hepatol 8(4):357-363. doi:10.1016/j.cgh.2010.01.001
 - Vital M et al. (2014). Revealing the bacterial butyrate synthesis pathways by analyzing (meta)genomic data. mBio 5(2):e00889-14. doi:10.1128/mbio.00889-14
