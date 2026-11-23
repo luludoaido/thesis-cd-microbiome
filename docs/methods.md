@@ -419,15 +419,19 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 
 ### 10.1 MD-index as log10
 - **Rule:** log10 of the ratio of taxa up in CD to taxa down in CD.
-- **Why:** Gevers 2014 does not state the base.
+- **Why:** Gevers 2014 does not state the base; Wei 2021 write it as natural log. The base only rescales the index (log10 = ln / 2.303); tests and p-values stay the same.
+- **Source:** Gevers 2014; Wei 2021.
 
 ### 10.2 MD-index taxa
-- **Rule:** up: Enterobacteriaceae, Pasteurellaceae, Veillonellaceae, Fusobacteriaceae; down: Bacteroidales, Clostridiales, Erysipelotrichales, as named in the summary of Gevers 2014.
-- **Open:** Table S2 of Gevers 2014 is not checked yet.
+- **Rule:** the 13 taxa of Table S2I of Gevers 2014. Up: Enterobacteriaceae, Pasteurellaceae, Veillonellaceae, Fusobacteriaceae, Neisseriaceae, Micrococcaceae, Gemellaceae; down: Bacteroidales, Clostridiales, Erysipelotrichaceae, Bifidobacteriaceae, Verrucomicrobiaceae, Coriobacteriaceae. Greengenes names are mapped to the taxonomy used here: Gemellaceae → genus Gemella; Verrucomicrobiaceae → Akkermansiaceae; Coriobacteriaceae → orders Coriobacteriales and Eggerthellales (split since Greengenes). Check: the 7 taxa named in the summary of Gevers 2014.
+- **Why:** the summary names only 7 taxa; Table S2I lists the 13 taxa per sample, and all go in the same direction as the CD coefficients in Table S2A (Coriobacteriaceae only q = 0.09).
+- **Note:** the MD-index was derived from ileal biopsies of treatment-naive children with 16S data; controls had non-inflammatory symptoms. Gevers 2014 report that the dysbiosis is weaker in stool (AUC 0.66 vs. 0.85 in ileum). Recomputed from Table S2I (log10, no antibiotics), the median CD − control difference is 0.64 in ileum, 0.53 in rectum and 0.39 in stool.
+- **Source:** Gevers 2014 (Tables S2A, S2I).
+- **Changes:** 2026-11-23: 13 taxa of Table S2I as main, 7 taxa of the summary as check.
 
 ### 10.3 Zero in the numerator
 - **Rule:** replaced by half of the smallest non-zero numerator of the cohort (own decision). Sensitivity: a value 10 times smaller.
-- **Why:** Gevers 2014 does not describe it.
+- **Why:** Gevers 2014 does not describe it (checked in the full text and Table S2).
 
 ### 10.4 MD-index without filter
 - **Rule:** species level, no prevalence filter, so that rare numerator taxa stay.
@@ -487,6 +491,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Why:** the top-6 tables show which taxa are common, not which differ, and give no test.
 - **Source:** diet: Wu 2011; De Filippo 2010; David 2014; Walker 2011; Ze 2012; Ramirez-Farias 2009; Louis & Flint 2017. CD: Sokol 2008; Joossens 2011; Darfeuille-Michaud 2004; Gevers 2014; Png 2010; Lloyd-Price 2019.
 - **Note:** B. wadsworthia is also linked to colitis (milk fat in mice), but only listed under diet. The coefficients of the H2b taxa are the same as in 11.3 and 11.6; only the Holm values differ.
+- **Note:** Gevers 2014 report R. gnavus lower in CD in 43 stool metagenomes (text; not significant in Table S2F), against the expected direction.
 - **Open:** full-text check of the expected direction per taxon.
 - **Changes:** 2026-11-19: added; replaces the top-6 table of the week 8 slides.
 
@@ -555,6 +560,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Vermeire S et al. (2010). Correlation between the Crohn's disease activity and Harvey-Bradshaw indices in assessing Crohn's disease severity. Clin Gastroenterol Hepatol 8(4):357-363. doi:10.1016/j.cgh.2010.01.001
 - Vital M et al. (2014). Revealing the bacterial butyrate synthesis pathways by analyzing (meta)genomic data. mBio 5(2):e00889-14. doi:10.1128/mbio.00889-14
 - Walker AW et al. (2011). Dominant and diet-responsive groups of bacteria within the human colonic microbiota. ISME J 5(2):220-230.
+- Wei S et al. (2021). Determining gut microbial dysbiosis: a review of applied indexes for assessment of intestinal microbiota imbalances. Appl Environ Microbiol 87(11):e00395-21. doi:10.1128/AEM.00395-21
 - Wilcoxon F (1945). Individual comparisons by ranking methods. Biometrics Bull 1(6):80-83. doi:10.2307/3001968
 - Wong B (2011). Points of view: Color blindness. Nat Methods 8(6):441. doi:10.1038/nmeth.1618
 - Wu GD et al. (2011). Linking long-term dietary patterns with gut microbial enterotypes. Science 334(6052):105-108. doi:10.1126/science.1208344
