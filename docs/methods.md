@@ -370,6 +370,10 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Rule:** 10 taxa or samples per cohort and group (own decision). The least abundant taxa are only those that occur in the group at all. Plots show Franzosa and HMP2; Hall stays in the CSV.
 - **Why:** the lists are descriptive; the least abundant taxa often occur in only one person.
 
+### 8.3 Literature check
+- **Note:** the top-10 lists agree with the literature: Escherichia (Franzosa, HMP2) and Streptococcus, Lactobacillus, Veillonella appear only in the CD lists (Gevers 2014: Enterobacteriaceae, Veillonellaceae, Streptococcus and Lactobacillales higher in CD); Faecalibacterium is lower in CD (Sokol 2008; Joossens 2011); Akkermansia, Coprococcus and Dorea appear only in the control lists (Png 2010; Gevers 2014). Dialister in the Franzosa CD list goes against Joossens 2011. Both cohorts are dominated by Bacteroides with little Prevotella, the pattern of a Western diet (Wu 2011). Least abundant genera are mostly single persons and not interpreted. Descriptive only; tested taxa are in 12.1.
+- **Changes:** 2026-11-23: added (week 7 to-do).
+
 ---
 
 ## 9 Robustness
