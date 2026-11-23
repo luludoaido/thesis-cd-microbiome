@@ -1,48 +1,48 @@
-2026-11-23 15:48:47.019218 INFO::Writing function arguments to log file
-2026-11-23 15:48:47.020427 DEBUG::Function arguments
-2026-11-23 15:48:47.020969 DEBUG::Output folder: results/hypotheses/maaslin2/hmp2_extra
-2026-11-23 15:48:47.021442 DEBUG::Min Abundance: 0.000000
-2026-11-23 15:48:47.021929 DEBUG::Min Prevalence: 0.000000
-2026-11-23 15:48:47.022426 DEBUG::Normalization: NONE
-2026-11-23 15:48:47.02289 DEBUG::Transform: LOG
-2026-11-23 15:48:47.023364 DEBUG::Analysis method: LM
-2026-11-23 15:48:47.02387 DEBUG::Max significance: 0.250000
-2026-11-23 15:48:47.024326 DEBUG::Random effects: subject_id
-2026-11-23 15:48:47.024787 DEBUG::Fixed effects: diagnosis,site
-2026-11-23 15:48:47.025355 DEBUG::Correction method: holm
-2026-11-23 15:48:47.025834 DEBUG::Standardize: FALSE
-2026-11-23 15:48:47.026368 DEBUG::Cores: 1
-2026-11-23 15:48:47.026922 INFO::Verifying options selected are valid
-2026-11-23 15:48:47.028074 INFO::Determining format of input files
-2026-11-23 15:48:47.029013 INFO::Input format is data samples as rows and metadata samples as rows
-2026-11-23 15:48:47.030254 DEBUG::A total of 571 samples were found in both the data and metadata
-2026-11-23 15:48:47.030703 DEBUG::Reordering data/metadata to use same sample ordering
-2026-11-23 15:48:47.031581 INFO::Formula for random effects: expr ~ (1 | subject_id)
-2026-11-23 15:48:47.032599 INFO::Formula for fixed effects: expr ~  diagnosis + site
-2026-11-23 15:48:47.033868 INFO::Filter data based on min abundance and min prevalence
-2026-11-23 15:48:47.034797 INFO::Total samples in data: 571
-2026-11-23 15:48:47.035893 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
-2026-11-23 15:48:47.037023 INFO::Total filtered features: 0
-2026-11-23 15:48:47.037935 INFO::Filtered feature names from abundance and prevalence filtering:
-2026-11-23 15:48:47.039324 INFO::Total filtered features with variance filtering: 0
-2026-11-23 15:48:47.040939 INFO::Filtered feature names from variance filtering:
-2026-11-23 15:48:47.042274 INFO::Running selected normalization method: NONE
-2026-11-23 15:48:47.043267 INFO::Bypass z-score application to metadata
-2026-11-23 15:48:47.044271 INFO::Running selected transform method: LOG
-2026-11-23 15:48:47.04544 INFO::Running selected analysis method: LM
-2026-11-23 15:48:47.046464 INFO::Fitting model to feature number 1, E_rectale
-2026-11-23 15:48:47.109004 INFO::Fitting model to feature number 2, A_hadrus
-2026-11-23 15:48:47.181148 INFO::Fitting model to feature number 3, E_hallii
-2026-11-23 15:48:47.246405 INFO::Fitting model to feature number 4, Coprococcus
-2026-11-23 15:48:47.305062 INFO::Counting total values for each feature
-2026-11-23 15:48:47.307126 INFO::Writing filtered data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data.tsv
-2026-11-23 15:48:47.311368 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data_norm.tsv
-2026-11-23 15:48:47.31565 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data_norm_transformed.tsv
-2026-11-23 15:48:47.320536 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/hmp2_extra/fits/residuals.rds
-2026-11-23 15:48:47.321997 INFO::Writing residuals to file results/hypotheses/maaslin2/hmp2_extra/fits/residuals.rds
-2026-11-23 15:48:47.32465 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/hmp2_extra/fits/fitted.rds
-2026-11-23 15:48:47.325962 INFO::Writing fitted values to file results/hypotheses/maaslin2/hmp2_extra/fits/fitted.rds
-2026-11-23 15:48:47.328024 WARNING::Deleting existing ranef file: results/hypotheses/maaslin2/hmp2_extra/fits/ranef.rds
-2026-11-23 15:48:47.32928 INFO::Writing extracted random effects to file results/hypotheses/maaslin2/hmp2_extra/fits/ranef.rds
-2026-11-23 15:48:47.330515 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_extra/all_results.tsv
-2026-11-23 15:48:47.33234 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_extra/significant_results.tsv
+2026-11-23 15:58:37.151704 INFO::Writing function arguments to log file
+2026-11-23 15:58:37.153112 DEBUG::Function arguments
+2026-11-23 15:58:37.153753 DEBUG::Output folder: results/hypotheses/maaslin2/hmp2_extra
+2026-11-23 15:58:37.154376 DEBUG::Min Abundance: 0.000000
+2026-11-23 15:58:37.155054 DEBUG::Min Prevalence: 0.000000
+2026-11-23 15:58:37.155812 DEBUG::Normalization: NONE
+2026-11-23 15:58:37.156483 DEBUG::Transform: LOG
+2026-11-23 15:58:37.157077 DEBUG::Analysis method: LM
+2026-11-23 15:58:37.157783 DEBUG::Max significance: 0.250000
+2026-11-23 15:58:37.158473 DEBUG::Random effects: subject_id
+2026-11-23 15:58:37.159445 DEBUG::Fixed effects: diagnosis,site
+2026-11-23 15:58:37.160208 DEBUG::Correction method: holm
+2026-11-23 15:58:37.160788 DEBUG::Standardize: FALSE
+2026-11-23 15:58:37.161424 DEBUG::Cores: 1
+2026-11-23 15:58:37.162017 INFO::Verifying options selected are valid
+2026-11-23 15:58:37.163438 INFO::Determining format of input files
+2026-11-23 15:58:37.165434 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-23 15:58:37.166885 DEBUG::A total of 571 samples were found in both the data and metadata
+2026-11-23 15:58:37.167466 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-23 15:58:37.168591 INFO::Formula for random effects: expr ~ (1 | subject_id)
+2026-11-23 15:58:37.169729 INFO::Formula for fixed effects: expr ~  diagnosis + site
+2026-11-23 15:58:37.171538 INFO::Filter data based on min abundance and min prevalence
+2026-11-23 15:58:37.172733 INFO::Total samples in data: 571
+2026-11-23 15:58:37.174295 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-23 15:58:37.175719 INFO::Total filtered features: 0
+2026-11-23 15:58:37.176742 INFO::Filtered feature names from abundance and prevalence filtering:
+2026-11-23 15:58:37.178097 INFO::Total filtered features with variance filtering: 0
+2026-11-23 15:58:37.179221 INFO::Filtered feature names from variance filtering:
+2026-11-23 15:58:37.180582 INFO::Running selected normalization method: NONE
+2026-11-23 15:58:37.181478 INFO::Bypass z-score application to metadata
+2026-11-23 15:58:37.183137 INFO::Running selected transform method: LOG
+2026-11-23 15:58:37.184569 INFO::Running selected analysis method: LM
+2026-11-23 15:58:37.185921 INFO::Fitting model to feature number 1, E_rectale
+2026-11-23 15:58:37.255976 INFO::Fitting model to feature number 2, A_hadrus
+2026-11-23 15:58:37.345649 INFO::Fitting model to feature number 3, E_hallii
+2026-11-23 15:58:37.424019 INFO::Fitting model to feature number 4, Coprococcus
+2026-11-23 15:58:37.503376 INFO::Counting total values for each feature
+2026-11-23 15:58:37.507411 INFO::Writing filtered data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data.tsv
+2026-11-23 15:58:37.514528 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data_norm.tsv
+2026-11-23 15:58:37.520841 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/hmp2_extra/features/filtered_data_norm_transformed.tsv
+2026-11-23 15:58:37.527456 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/hmp2_extra/fits/residuals.rds
+2026-11-23 15:58:37.529519 INFO::Writing residuals to file results/hypotheses/maaslin2/hmp2_extra/fits/residuals.rds
+2026-11-23 15:58:37.533134 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/hmp2_extra/fits/fitted.rds
+2026-11-23 15:58:37.535203 INFO::Writing fitted values to file results/hypotheses/maaslin2/hmp2_extra/fits/fitted.rds
+2026-11-23 15:58:37.537696 WARNING::Deleting existing ranef file: results/hypotheses/maaslin2/hmp2_extra/fits/ranef.rds
+2026-11-23 15:58:37.53957 INFO::Writing extracted random effects to file results/hypotheses/maaslin2/hmp2_extra/fits/ranef.rds
+2026-11-23 15:58:37.541383 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_extra/all_results.tsv
+2026-11-23 15:58:37.544025 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_extra/significant_results.tsv

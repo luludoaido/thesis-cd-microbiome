@@ -7,6 +7,7 @@
 # - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control);
 #   HMP2 always with a mixed model on all samples, one value per person as check
 # - H2a, part 4: plant/animal taxa ratio after David 2014 (all samples), same tests as above
+# - plots of the H2a ratios per person: both together and each alone (sq2a_*_cd_vs_control.png)
 # - H2b: CD effect on F. prausnitzii and Roseburia, MaAsLin2 (main) and CLR models (check), Holm-adjusted
 # - H2b extension (exploratory): E. rectale, A. hadrus, E. hallii, Coprococcus, same tests
 
@@ -339,6 +340,51 @@ p <- ggplot(plot_data, aes(diagnosis, pct, colour = diagnosis)) +
        title = "SQ2 taxa in CD and controls (median per person)") +
   theme_plot
 ggsave(file.path(outdir, "sq2_taxa_cd_vs_control.png"), p, width = 10, height = 7, dpi = 200)
+
+# H2a: both ratios, median per person; Prevotella/Bacteroides only in samples with both taxa
+# (see methods 11.2, 11.7); p = main test (Franzosa Wilcoxon, HMP2 lmer, see methods 1.11)
+ratio_labels <- c(pb = "Prevotella / Bacteroides\n(samples with both taxa)",
+                  david = "Plant / animal taxa\n(David 2014, all samples)")
+plot_h2a <- bind_rows(
+  both %>% transmute(cohort, subject_id, diagnosis, measure = "pb", value = log_ratio),
+  david %>% transmute(cohort, subject_id, diagnosis, measure = "david", value = david)) %>%
+  group_by(cohort, measure, subject_id, diagnosis) %>%
+  summarise(value = median(value), .groups = "drop")
+
+main_p <- bind_rows(
+  sq2a_ratio %>% transmute(cohort, measure = "pb", p = if_else(cohort == "franzosa", p_wilcoxon, model_p)),
+  sq2a_david %>% filter(analysis == "main") %>%
+    transmute(cohort, measure = "david", p = if_else(cohort == "franzosa", p_wilcoxon, model_p))) %>%
+  mutate(label = paste0(if_else(cohort == "franzosa", "Wilcoxon ", "lmer "),
+                        if_else(p < 0.001, "p < 0.001", paste("p =", signif(p, 2)))))
+
+tidy_h2a <- function(d) d %>%
+  mutate(cohort = recode(cohort, franzosa = "Franzosa", hmp2 = "HMP2"),
+         measure = factor(measure, names(ratio_labels), ratio_labels))
+
+# one plot for the given ratios: both ratios as cohort x ratio grid, one ratio with cohorts side by side
+h2a_plot <- function(measures, title) {
+  d <- tidy_h2a(filter(plot_h2a, measure %in% measures)) %>%
+    mutate(diagnosis = factor(diagnosis, c("control", "cd"), c("Control", "CD")))
+  ggplot(d, aes(diagnosis, value, colour = diagnosis)) +
+    geom_hline(yintercept = 0, colour = "grey70", linetype = "dashed") +
+    geom_boxplot(outlier.shape = NA, width = .55) +
+    geom_jitter(width = .15, alpha = .6, size = 1.2) +
+    geom_text(data = tidy_h2a(filter(main_p, measure %in% measures)), aes(x = 1.5, y = Inf, label = label),
+              inherit.aes = FALSE, vjust = 1.4, size = 3.6) +
+    scale_y_continuous(expand = expansion(mult = c(.05, .15))) +   # room for the p label
+    scale_colour_manual(values = setNames(unname(col_diag), c("Control", "CD")), guide = "none") +
+    (if (length(measures) > 1) facet_grid(cohort ~ measure) else facet_wrap(~ cohort)) +
+    labs(x = NULL, y = "log10 ratio (median per person)", title = title,
+         caption = "HMP2 lmer adjusted for centre and person; above 0 = more of the first group") +
+    theme_plot
+}
+ggsave(file.path(outdir, "sq2a_ratios_cd_vs_control.png"),
+       h2a_plot(c("pb", "david"), "H2a: diet-related taxa ratios in controls and CD"), width = 8, height = 7, dpi = 200)
+ggsave(file.path(outdir, "sq2a_pb_cd_vs_control.png"),
+       h2a_plot("pb", "H2a: Prevotella / Bacteroides (samples with both taxa)"), width = 7, height = 4.5, dpi = 200)
+ggsave(file.path(outdir, "sq2a_david_cd_vs_control.png"),
+       h2a_plot("david", "H2a: plant / animal taxa ratio (David 2014)"), width = 7, height = 4.5, dpi = 200)
 
 # H2b only: the two butyrate producers
 plot_h2b <- plot_data %>%
