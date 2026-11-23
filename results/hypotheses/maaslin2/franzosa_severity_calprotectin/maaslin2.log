@@ -1,0 +1,96 @@
+2026-11-23 16:22:27.804929 INFO::Writing function arguments to log file
+2026-11-23 16:22:27.814139 DEBUG::Function arguments
+2026-11-23 16:22:27.821489 DEBUG::Output folder: results/hypotheses/maaslin2/franzosa_severity_calprotectin
+2026-11-23 16:22:27.822094 DEBUG::Min Abundance: 0.000000
+2026-11-23 16:22:27.82262 DEBUG::Min Prevalence: 0.000000
+2026-11-23 16:22:27.823104 DEBUG::Normalization: NONE
+2026-11-23 16:22:27.823586 DEBUG::Transform: LOG
+2026-11-23 16:22:27.824043 DEBUG::Analysis method: LM
+2026-11-23 16:22:27.82468 DEBUG::Max significance: 0.250000
+2026-11-23 16:22:27.825206 DEBUG::Random effects:
+2026-11-23 16:22:27.825632 DEBUG::Fixed effects: log_calpro,site
+2026-11-23 16:22:27.826109 DEBUG::Correction method: BH
+2026-11-23 16:22:27.826563 DEBUG::Standardize: FALSE
+2026-11-23 16:22:27.827026 DEBUG::Cores: 1
+2026-11-23 16:22:27.827489 INFO::Verifying options selected are valid
+2026-11-23 16:22:27.860901 INFO::Determining format of input files
+2026-11-23 16:22:27.862264 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-23 16:22:27.863893 DEBUG::A total of 65 samples were found in both the data and metadata
+2026-11-23 16:22:27.86448 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-23 16:22:27.866525 INFO::Formula for fixed effects: expr ~  log_calpro + site
+2026-11-23 16:22:27.86824 INFO::Filter data based on min abundance and min prevalence
+2026-11-23 16:22:27.869273 INFO::Total samples in data: 65
+2026-11-23 16:22:27.8702 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-23 16:22:27.872171 INFO::Total filtered features: 1
+2026-11-23 16:22:27.873288 INFO::Filtered feature names from abundance and prevalence filtering: Methanobrevibacter
+2026-11-23 16:22:27.875732 INFO::Total filtered features with variance filtering: 0
+2026-11-23 16:22:27.876942 INFO::Filtered feature names from variance filtering:
+2026-11-23 16:22:27.877948 INFO::Running selected normalization method: NONE
+2026-11-23 16:22:27.878998 INFO::Bypass z-score application to metadata
+2026-11-23 16:22:27.879924 INFO::Running selected transform method: LOG
+2026-11-23 16:22:27.881873 INFO::Running selected analysis method: LM
+2026-11-23 16:22:27.887952 INFO::Fitting model to feature number 1, Acidaminococcus
+2026-11-23 16:22:27.897459 INFO::Fitting model to feature number 2, Adlercreutzia
+2026-11-23 16:22:27.900523 INFO::Fitting model to feature number 3, Akkermansia
+2026-11-23 16:22:27.903396 INFO::Fitting model to feature number 4, Alistipes
+2026-11-23 16:22:27.906764 INFO::Fitting model to feature number 5, Anaerostipes
+2026-11-23 16:22:27.910321 INFO::Fitting model to feature number 6, Anaerotruncus
+2026-11-23 16:22:27.913484 INFO::Fitting model to feature number 7, Bacteroidales
+2026-11-23 16:22:27.917561 INFO::Fitting model to feature number 8, Bacteroides
+2026-11-23 16:22:27.920915 INFO::Fitting model to feature number 9, Barnesiella
+2026-11-23 16:22:27.924472 INFO::Fitting model to feature number 10, Bifidobacterium
+2026-11-23 16:22:27.928059 INFO::Fitting model to feature number 11, Bilophila
+2026-11-23 16:22:27.931291 INFO::Fitting model to feature number 12, Blautia
+2026-11-23 16:22:27.934897 INFO::Fitting model to feature number 13, Burkholderiales
+2026-11-23 16:22:27.938117 INFO::Fitting model to feature number 14, Butyricicoccus
+2026-11-23 16:22:27.941395 INFO::Fitting model to feature number 15, Citrobacter
+2026-11-23 16:22:27.944613 INFO::Fitting model to feature number 16, Clostridiaceae
+2026-11-23 16:22:27.947971 INFO::Fitting model to feature number 17, Clostridiales
+2026-11-23 16:22:27.951221 INFO::Fitting model to feature number 18, Clostridium
+2026-11-23 16:22:27.954268 INFO::Fitting model to feature number 19, Collinsella
+2026-11-23 16:22:27.957454 INFO::Fitting model to feature number 20, Coprobacillus
+2026-11-23 16:22:27.960521 INFO::Fitting model to feature number 21, Coprococcus
+2026-11-23 16:22:27.963793 INFO::Fitting model to feature number 22, Dialister
+2026-11-23 16:22:27.966711 INFO::Fitting model to feature number 23, Dorea
+2026-11-23 16:22:27.969467 INFO::Fitting model to feature number 24, Eggerthella
+2026-11-23 16:22:27.972114 INFO::Fitting model to feature number 25, Enterococcus
+2026-11-23 16:22:27.97484 INFO::Fitting model to feature number 26, Erysipelotrichaceae
+2026-11-23 16:22:27.977384 INFO::Fitting model to feature number 27, Escherichia
+2026-11-23 16:22:27.991847 INFO::Fitting model to feature number 28, Eubacterium
+2026-11-23 16:22:27.995145 INFO::Fitting model to feature number 29, Faecalibacterium
+2026-11-23 16:22:27.998367 INFO::Fitting model to feature number 30, Flavonifractor
+2026-11-23 16:22:28.00216 INFO::Fitting model to feature number 31, Fusobacterium
+2026-11-23 16:22:28.005813 INFO::Fitting model to feature number 32, Gordonibacter
+2026-11-23 16:22:28.009536 INFO::Fitting model to feature number 33, Haemophilus
+2026-11-23 16:22:28.012993 INFO::Fitting model to feature number 34, Holdemania
+2026-11-23 16:22:28.016148 INFO::Fitting model to feature number 35, Klebsiella
+2026-11-23 16:22:28.01945 INFO::Fitting model to feature number 36, Lachnospiraceae
+2026-11-23 16:22:28.022357 INFO::Fitting model to feature number 37, Lactobacillus
+2026-11-23 16:22:28.025294 INFO::Fitting model to feature number 38, Lactococcus
+2026-11-23 16:22:28.027825 INFO::Fitting model to feature number 39, Leuconostoc
+2026-11-23 16:22:28.030431 INFO::Fitting model to feature number 40, Megasphaera
+2026-11-23 16:22:28.032961 INFO::Fitting model to feature number 41, Odoribacter
+2026-11-23 16:22:28.035485 INFO::Fitting model to feature number 42, Oscillibacter
+2026-11-23 16:22:28.038008 INFO::Fitting model to feature number 43, Parabacteroides
+2026-11-23 16:22:28.040533 INFO::Fitting model to feature number 44, Paraprevotella
+2026-11-23 16:22:28.043217 INFO::Fitting model to feature number 45, Parasutterella
+2026-11-23 16:22:28.045809 INFO::Fitting model to feature number 46, Pediococcus
+2026-11-23 16:22:28.048364 INFO::Fitting model to feature number 47, Peptostreptococcaceae
+2026-11-23 16:22:28.05107 INFO::Fitting model to feature number 48, Prevotella
+2026-11-23 16:22:28.05329 INFO::Fitting model to feature number 49, Roseburia
+2026-11-23 16:22:28.055899 INFO::Fitting model to feature number 50, Rothia
+2026-11-23 16:22:28.058495 INFO::Fitting model to feature number 51, Ruminococcaceae
+2026-11-23 16:22:28.061095 INFO::Fitting model to feature number 52, Ruminococcus
+2026-11-23 16:22:28.063659 INFO::Fitting model to feature number 53, Streptococcus
+2026-11-23 16:22:28.066324 INFO::Fitting model to feature number 54, Subdoligranulum
+2026-11-23 16:22:28.068853 INFO::Fitting model to feature number 55, Sutterella
+2026-11-23 16:22:28.071331 INFO::Fitting model to feature number 56, Turicibacter
+2026-11-23 16:22:28.073998 INFO::Fitting model to feature number 57, Veillonella
+2026-11-23 16:22:28.087614 INFO::Counting total values for each feature
+2026-11-23 16:22:28.093605 INFO::Writing filtered data to file results/hypotheses/maaslin2/franzosa_severity_calprotectin/features/filtered_data.tsv
+2026-11-23 16:22:28.100801 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/franzosa_severity_calprotectin/features/filtered_data_norm.tsv
+2026-11-23 16:22:28.107802 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/franzosa_severity_calprotectin/features/filtered_data_norm_transformed.tsv
+2026-11-23 16:22:28.114917 INFO::Writing residuals to file results/hypotheses/maaslin2/franzosa_severity_calprotectin/fits/residuals.rds
+2026-11-23 16:22:28.117562 INFO::Writing fitted values to file results/hypotheses/maaslin2/franzosa_severity_calprotectin/fits/fitted.rds
+2026-11-23 16:22:28.120282 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_severity_calprotectin/all_results.tsv
+2026-11-23 16:22:28.122895 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/franzosa_severity_calprotectin/significant_results.tsv

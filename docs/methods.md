@@ -33,6 +33,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 | 10 | H1: dysbiosis | `08_dysbiosis.R` |
 | 11 | H2: fibre-associated taxa | `09_fibre_taxa.R` |
 | 12 | Diet- and CD-associated taxa | `10_species_cd_diet.R` |
+| 13 | Disease severity within CD | `11_severity_taxa.R` |
 
 ---
 
@@ -502,6 +503,21 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Note:** Gevers 2014 report R. gnavus lower in CD in 43 stool metagenomes (text; not significant in Table S2F), against the expected direction.
 - **Open:** full-text check of the expected direction per taxon.
 - **Changes:** 2026-11-19: added; replaces the top-6 table of the week 8 slides.
+
+---
+
+## 13 Disease severity within CD
+
+### 13.1 Genera vs. calprotectin
+- **Rule:** CD only. Each genus (10 % filter on all samples, 1.3) vs. log10 calprotectin (values below 1 set to 1, as in 9.2) with MaAsLin2, settings as in 11.3, centre as fixed effect, person as random effect in HMP2. BH correction over all genera; q < 0.25 counts as a hit (MaAsLin2 default). Checks: HMP2 with HBI instead of calprotectin (more persons); Franzosa without antibiotics. Agreement: share of genera with the same direction in both cohorts and Spearman correlation of the coefficients.
+- **Why:** answers the week 8 question which bacteria go with more severe disease. The cohorts are analysed separately and compared side by side, not pooled (0.10): the severity measures differ (Franzosa calprotectin only) and the processing differs (2.1). BH instead of Holm because all genera are tested, not a short list; exploratory.
+- **Source:** Mallick 2021.
+- **Changes:** 2026-11-23: added after the week 8 meeting (slide 12).
+
+### 13.2 MD-index vs. calprotectin
+- **Rule:** CD only. Franzosa `lm(md ~ log10 calprotectin + site)`; HMP2 `lmer(md ~ log10 calprotectin + site + (1 | person))`.
+- **Why:** Gevers 2014 found that the MD-index rises with disease severity (PCDAI, in biopsies of children); this checks whether it holds in stool of adults.
+- **Source:** Gevers 2014.
 
 ---
 
