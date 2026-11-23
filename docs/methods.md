@@ -482,6 +482,14 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Source:** Louis & Flint 2009; Louis & Flint 2017; Duncan 2007; Walker 2011; Rivière 2016.
 - **Changes:** 2026-11-16: added. MaAsLin2 results of 11.3 and 11.6 now with a 95 % CI (normal approximation, coefficient ± 1.96 SE).
 
+### 11.7 Plant/animal taxa ratio (David 2014)
+- **Rule:** second H2a measure: log10 [(Roseburia + E. rectale + R. bromii) / (Alistipes + Bilophila + Bacteroides)] on all samples; Roseburia, Alistipes, Bilophila and Bacteroides as genus. Zeros replaced as for the MD-index (10.3), sensitivity with a value 10 times smaller. Tests as in 1.11; without antibiotics in Franzosa only (7.6).
+- **Why:** Prevotella/Bacteroides can only be tested as ratio in samples with both taxa (Franzosa 54 of 144, 11.2), which costs power. The six taxa changed in opposite directions under a plant-based vs. animal-based diet in the same controlled study (David 2014), and are rarely zero (zeros in plant / animal part: Franzosa 1 / 2 of 144 samples, HMP2 34 / 23 of 571). A log-ratio between taxa does not depend on the total microbial load (Morton 2019). Prevotella/Bacteroides stays the main H2a measure as a marker of long-term diet (Wu 2011; Hjorth 2018).
+- **Not used:** Firmicutes/Bacteroidetes, because it is not diet-specific and disputed as a marker (Magne 2020; Wei 2021).
+- **Note:** all six taxa are also in the list of 12.1; chosen before looking at the ratio results.
+- **Source:** David 2014; Morton 2019; Hjorth 2018; Magne 2020; Wei 2021.
+- **Changes:** 2026-11-23: added after the week 8 meeting (slide 9).
+
 ---
 
 ## 12 Diet- and CD-associated taxa
@@ -524,6 +532,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Hall AB et al. (2017). A novel Ruminococcus gnavus clade enriched in inflammatory bowel disease patients. Genome Med 9:103. doi:10.1186/s13073-017-0490-5
 - Harvey RF, Bradshaw JM (1980). A simple index of Crohn's-disease activity. Lancet 315(8167):514. doi:10.1016/s0140-6736(80)92767-1
 - Hillmann B et al. (2018). Evaluating the information content of shallow shotgun metagenomics. mSystems 3(6):e00069-18. doi:10.1128/msystems.00069-18
+- Hjorth MF et al. (2018). Prevotella-to-Bacteroides ratio predicts body weight and fat loss success on 24-week diets varying in macronutrient composition and dietary fiber: results from a post-hoc analysis. Int J Obes 43:149-157. doi:10.1038/s41366-018-0093-2
 - Hodges JL, Lehmann EL (1963). Estimates of location based on rank tests. Ann Math Stat 34(2):598-611. doi:10.1214/aoms/1177704172
 - Johnson WE et al. (2007). Adjusting batch effects in microarray expression data using empirical Bayes methods. Biostatistics 8(1):118-127. doi:10.1093/biostatistics/kxj037
 - Joossens M et al. (2011). Dysbiosis of the faecal microbiota in patients with Crohn's disease and their unaffected relatives. Gut 60(5):631-637. doi:10.1136/gut.2010.223263
@@ -535,10 +544,12 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Lubbe S et al. (2021). Comparison of zero replacement strategies for compositional data with large numbers of zeros. Chemometr Intell Lab Syst. doi:10.1016/j.chemolab.2021.104248
 - Lumley T et al. (2002). The importance of the normality assumption in large public health data sets. Annu Rev Public Health 23:151-169. (to check in full text)
 - Ma S et al. (2022). Population structure discovery in meta-analyzed microbial communities and inflammatory bowel disease using MMUPHin. Genome Biol 23:208. doi:10.1186/s13059-022-02753-4
+- Magne F et al. (2020). The Firmicutes/Bacteroidetes ratio: a relevant marker of gut dysbiosis in obese patients? Nutrients 12(5):1474. doi:10.3390/nu12051474
 - Magro DO et al. (2019). Remission in Crohn's disease is accompanied by alterations in the gut microbiota and mucins production. Sci Rep 9:13263. doi:10.1038/s41598-019-49893-5
 - Mallick H et al. (2021). Multivariable association discovery in population-scale meta-omics studies. PLoS Comput Biol 17(11):e1009442. doi:10.1371/journal.pcbi.1009442
 - Mann HB, Whitney DR (1947). On a test of whether one of two random variables is stochastically larger than the other. Ann Math Stat 18(1):50-60. doi:10.1214/aoms/1177730491
 - McInnes L et al. (2018). UMAP: uniform manifold approximation and projection. J Open Source Softw 3(29):861. doi:10.21105/joss.00861
+- Morton JT et al. (2019). Establishing microbial composition measurement standards with reference frames. Nat Commun 10:2719. doi:10.1038/s41467-019-10656-5
 - Nakagawa S, Schielzeth H (2013). A general and simple method for obtaining R2 from generalized linear mixed-effects models. Methods Ecol Evol 4(2):133-142. doi:10.1111/j.2041-210x.2012.00261.x
 - Nearing JT et al. (2022). Microbiome differential abundance methods produce different results across 38 datasets. Nat Commun 13:342. doi:10.1038/s41467-022-28034-z
 - Nygaard V et al. (2016). Methods that remove batch effects while retaining group differences may lead to exaggerated confidence in downstream analyses. Biostatistics 17(1):29-39. doi:10.1093/biostatistics/kxv027

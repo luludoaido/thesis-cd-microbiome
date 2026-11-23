@@ -6,6 +6,7 @@
 # - detection and abundance of Prevotella, Bacteroides, F. prausnitzii and Roseburia per group
 # - H2a: Prevotella detected, log10 ratio where both occur, Prevotella-dominated samples (CD vs. control);
 #   HMP2 always with a mixed model on all samples, one value per person as check
+# - H2a, part 4: plant/animal taxa ratio after David 2014 (all samples), same tests as above
 # - H2b: CD effect on F. prausnitzii and Roseburia, MaAsLin2 (main) and CLR models (check), Holm-adjusted
 # - H2b extension (exploratory): E. rectale, A. hadrus, E. hallii, Coprococcus, same tests
 
@@ -151,6 +152,61 @@ sq2a_dominated <- bind_rows(
   })
 print(sq2a_dominated, width = Inf)
 write_csv(sq2a_dominated, file.path(outdir, "sq2a_dominated.csv"))
+
+# --- SQ2a, part 4: plant/animal taxa ratio after David 2014 (see methods 11.7) ---
+# log10 [(Roseburia + E. rectale + R. bromii) / (Alistipes + Bilophila + Bacteroides)];
+# zeros replaced by half of the smallest non-zero value of the cohort, as for the MD-index (methods 10.3)
+log_ratio_rep <- function(num, den, factor = 0.5) {
+  log10(ifelse(num > 0, num, min(num[num > 0]) * factor) /
+        ifelse(den > 0, den, min(den[den > 0]) * factor))
+}
+
+david_species <- c("Eubacterium_rectale", "Ruminococcus_bromii")
+david <- imap_dfr(data, function(d, cohort) {
+  g <- genus_of(cohort, colnames(d$X))
+  stopifnot(david_species %in% colnames(d$X))
+  tibble(sample_id = rownames(d$X),
+         plant  = rowSums(d$X[, g %in% "Roseburia" | colnames(d$X) %in% david_species, drop = FALSE]),
+         animal = rowSums(d$X[, g %in% c("Alistipes", "Bilophila", "Bacteroides"), drop = FALSE])) %>%
+    mutate(david = log_ratio_rep(plant, animal),
+           david_small = log_ratio_rep(plant, animal, factor = 0.05),
+           cohort = cohort)
+}) %>% left_join(taxa %>% select(sample_id, cohort, subject_id, diagnosis, site, antibiotic),
+                 by = c("sample_id", "cohort"))
+
+# Franzosa: Wilcoxon (main), lm with centre (check); HMP2: lmer (main), Wilcoxon on the median
+# per person (check) (see methods 1.11)
+test_ratio <- function(d, y, label) {
+  d$y <- d[[y]]
+  if (d$cohort[1] == "franzosa") {
+    fit <- lm(y ~ diagnosis + site, data = d)
+    v <- d$y; dx <- d$diagnosis
+  } else {
+    fit <- lmer(y ~ diagnosis + site + (1 | subject_id), data = d)
+    pp <- d %>% group_by(subject_id, diagnosis) %>% summarise(v = median(y), .groups = "drop")
+    v <- pp$v; dx <- pp$diagnosis
+  }
+  s <- coef(summary(fit))
+  tibble(cohort = d$cohort[1], measure = y, analysis = label, samples = nrow(d),
+         persons = n_distinct(d$subject_id),
+         zeros_plant = sum(d$plant == 0), zeros_animal = sum(d$animal == 0),
+         median_control = median(v[dx == "control"]), median_cd = median(v[dx == "cd"]),
+         p_wilcoxon = wilcox.test(v[dx == "cd"], v[dx == "control"], exact = FALSE)$p.value,
+         model_estimate = s["diagnosiscd", "Estimate"], ci_low = ci_cd(fit)[1], ci_high = ci_cd(fit)[2],
+         model_p = s["diagnosiscd", grep("^Pr", colnames(s))])
+}
+
+dv_fr <- david %>% filter(cohort == "franzosa")
+dv_hm <- david %>% filter(cohort == "hmp2")
+sq2a_david <- bind_rows(
+  test_ratio(dv_fr, "david", "main"),
+  test_ratio(dv_fr, "david_small", "smaller replacement of zeros"),
+  test_ratio(dv_fr %>% filter(antibiotic == "No"), "david", "without antibiotics"),
+  test_ratio(dv_hm, "david", "main"),
+  test_ratio(dv_hm, "david_small", "smaller replacement of zeros"))
+print(sq2a_david, width = Inf)
+write_csv(sq2a_david, file.path(outdir, "sq2a_david.csv"))
+write_csv(david, file.path(outdir, "sq2a_david_scores.csv"))
 
 # --- SQ2b: MaAsLin2, main (see methods 11.3, 11.5) ---
 run_maaslin <- function(d, label, random, features = c("F_prausnitzii", "Roseburia")) {
