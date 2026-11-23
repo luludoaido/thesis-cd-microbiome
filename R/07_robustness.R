@@ -5,6 +5,7 @@
 # Results:
 # - R2 per variable (marginal, conditional, unique) and full model effects (estimate, SE, p)
 # - CD effect at low and high activity vs. controls (calprotectin 50/150/250, HBI 5); activity within CD
+# - HMP2: centre effect within CD (M vs. C) and age/activity of CD patients per centre
 # - Franzosa outliers, and the CD effect with and without them
 # - effect of reads and samples per person on diversity and its spread
 # - possible explanations of the time trend in HMP2
@@ -281,6 +282,31 @@ p_activity <- activity_tab %>%
   labs(x = NULL, y = "Shannon, CD - control (95 % CI)", shape = "activity",
        title = paste0("Is the CD effect only in active disease? (", level, ")")) + theme_plot
 save_plot(p_activity, "activity_vs_controls.png", 9, 4.2)
+
+# --- HMP2: centre within CD ---
+# Almost all controls are from centre M, so the centre effect is estimated within CD only (see methods 9.8).
+cd_hmp2 <- alpha$hmp2 %>% filter(diagnosis == "cd")
+
+centre_cd <- map_dfr(c("Shannon", "Richness"), function(y) {
+  m <- lmer(reformulate(c("site", "(1 | subject_id)"), y), data = cd_hmp2)
+  med <- cd_hmp2 %>% group_by(subject_id, site) %>% summarise(v = median(.data[[y]]), .groups = "drop")
+  coef_row(m, "siteM") %>%
+    mutate(outcome = y,
+           ci_low = estimate - qt(0.975, coef(summary(m))["siteM", "df"]) * se,
+           ci_high = estimate + qt(0.975, coef(summary(m))["siteM", "df"]) * se,
+           p_wilcox_median = wilcox.test(v ~ site, data = med)$p.value, .before = 1)
+})
+write_csv(centre_cd, file.path(outdir, "hmp2_centre_within_cd.csv"))
+
+# CD patients per centre: age and activity, one value per person
+centre_cd_people <- cd_hmp2 %>%
+  group_by(subject_id, site) %>%
+  summarise(age = first(age), calpro = median(calpro, na.rm = TRUE), hbi = median(hbi, na.rm = TRUE), .groups = "drop")
+centre_cd_desc <- map_dfr(c("age", "calpro", "hbi"), function(v)
+  centre_cd_people %>% group_by(site) %>%
+    summarise(variable = v, n = sum(!is.na(.data[[v]])), median = median(.data[[v]], na.rm = TRUE), .groups = "drop") %>%
+    mutate(p_wilcox = wilcox.test(reformulate("site", v), data = centre_cd_people)$p.value))
+write_csv(centre_cd_desc, file.path(outdir, "hmp2_centre_cd_people.csv"))
 
 # --- Franzosa: outliers ---
 # outliers: boxplot rule plus the 10 lowest CD samples (see methods 9.3)

@@ -408,6 +408,8 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Rule:** the weaker CD effects in HMP2 are explained with existing results only, no new test: cohort description (6), centre (1.6, 7.6), disease activity (9.2) and the H1/H2 effect sizes (10, 11). Genus level.
 - **Why:** HMP2 shows the same direction as Franzosa, but smaller and mostly not significant effects. Three possible reasons were checked: centre, activity and the taxa effects themselves.
 - **Note:** HMP2 controls are people without IBD after the first colonoscopy (screening or non-specific symptoms), described as not completely healthy; 22 of the 56 Franzosa controls come from a general population study (LifeLines-DEEP), the other 34 are PRISM non-IBD controls. In HMP2, dysbiosis occurs in episodes (about a quarter of CD samples), is only weakly tied to activity and not to medication.
+- **Centre within CD:** HMP2 CD patients of centre M and C are compared (mixed model `y ~ site + (1 | person)`, Wilcoxon on the median per person as check), because the centre effect cannot be estimated in controls (1 control in C). Age, calprotectin and HBI are compared per person.
+- **Decision:** the model with centre stays the main HMP2 model; without centre and centre M only are sensitivity analyses. Batch correction is not used for tests (1.6).
 - **Source:** Lloyd-Price 2019; Franzosa 2019.
 - **Changes:** 2026-11-20: added.
 
