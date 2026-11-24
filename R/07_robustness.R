@@ -6,6 +6,8 @@
 # - R2 per variable (marginal, conditional, unique) and full model effects (estimate, SE, p)
 # - CD effect at low and high activity vs. controls (calprotectin 50/150/250, HBI 5); activity within CD
 # - HMP2: centre effect within CD (M vs. C) and age/activity of CD patients per centre
+# - HMP2: why centre C has fewer genera within CD: clinical and technical differences,
+#   richness model adjusted one variable at a time
 # - Franzosa outliers, and the CD effect with and without them
 # - effect of reads and samples per person on diversity and its spread
 # - possible explanations of the time trend in HMP2
@@ -307,6 +309,52 @@ centre_cd_desc <- map_dfr(c("age", "calpro", "hbi"), function(v)
     summarise(variable = v, n = sum(!is.na(.data[[v]])), median = median(.data[[v]], na.rm = TRUE), .groups = "drop") %>%
     mutate(p_wilcox = wilcox.test(reformulate("site", v), data = centre_cd_people)$p.value))
 write_csv(centre_cd_desc, file.path(outdir, "hmp2_centre_cd_people.csv"))
+
+# Why fewer genera in centre C? Clinical and technical differences between the centres, within CD
+# (exploratory, 30 persons; see methods 9.8). Sex and diet questionnaires are not used.
+raw_hmp2 <- read.csv(file.path(dir_raw, "hmp2/hmp2_metadata_2018-08-20.csv"), sep = ";", check.names = FALSE)
+ever_yes <- function(x) { x <- x[!is.na(x) & x != ""]; if (length(x) == 0) NA else any(x == "Yes") }
+first_value <- function(x) { x <- x[!is.na(x) & x != ""]; if (length(x) == 0) NA else x[1] }
+clin_cd <- raw_hmp2 %>%
+  filter(`Participant ID` %in% cd_hmp2$subject_id) %>%
+  group_by(subject_id = `Participant ID`) %>%
+  summarise(surgery    = ever_yes(`6) Have you ever had bowel surgery?`),
+            immunosupp = ever_yes(`Immunosuppressants (e.g. oral corticosteroids)`),
+            antibiotic = ever_yes(Antibiotics),
+            ileal      = first_value(baseline_montreal_location) %in% c("L1", "L3"),
+            location_known = !is.na(first_value(baseline_montreal_location)),
+            age_diag   = as.numeric(first_value(`Age at diagnosis`)), .groups = "drop") %>%
+  mutate(ileal = if_else(location_known, ileal, NA)) %>% select(-location_known)
+
+centre_cd_clin <- cd_hmp2 %>%
+  group_by(subject_id, site) %>%
+  summarise(age = first(age), log_reads = median(log10(reads)), Richness = median(Richness), .groups = "drop") %>%
+  left_join(clin_cd, by = "subject_id") %>%
+  mutate(duration = age - age_diag)
+
+# per centre: median (numbers) or share yes (yes/no); Wilcoxon or Fisher
+num_vars <- c("log_reads", "age", "duration")
+bin_vars <- c("surgery", "ileal", "immunosupp", "antibiotic")
+centre_cd_why <- bind_rows(
+  map_dfr(num_vars, function(v) centre_cd_clin %>% group_by(site) %>%
+    summarise(variable = v, persons = sum(!is.na(.data[[v]])), value = median(.data[[v]], na.rm = TRUE), .groups = "drop") %>%
+    mutate(p = wilcox.test(reformulate("site", v), data = centre_cd_clin)$p.value)),
+  map_dfr(bin_vars, function(v) centre_cd_clin %>% group_by(site) %>%
+    summarise(variable = v, persons = sum(!is.na(.data[[v]])), value = 100 * mean(.data[[v]], na.rm = TRUE), .groups = "drop") %>%
+    mutate(p = fisher.test(table(centre_cd_clin$site, centre_cd_clin[[v]]))$p.value)))
+print(centre_cd_why)
+write_csv(centre_cd_why, file.path(outdir, "hmp2_centre_cd_why.csv"))
+
+# does the centre effect on richness shrink when one variable is added? one variable at a time
+cd_why <- cd_hmp2 %>% select(-antibiotic) %>% mutate(log_reads = log10(reads)) %>%   # antibiotic is empty in HMP2 meta
+  left_join(centre_cd_clin %>% select(subject_id, duration, all_of(bin_vars)), by = "subject_id")
+centre_cd_adjusted <- map_dfr(c("none", "log_reads", "age", "duration", bin_vars), function(v) {
+  d <- if (v == "none") cd_why else cd_why %>% filter(!is.na(.data[[v]]))
+  m <- lmer(reformulate(c("site", if (v != "none") v, "(1 | subject_id)"), "Richness"), data = d)
+  coef_row(m, "siteM") %>% mutate(adjusted_for = v, persons = n_distinct(d$subject_id), .before = 1)
+})
+print(centre_cd_adjusted)
+write_csv(centre_cd_adjusted, file.path(outdir, "hmp2_centre_cd_adjusted.csv"))
 
 # --- Franzosa: outliers ---
 # outliers: boxplot rule plus the 10 lowest CD samples (see methods 9.3)
