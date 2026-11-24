@@ -6,11 +6,13 @@
 # - CD effect of 17 taxa (MaAsLin2, 95 % CI, Holm over the list), direction vs. diet and CD literature
 # - forest plots of the diet- and the CD-associated taxa: only taxa with Holm p < 0.05 in at least one
 #   cohort, and all 17 taxa (_all); filled points: Holm p < 0.05
+# - prevalence and median abundance when present of the 17 taxa, CD vs. control (descriptive)
 
 # Methods: docs/methods.md, section 12
 
 library(tidyverse)
 library(Maaslin2)
+library(patchwork)
 source("R/00_setup.R")
 
 outdir <- file.path(dir_results, "hypotheses")
@@ -125,3 +127,46 @@ forest(res, "diet", "diet_expected", "Diet-associated taxa in CD vs. controls", 
 forest(res, "cd", "cd", "CD-associated taxa in CD vs. controls", "species_cd_forest.png")
 forest(res, "diet", "diet_expected", "Diet-associated taxa in CD vs. controls (all)", "species_diet_forest_all.png", only_sig = FALSE)
 forest(res, "cd", "cd", "CD-associated taxa in CD vs. controls (all)", "species_cd_forest_all.png", only_sig = FALSE)
+
+# --- How common are the taxa? Prevalence and abundance when present (descriptive, see methods 12.1) ---
+# HMP2: all samples, so persons with many samples count more; no test
+prev_abund <- imap_dfr(data, function(d, cohort) {
+  as_tibble(taxon_values(d, cohort), rownames = "sample_id") %>%
+    left_join(d$meta %>% select(sample_id, diagnosis), by = "sample_id") %>%
+    pivot_longer(all_of(lit$taxon), names_to = "taxon", values_to = "abund") %>%
+    group_by(diagnosis, taxon) %>%
+    summarise(prevalence = 100 * mean(abund > 0),
+              abundance  = 100 * median(abund[abund > 0]), .groups = "drop") %>%
+    mutate(cohort = cohort)
+}) %>%
+  left_join(lit %>% select(taxon, label), by = "taxon") %>%
+  mutate(cohort = recode(cohort, franzosa = "Franzosa", hmp2 = "HMP2"),
+         diagnosis = recode(diagnosis, cd = "CD", control = "Control"))
+write_csv(prev_abund, file.path(outdir, "species_prevalence_abundance.csv"))
+
+# one panel per cohort and measure; taxa ordered by mean prevalence
+taxon_order <- prev_abund %>% group_by(label) %>% summarise(m = mean(prevalence)) %>% arrange(m) %>% pull(label)
+prev_panel <- function(coh, measure, xlab, log = FALSE, y_text = TRUE) {
+  d <- prev_abund %>% filter(cohort == coh) %>%
+    mutate(label = factor(label, taxon_order), value = .data[[measure]])
+  p <- ggplot(d, aes(value, label)) +
+    geom_line(aes(group = label), colour = "grey75", linewidth = 1) +
+    geom_point(aes(colour = diagnosis), size = 2.6) +
+    scale_colour_manual(values = c(Control = okabe_ito[["sky_blue"]], CD = okabe_ito[["vermillion"]]), name = NULL) +
+    labs(x = xlab, y = NULL, title = paste(coh, if (log) "· abundance" else "· prevalence")) +
+    theme_plot + theme(plot.title = element_text(size = 12))
+  p <- if (log) p + scale_x_log10(labels = function(x) format(x, drop0trailing = TRUE, scientific = FALSE))
+       else p + scale_x_continuous(limits = c(0, 100))
+  if (!y_text) p <- p + theme(axis.text.y = element_blank())
+  p
+}
+p_prev <- prev_panel("Franzosa", "prevalence", "% of samples with the taxon") +
+  prev_panel("Franzosa", "abundance", "median % when present", log = TRUE, y_text = FALSE) +
+  prev_panel("HMP2", "prevalence", "% of samples with the taxon", y_text = FALSE) +
+  prev_panel("HMP2", "abundance", "median % when present", log = TRUE, y_text = FALSE) +
+  plot_layout(nrow = 1, guides = "collect") +
+  plot_annotation(title = "How common are the 17 taxa in CD and controls?",
+                  caption = "Prevalence: share of samples with the taxon (HMP2: all 571 samples). Abundance: median relative abundance in the samples that have it (log scale).",
+                  theme = theme_plot) &
+  theme(legend.position = "top")
+ggsave(file.path(outdir, "species_prevalence_abundance.png"), p_prev, width = 13, height = 5.6, dpi = 200)

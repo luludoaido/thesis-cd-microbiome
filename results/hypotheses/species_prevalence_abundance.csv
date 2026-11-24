@@ -1,0 +1,69 @@
+diagnosis,taxon,prevalence,abundance,cohort,label
+CD,Akkermansia_muciniphila,84.0909090909091,0.00876215291670173,Franzosa,A. muciniphila
+CD,Alistipes,60.22727272727273,1.7583376501795929,Franzosa,Alistipes
+CD,Anaerostipes_hadrus,59.09090909090909,0.08104426146816789,Franzosa,A. hadrus
+CD,Bacteroides,96.5909090909091,6.635105318046339,Franzosa,Bacteroides
+CD,Bifidobacterium_adolescentis,85.22727272727273,0.0064414590767683496,Franzosa,B. adolescentis
+CD,Bilophila_wadsworthia,19.318181818181817,0.050016256285220904,Franzosa,B. wadsworthia
+CD,Coprococcus,47.72727272727273,0.7838512598743343,Franzosa,Coprococcus
+CD,Dialister_invisus,88.63636363636364,0.3873846218411126,Franzosa,D. invisus
+CD,Escherichia_coli,92.04545454545455,0.2553201359551902,Franzosa,E. coli
+CD,Eubacterium_hallii,59.09090909090909,1.1421927500898474,Franzosa,E. hallii
+CD,Eubacterium_rectale,96.5909090909091,0.27949065828194697,Franzosa,E. rectale
+CD,Faecalibacterium_prausnitzii,90.9090909090909,0.10495637714834495,Franzosa,F. prausnitzii
+CD,Fusobacterium_nucleatum,17.045454545454543,0.8670149060551154,Franzosa,F. nucleatum
+CD,Prevotella,34.090909090909086,0.005091326930004582,Franzosa,Prevotella
+CD,Roseburia,92.04545454545455,0.32372973259723636,Franzosa,Roseburia
+CD,Ruminococcus_bromii,48.86363636363637,0.009077205319862433,Franzosa,R. bromii
+CD,Ruminococcus_gnavus,96.5909090909091,1.2056808620043709,Franzosa,R. gnavus
+Control,Akkermansia_muciniphila,66.07142857142857,3.8151743606882387,Franzosa,A. muciniphila
+Control,Alistipes,98.21428571428571,2.8414860701402223,Franzosa,Alistipes
+Control,Anaerostipes_hadrus,96.42857142857143,0.1272817845667691,Franzosa,A. hadrus
+Control,Bacteroides,100,5.517398246425007,Franzosa,Bacteroides
+Control,Bifidobacterium_adolescentis,92.85714285714286,2.253955645055771,Franzosa,B. adolescentis
+Control,Bilophila_wadsworthia,33.92857142857143,0.025298106880043084,Franzosa,B. wadsworthia
+Control,Coprococcus,94.64285714285714,2.5429537113409943,Franzosa,Coprococcus
+Control,Dialister_invisus,55.35714285714286,3.4565115471584607,Franzosa,D. invisus
+Control,Escherichia_coli,75,0.040083492431656154,Franzosa,E. coli
+Control,Eubacterium_hallii,96.42857142857143,2.2884211356234196,Franzosa,E. hallii
+Control,Eubacterium_rectale,98.21428571428571,9.00566363380942,Franzosa,E. rectale
+Control,Faecalibacterium_prausnitzii,100,6.132135888817425,Franzosa,F. prausnitzii
+Control,Fusobacterium_nucleatum,1.7857142857142856,0.033716526722528034,Franzosa,F. nucleatum
+Control,Prevotella,42.857142857142854,0.4523780340595117,Franzosa,Prevotella
+Control,Roseburia,100,1.6480534493616028,Franzosa,Roseburia
+Control,Ruminococcus_bromii,80.35714285714286,4.497150375042936,Franzosa,R. bromii
+Control,Ruminococcus_gnavus,67.85714285714286,0.11443790719541931,Franzosa,R. gnavus
+CD,Akkermansia_muciniphila,31.25,0.3195799810690083,HMP2,A. muciniphila
+CD,Alistipes,67.89772727272727,5.579430557943055,HMP2,Alistipes
+CD,Anaerostipes_hadrus,66.76136363636364,0.20834997916500206,HMP2,A. hadrus
+CD,Bacteroides,93.4659090909091,64.19305999999999,HMP2,Bacteroides
+CD,Bifidobacterium_adolescentis,23.295454545454543,0.11871003581701203,HMP2,B. adolescentis
+CD,Bilophila_wadsworthia,40.340909090909086,0.03834999802250096,HMP2,B. wadsworthia
+CD,Coprococcus,42.32954545454545,0.08474003389601355,HMP2,Coprococcus
+CD,Dialister_invisus,40.909090909090914,0.15583997653400397,HMP2,D. invisus
+CD,Escherichia_coli,49.715909090909086,0.30617009185102767,HMP2,E. coli
+CD,Eubacterium_hallii,37.5,0.032519990226004235,HMP2,E. hallii
+CD,Eubacterium_rectale,69.0340909090909,1.1567999999999996,HMP2,E. rectale
+CD,Faecalibacterium_prausnitzii,84.6590909090909,4.339974350420696,HMP2,F. prausnitzii
+CD,Fusobacterium_nucleatum,4.545454545454546,0.8742100677255591,HMP2,F. nucleatum
+CD,Prevotella,33.52272727272727,0.3448149862235083,HMP2,Prevotella
+CD,Roseburia,91.19318181818183,1.3326497334700531,HMP2,Roseburia
+CD,Ruminococcus_bromii,21.306818181818183,0.2822799435440113,HMP2,R. bromii
+CD,Ruminococcus_gnavus,59.09090909090909,0.13313499999999998,HMP2,R. gnavus
+Control,Akkermansia_muciniphila,38.35616438356164,1.8873800000000003,HMP2,A. muciniphila
+Control,Alistipes,99.54337899543378,4.904598775782415,HMP2,Alistipes
+Control,Anaerostipes_hadrus,84.01826484018264,0.13182998699100262,HMP2,A. hadrus
+Control,Bacteroides,100,46.74807934961584,HMP2,Bacteroides
+Control,Bifidobacterium_adolescentis,40.63926940639269,0.06508001301600258,HMP2,B. adolescentis
+Control,Bilophila_wadsworthia,48.858447488584474,0.0230800138480083,HMP2,B. wadsworthia
+Control,Coprococcus,73.0593607305936,0.1802499552685116,HMP2,Coprococcus
+Control,Dialister_invisus,29.68036529680365,0.10874999999999997,HMP2,D. invisus
+Control,Escherichia_coli,28.767123287671232,0.07793,HMP2,E. coli
+Control,Eubacterium_hallii,56.62100456621004,0.0443149977405029,HMP2,E. hallii
+Control,Eubacterium_rectale,91.78082191780823,1.1319597736080456,HMP2,E. rectale
+Control,Faecalibacterium_prausnitzii,100,6.46549193964758,HMP2,F. prausnitzii
+Control,Fusobacterium_nucleatum,1.36986301369863,0.012769996169001156,HMP2,F. nucleatum
+Control,Prevotella,31.963470319634702,4.275594802321777,HMP2,Prevotella
+Control,Roseburia,95.4337899543379,3.5772596422740355,HMP2,Roseburia
+Control,Ruminococcus_bromii,51.598173515981735,0.2922199415560117,HMP2,R. bromii
+Control,Ruminococcus_gnavus,21.00456621004566,0.040729991854001626,HMP2,R. gnavus
