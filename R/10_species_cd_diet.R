@@ -4,7 +4,8 @@
 
 # Results (per cohort):
 # - CD effect of 17 taxa (MaAsLin2, 95 % CI, Holm over the list), direction vs. diet and CD literature
-# - forest plots of the diet- and the CD-associated taxa with Holm p < 0.05 in at least one cohort
+# - forest plots of the diet- and the CD-associated taxa: only taxa with Holm p < 0.05 in at least one
+#   cohort, and all 17 taxa (_all); filled points: Holm p < 0.05
 
 # Methods: docs/methods.md, section 12
 
@@ -94,11 +95,11 @@ print(res %>% select(cohort, label, coef, ci_low, ci_high, p_holm, diet, cd, mat
       n = Inf, width = Inf)
 write_csv(res, file.path(outdir, "species_cd_diet.csv"))
 
-# --- Forest plots: only taxa with Holm p < 0.05 in at least one cohort ---
+# --- Forest plots: taxa with Holm p < 0.05 in at least one cohort, and all taxa (see methods 12.1) ---
 # link: column that groups the plot (diet or cd); expected: column with the expected direction
-forest <- function(res, link, expected, title, file) {
+forest <- function(res, link, expected, title, file, only_sig = TRUE) {
   d <- res %>% filter(!is.na(.data[[link]])) %>%
-    group_by(taxon) %>% filter(any(p_holm < 0.05)) %>% ungroup() %>%
+    group_by(taxon) %>% filter(!only_sig | any(p_holm < 0.05)) %>% ungroup() %>%
     mutate(cohort = recode(cohort, franzosa = "Franzosa", hmp2 = "HMP2"),
            label = paste0(label, if_else(.data[[expected]] == "lower", " (↓)", " (↑)")),
            label = fct_reorder(label, coef, .fun = min),
@@ -117,8 +118,10 @@ forest <- function(res, link, expected, title, file) {
          caption = "Arrow: expected direction in CD. MaAsLin2; HMP2 with person as random effect.") +
     theme_plot +
     theme(strip.text.y = element_text(angle = 0, hjust = 0))
-  ggsave(file.path(outdir, file), p, width = 8, height = 6, dpi = 200)
+  ggsave(file.path(outdir, file), p, width = 8, height = if (only_sig) 6 else 1.6 + 0.42 * n_distinct(d$taxon), dpi = 200)
 }
 
 forest(res, "diet", "diet_expected", "Diet-associated taxa in CD vs. controls", "species_diet_forest.png")
 forest(res, "cd", "cd", "CD-associated taxa in CD vs. controls", "species_cd_forest.png")
+forest(res, "diet", "diet_expected", "Diet-associated taxa in CD vs. controls (all)", "species_diet_forest_all.png", only_sig = FALSE)
+forest(res, "cd", "cd", "CD-associated taxa in CD vs. controls (all)", "species_cd_forest_all.png", only_sig = FALSE)
