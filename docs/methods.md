@@ -146,7 +146,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 
 ### 1.5 Repeated samples per person
 - **Rule:** in Hall and HMP2 the main test uses all samples: a mixed model with person as random effect, or for PERMANOVA a permutation of whole persons (7.9). One value per person (earliest sample `baseline`, or median) is used as check, and for measures that are defined per person anyway (SD, stability, 7.4, 9.5). Descriptive comparisons use one value per person (median). Franzosa has one sample per person.
-- **Why:** several samples of the same person are not independent. In HMP2 the ICC was 0.58, so 141 samples correspond to about 53 independent observations.
+- **Why:** samples of the same person are more alike than samples of different persons (HMP2 ICC 0.58, so 141 samples correspond to about 53 independent observations). Treating them as independent counts one person several times and makes p-values too small. The person is therefore a separate variable in the model (random effect). The main reason is correct inference; using all samples instead of one per person is an additional gain.
 - **Covariates:** sex is not used (decided 2026-11-16).
 - **Source:** Bates 2015 (lme4); Kuznetsova 2017 (lmerTest, p-values by Satterthwaite).
 - **Code:** `finish_meta()` in `R/00_setup.R` sets `baseline` and `time` (weeks since the first sample).
