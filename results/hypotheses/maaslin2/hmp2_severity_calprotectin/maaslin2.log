@@ -1,102 +1,105 @@
-2026-11-23 16:22:28.395487 INFO::Writing function arguments to log file
-2026-11-23 16:22:28.396673 DEBUG::Function arguments
-2026-11-23 16:22:28.397351 DEBUG::Output folder: results/hypotheses/maaslin2/hmp2_severity_calprotectin
-2026-11-23 16:22:28.397999 DEBUG::Min Abundance: 0.000000
-2026-11-23 16:22:28.398672 DEBUG::Min Prevalence: 0.000000
-2026-11-23 16:22:28.399348 DEBUG::Normalization: NONE
-2026-11-23 16:22:28.399954 DEBUG::Transform: LOG
-2026-11-23 16:22:28.400466 DEBUG::Analysis method: LM
-2026-11-23 16:22:28.401035 DEBUG::Max significance: 0.250000
-2026-11-23 16:22:28.401567 DEBUG::Random effects: subject_id
-2026-11-23 16:22:28.402141 DEBUG::Fixed effects: log_calpro,site
-2026-11-23 16:22:28.402694 DEBUG::Correction method: BH
-2026-11-23 16:22:28.403254 DEBUG::Standardize: FALSE
-2026-11-23 16:22:28.403744 DEBUG::Cores: 1
-2026-11-23 16:22:28.404256 INFO::Verifying options selected are valid
-2026-11-23 16:22:28.405374 INFO::Determining format of input files
-2026-11-23 16:22:28.406447 INFO::Input format is data samples as rows and metadata samples as rows
-2026-11-23 16:22:28.408159 DEBUG::A total of 226 samples were found in both the data and metadata
-2026-11-23 16:22:28.408753 DEBUG::Reordering data/metadata to use same sample ordering
-2026-11-23 16:22:28.410282 INFO::Formula for random effects: expr ~ (1 | subject_id)
-2026-11-23 16:22:28.41144 INFO::Formula for fixed effects: expr ~  log_calpro + site
-2026-11-23 16:22:28.412723 INFO::Filter data based on min abundance and min prevalence
-2026-11-23 16:22:28.413679 INFO::Total samples in data: 226
-2026-11-23 16:22:28.414576 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
-2026-11-23 16:22:28.41624 INFO::Total filtered features: 0
-2026-11-23 16:22:28.417325 INFO::Filtered feature names from abundance and prevalence filtering:
-2026-11-23 16:22:28.419555 INFO::Total filtered features with variance filtering: 0
-2026-11-23 16:22:28.420518 INFO::Filtered feature names from variance filtering:
-2026-11-23 16:22:28.421373 INFO::Running selected normalization method: NONE
-2026-11-23 16:22:28.42219 INFO::Bypass z-score application to metadata
-2026-11-23 16:22:28.423 INFO::Running selected transform method: LOG
-2026-11-23 16:22:28.425722 INFO::Running selected analysis method: LM
-2026-11-23 16:22:28.426909 INFO::Fitting model to feature number 1, Bifidobacterium
-2026-11-23 16:22:28.526667 INFO::Fitting model to feature number 2, Collinsella
-2026-11-23 16:22:28.579841 INFO::Fitting model to feature number 3, Adlercreutzia
-2026-11-23 16:22:28.636897 INFO::Fitting model to feature number 4, Asaccharobacter
-2026-11-23 16:22:28.684338 INFO::Fitting model to feature number 5, Eggerthella
-2026-11-23 16:22:28.735531 INFO::Fitting model to feature number 6, Bacteroides
-2026-11-23 16:22:28.788473 INFO::Fitting model to feature number 7, Barnesiella
-2026-11-23 16:22:28.838625 INFO::Fitting model to feature number 8, Coprobacter
-2026-11-23 16:22:28.89178 INFO::Fitting model to feature number 9, Butyricimonas
-2026-11-23 16:22:28.941536 INFO::Fitting model to feature number 10, Odoribacter
-2026-11-23 16:22:28.986275 INFO::Fitting model to feature number 11, Prevotella
-2026-11-23 16:22:29.04609 INFO::Fitting model to feature number 12, Alistipes
-2026-11-23 16:22:29.121374 INFO::Fitting model to feature number 13, Parabacteroides
-2026-11-23 16:22:29.189683 INFO::Fitting model to feature number 14, Lactobacillus
-2026-11-23 16:22:29.258334 INFO::Fitting model to feature number 15, Streptococcus
-2026-11-23 16:22:29.309632 INFO::Fitting model to feature number 16, Clostridium
-2026-11-23 16:22:29.354896 INFO::Fitting model to feature number 17, Hungatella
-2026-11-23 16:22:29.405862 INFO::Fitting model to feature number 18, Intestinimonas
-2026-11-23 16:22:29.449664 INFO::Fitting model to feature number 19, Lawsonibacter
-2026-11-23 16:22:29.493906 INFO::Fitting model to feature number 20, Monoglobus
-2026-11-23 16:22:29.537778 INFO::Fitting model to feature number 21, Eubacterium
-2026-11-23 16:22:29.587584 INFO::Fitting model to feature number 22, Anaerostipes
-2026-11-23 16:22:29.636215 INFO::Fitting model to feature number 23, Anaerotignum
-2026-11-23 16:22:29.688869 INFO::Fitting model to feature number 24, Blautia
-2026-11-23 16:22:29.740861 INFO::Fitting model to feature number 25, Coprococcus
-2026-11-23 16:22:29.789649 INFO::Fitting model to feature number 26, Dorea
-2026-11-23 16:22:29.89925 INFO::Fitting model to feature number 27, Eisenbergiella
-2026-11-23 16:22:29.953751 INFO::Fitting model to feature number 28, Fusicatenibacter
-2026-11-23 16:22:30.01054 INFO::Fitting model to feature number 29, Lachnoclostridium
-2026-11-23 16:22:30.065429 INFO::Fitting model to feature number 30, Lachnospira
-2026-11-23 16:22:30.126544 INFO::Fitting model to feature number 31, Lachnospiraceae_unclassified
-2026-11-23 16:22:30.197917 INFO::Fitting model to feature number 32, Roseburia
-2026-11-23 16:22:30.250711 INFO::Fitting model to feature number 33, Oscillibacter
-2026-11-23 16:22:30.310365 INFO::Fitting model to feature number 34, Intestinibacter
-2026-11-23 16:22:30.36468 INFO::Fitting model to feature number 35, Agathobaculum
-2026-11-23 16:22:30.419263 INFO::Fitting model to feature number 36, Anaeromassilibacillus
-2026-11-23 16:22:30.465298 INFO::Fitting model to feature number 37, Anaerotruncus
-2026-11-23 16:22:30.513138 INFO::Fitting model to feature number 38, Faecalibacterium
-2026-11-23 16:22:30.557106 INFO::Fitting model to feature number 39, Flavonifractor
-2026-11-23 16:22:30.600471 INFO::Fitting model to feature number 40, Gemmiger
-2026-11-23 16:22:30.654081 INFO::Fitting model to feature number 41, Pseudoflavonifractor
-2026-11-23 16:22:30.698571 INFO::Fitting model to feature number 42, Ruminococcaceae_unclassified
-2026-11-23 16:22:30.745446 INFO::Fitting model to feature number 43, Ruminococcus
-2026-11-23 16:22:30.7946 INFO::Fitting model to feature number 44, Ruthenibacterium
-2026-11-23 16:22:30.84365 INFO::Fitting model to feature number 45, Dielma
-2026-11-23 16:22:30.904825 INFO::Fitting model to feature number 46, Erysipelatoclostridium
-2026-11-23 16:22:30.961238 INFO::Fitting model to feature number 47, Holdemania
-2026-11-23 16:22:31.027209 INFO::Fitting model to feature number 48, Firmicutes_unclassified
-2026-11-23 16:22:31.085625 INFO::Fitting model to feature number 49, Acidaminococcus
-2026-11-23 16:22:31.179603 INFO::Fitting model to feature number 50, Phascolarctobacterium
-2026-11-23 16:22:31.249983 INFO::Fitting model to feature number 51, Dialister
-2026-11-23 16:22:31.308246 INFO::Fitting model to feature number 52, Veillonella
-2026-11-23 16:22:31.359959 INFO::Fitting model to feature number 53, Parasutterella
-2026-11-23 16:22:31.40998 INFO::Fitting model to feature number 54, Sutterella
-2026-11-23 16:22:31.460054 INFO::Fitting model to feature number 55, Turicimonas
-2026-11-23 16:22:31.504531 INFO::Fitting model to feature number 56, Bilophila
-2026-11-23 16:22:31.54821 INFO::Fitting model to feature number 57, Escherichia
-2026-11-23 16:22:31.593042 INFO::Fitting model to feature number 58, Klebsiella
-2026-11-23 16:22:31.636503 INFO::Fitting model to feature number 59, Haemophilus
-2026-11-23 16:22:31.686797 INFO::Fitting model to feature number 60, Proteobacteria_unclassified
-2026-11-23 16:22:31.730481 INFO::Fitting model to feature number 61, Akkermansia
-2026-11-23 16:22:31.784311 INFO::Counting total values for each feature
-2026-11-23 16:22:31.789858 INFO::Writing filtered data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data.tsv
-2026-11-23 16:22:31.804408 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data_norm.tsv
-2026-11-23 16:22:31.818765 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data_norm_transformed.tsv
-2026-11-23 16:22:31.839219 INFO::Writing residuals to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/residuals.rds
-2026-11-23 16:22:31.849002 INFO::Writing fitted values to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/fitted.rds
-2026-11-23 16:22:31.857702 INFO::Writing extracted random effects to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/ranef.rds
-2026-11-23 16:22:31.859705 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_severity_calprotectin/all_results.tsv
-2026-11-23 16:22:31.862946 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_severity_calprotectin/significant_results.tsv
+2026-11-28 16:33:37.918661 INFO::Writing function arguments to log file
+2026-11-28 16:33:37.920212 DEBUG::Function arguments
+2026-11-28 16:33:37.921037 DEBUG::Output folder: results/hypotheses/maaslin2/hmp2_severity_calprotectin
+2026-11-28 16:33:37.921777 DEBUG::Min Abundance: 0.000000
+2026-11-28 16:33:37.922482 DEBUG::Min Prevalence: 0.000000
+2026-11-28 16:33:37.923348 DEBUG::Normalization: NONE
+2026-11-28 16:33:37.923936 DEBUG::Transform: LOG
+2026-11-28 16:33:37.925124 DEBUG::Analysis method: LM
+2026-11-28 16:33:37.925791 DEBUG::Max significance: 0.250000
+2026-11-28 16:33:37.926563 DEBUG::Random effects: subject_id
+2026-11-28 16:33:37.927406 DEBUG::Fixed effects: log_calpro,site
+2026-11-28 16:33:37.928097 DEBUG::Correction method: BH
+2026-11-28 16:33:37.928846 DEBUG::Standardize: FALSE
+2026-11-28 16:33:37.92956 DEBUG::Cores: 1
+2026-11-28 16:33:37.930443 INFO::Verifying options selected are valid
+2026-11-28 16:33:37.931581 INFO::Determining format of input files
+2026-11-28 16:33:37.932653 INFO::Input format is data samples as rows and metadata samples as rows
+2026-11-28 16:33:37.934239 DEBUG::A total of 226 samples were found in both the data and metadata
+2026-11-28 16:33:37.934766 DEBUG::Reordering data/metadata to use same sample ordering
+2026-11-28 16:33:37.936411 INFO::Formula for random effects: expr ~ (1 | subject_id)
+2026-11-28 16:33:37.937592 INFO::Formula for fixed effects: expr ~  log_calpro + site
+2026-11-28 16:33:37.938877 INFO::Filter data based on min abundance and min prevalence
+2026-11-28 16:33:37.939824 INFO::Total samples in data: 226
+2026-11-28 16:33:37.940802 INFO::Min samples required with min abundance for a feature not to be filtered: 0.000000
+2026-11-28 16:33:37.942799 INFO::Total filtered features: 0
+2026-11-28 16:33:37.943966 INFO::Filtered feature names from abundance and prevalence filtering:
+2026-11-28 16:33:37.946783 INFO::Total filtered features with variance filtering: 0
+2026-11-28 16:33:37.94784 INFO::Filtered feature names from variance filtering:
+2026-11-28 16:33:37.948731 INFO::Running selected normalization method: NONE
+2026-11-28 16:33:37.949648 INFO::Bypass z-score application to metadata
+2026-11-28 16:33:37.950658 INFO::Running selected transform method: LOG
+2026-11-28 16:33:37.953914 INFO::Running selected analysis method: LM
+2026-11-28 16:33:37.955388 INFO::Fitting model to feature number 1, Bifidobacterium
+2026-11-28 16:33:38.064111 INFO::Fitting model to feature number 2, Collinsella
+2026-11-28 16:33:38.131118 INFO::Fitting model to feature number 3, Adlercreutzia
+2026-11-28 16:33:38.185777 INFO::Fitting model to feature number 4, Asaccharobacter
+2026-11-28 16:33:38.245024 INFO::Fitting model to feature number 5, Eggerthella
+2026-11-28 16:33:38.304862 INFO::Fitting model to feature number 6, Bacteroides
+2026-11-28 16:33:38.367897 INFO::Fitting model to feature number 7, Barnesiella
+2026-11-28 16:33:38.416373 INFO::Fitting model to feature number 8, Coprobacter
+2026-11-28 16:33:38.471787 INFO::Fitting model to feature number 9, Butyricimonas
+2026-11-28 16:33:38.653581 INFO::Fitting model to feature number 10, Odoribacter
+2026-11-28 16:33:38.72568 INFO::Fitting model to feature number 11, Prevotella
+2026-11-28 16:33:38.784253 INFO::Fitting model to feature number 12, Alistipes
+2026-11-28 16:33:38.843822 INFO::Fitting model to feature number 13, Parabacteroides
+2026-11-28 16:33:38.891414 INFO::Fitting model to feature number 14, Lactobacillus
+2026-11-28 16:33:38.943798 INFO::Fitting model to feature number 15, Streptococcus
+2026-11-28 16:33:38.9974 INFO::Fitting model to feature number 16, Clostridium
+2026-11-28 16:33:39.049394 INFO::Fitting model to feature number 17, Hungatella
+2026-11-28 16:33:39.098059 INFO::Fitting model to feature number 18, Intestinimonas
+2026-11-28 16:33:39.153264 INFO::Fitting model to feature number 19, Lawsonibacter
+2026-11-28 16:33:39.222134 INFO::Fitting model to feature number 20, Monoglobus
+2026-11-28 16:33:39.285394 INFO::Fitting model to feature number 21, Eubacterium
+2026-11-28 16:33:39.350808 INFO::Fitting model to feature number 22, Anaerostipes
+2026-11-28 16:33:39.406187 INFO::Fitting model to feature number 23, Anaerotignum
+2026-11-28 16:33:39.45729 INFO::Fitting model to feature number 24, Blautia
+2026-11-28 16:33:39.506167 INFO::Fitting model to feature number 25, Coprococcus
+2026-11-28 16:33:39.553436 INFO::Fitting model to feature number 26, Dorea
+2026-11-28 16:33:39.606334 INFO::Fitting model to feature number 27, Eisenbergiella
+2026-11-28 16:33:39.65746 INFO::Fitting model to feature number 28, Fusicatenibacter
+2026-11-28 16:33:39.703167 INFO::Fitting model to feature number 29, Lachnoclostridium
+2026-11-28 16:33:39.756608 INFO::Fitting model to feature number 30, Lachnospira
+2026-11-28 16:33:39.809623 INFO::Fitting model to feature number 31, Lachnospiraceae_unclassified
+2026-11-28 16:33:39.862712 INFO::Fitting model to feature number 32, Roseburia
+2026-11-28 16:33:39.909704 INFO::Fitting model to feature number 33, Oscillibacter
+2026-11-28 16:33:39.96417 INFO::Fitting model to feature number 34, Intestinibacter
+2026-11-28 16:33:40.019142 INFO::Fitting model to feature number 35, Agathobaculum
+2026-11-28 16:33:40.0646 INFO::Fitting model to feature number 36, Anaeromassilibacillus
+2026-11-28 16:33:40.121439 INFO::Fitting model to feature number 37, Anaerotruncus
+2026-11-28 16:33:40.178287 INFO::Fitting model to feature number 38, Faecalibacterium
+2026-11-28 16:33:40.238054 INFO::Fitting model to feature number 39, Flavonifractor
+2026-11-28 16:33:40.299475 INFO::Fitting model to feature number 40, Gemmiger
+2026-11-28 16:33:40.348803 INFO::Fitting model to feature number 41, Pseudoflavonifractor
+2026-11-28 16:33:40.401473 INFO::Fitting model to feature number 42, Ruminococcaceae_unclassified
+2026-11-28 16:33:40.450843 INFO::Fitting model to feature number 43, Ruminococcus
+2026-11-28 16:33:40.507158 INFO::Fitting model to feature number 44, Ruthenibacterium
+2026-11-28 16:33:40.55385 INFO::Fitting model to feature number 45, Dielma
+2026-11-28 16:33:40.60531 INFO::Fitting model to feature number 46, Erysipelatoclostridium
+2026-11-28 16:33:40.660826 INFO::Fitting model to feature number 47, Holdemania
+2026-11-28 16:33:40.708509 INFO::Fitting model to feature number 48, Firmicutes_unclassified
+2026-11-28 16:33:40.757332 INFO::Fitting model to feature number 49, Acidaminococcus
+2026-11-28 16:33:40.81769 INFO::Fitting model to feature number 50, Phascolarctobacterium
+2026-11-28 16:33:40.87066 INFO::Fitting model to feature number 51, Dialister
+2026-11-28 16:33:40.917942 INFO::Fitting model to feature number 52, Veillonella
+2026-11-28 16:33:40.970826 INFO::Fitting model to feature number 53, Parasutterella
+2026-11-28 16:33:41.026204 INFO::Fitting model to feature number 54, Sutterella
+2026-11-28 16:33:41.076387 INFO::Fitting model to feature number 55, Turicimonas
+2026-11-28 16:33:41.127878 INFO::Fitting model to feature number 56, Bilophila
+2026-11-28 16:33:41.185015 INFO::Fitting model to feature number 57, Escherichia
+2026-11-28 16:33:41.240928 INFO::Fitting model to feature number 58, Klebsiella
+2026-11-28 16:33:41.302495 INFO::Fitting model to feature number 59, Haemophilus
+2026-11-28 16:33:41.396051 INFO::Fitting model to feature number 60, Proteobacteria_unclassified
+2026-11-28 16:33:41.466898 INFO::Fitting model to feature number 61, Akkermansia
+2026-11-28 16:33:41.55168 INFO::Counting total values for each feature
+2026-11-28 16:33:41.559647 INFO::Writing filtered data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data.tsv
+2026-11-28 16:33:41.578057 INFO::Writing filtered, normalized data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data_norm.tsv
+2026-11-28 16:33:41.595745 INFO::Writing filtered, normalized, transformed data to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/features/filtered_data_norm_transformed.tsv
+2026-11-28 16:33:41.617703 WARNING::Deleting existing residuals file: results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/residuals.rds
+2026-11-28 16:33:41.619583 INFO::Writing residuals to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/residuals.rds
+2026-11-28 16:33:41.629856 WARNING::Deleting existing fitted file: results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/fitted.rds
+2026-11-28 16:33:41.631889 INFO::Writing fitted values to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/fitted.rds
+2026-11-28 16:33:41.639097 WARNING::Deleting existing ranef file: results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/ranef.rds
+2026-11-28 16:33:41.640857 INFO::Writing extracted random effects to file results/hypotheses/maaslin2/hmp2_severity_calprotectin/fits/ranef.rds
+2026-11-28 16:33:41.643013 INFO::Writing all results to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_severity_calprotectin/all_results.tsv
+2026-11-28 16:33:41.647227 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): results/hypotheses/maaslin2/hmp2_severity_calprotectin/significant_results.tsv

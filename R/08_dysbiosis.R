@@ -4,7 +4,8 @@
 
 # Results:
 # - MD-index and Bray-Curtis score per sample
-# - MD-index with the 13 taxa of Gevers Table S2I (main) and the 7 taxa of the summary (check)
+# - MD-index in four versions: Pascal 2017 stool signature and Gevers 2014 restricted to taxa
+#   found in stool (both main), all 13 taxa of Gevers Table S2I and the 7 of the summary (checks)
 # - CD effect on both scores: Franzosa Wilcoxon (main), lm with centre as check; HMP2 lmer (main),
 #   Wilcoxon on the median per person as check; estimate, SE, 95 % CI, p; with sensitivity analyses
 # - share of dysbiotic samples (above the 90th percentile of the controls) in CD and controls
@@ -25,23 +26,34 @@ dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 cohorts <- c("franzosa", "hmp2")
 main_thr <- 0.10
 
-# MD-index taxa: Table S2I of Gevers 2014 (Greengenes names), mapped to the taxonomy used here;
-# short = the 7 taxa named in the summary, kept as check (see methods 10.2)
-gevers <- tribble(
-  ~taxon,                ~direction, ~rank,    ~match,                            ~short,
-  "Enterobacteriaceae",  "up",       "family", "Enterobacteriaceae",              TRUE,
-  "Pasteurellaceae",     "up",       "family", "Pasteurellaceae",                 TRUE,
-  "Veillonellaceae",     "up",       "family", "Veillonellaceae",                  TRUE,
-  "Fusobacteriaceae",    "up",       "family", "Fusobacteriaceae",                TRUE,
-  "Neisseriaceae",       "up",       "family", "Neisseriaceae",                   FALSE,
-  "Micrococcaceae",      "up",       "family", "Micrococcaceae",                  FALSE,
-  "Gemellaceae",         "up",       "genus",  "Gemella",                         FALSE,
-  "Bacteroidales",       "down",     "order",  "Bacteroidales",                   TRUE,
-  "Clostridiales",       "down",     "order",  "Clostridiales",                   TRUE,
-  "Erysipelotrichaceae", "down",     "order",  "Erysipelotrichales",              TRUE,
-  "Bifidobacteriaceae",  "down",     "family", "Bifidobacteriaceae",              FALSE,
-  "Verrucomicrobiaceae", "down",     "family", "Akkermansiaceae",                 FALSE,
-  "Coriobacteriaceae",   "down",     "order",  "Coriobacteriales|Eggerthellales", FALSE)
+# MD-index taxa (see methods 10.2): Gevers 2014 Table S2I (Greengenes names mapped to the
+# taxonomy used here; short = the 7 taxa of the summary) and the stool signature of Pascal 2017
+md_taxa <- tribble(
+  ~set,     ~taxon,                  ~direction, ~rank,    ~match,                            ~short,
+  "gevers", "Enterobacteriaceae",    "up",       "family", "Enterobacteriaceae",              TRUE,
+  "gevers", "Pasteurellaceae",       "up",       "family", "Pasteurellaceae",                 TRUE,
+  "gevers", "Veillonellaceae",       "up",       "family", "Veillonellaceae",                 TRUE,
+  "gevers", "Fusobacteriaceae",      "up",       "family", "Fusobacteriaceae",                TRUE,
+  "gevers", "Neisseriaceae",         "up",       "family", "Neisseriaceae",                   FALSE,
+  "gevers", "Micrococcaceae",        "up",       "family", "Micrococcaceae",                  FALSE,
+  "gevers", "Gemellaceae",           "up",       "genus",  "Gemella",                         FALSE,
+  "gevers", "Bacteroidales",         "down",     "order",  "Bacteroidales",                   TRUE,
+  "gevers", "Clostridiales",         "down",     "order",  "Clostridiales",                   TRUE,
+  "gevers", "Erysipelotrichaceae",   "down",     "order",  "Erysipelotrichales",              TRUE,
+  "gevers", "Bifidobacteriaceae",    "down",     "family", "Bifidobacteriaceae",              FALSE,
+  "gevers", "Verrucomicrobiaceae",   "down",     "family", "Akkermansiaceae",                 FALSE,
+  "gevers", "Coriobacteriaceae",     "down",     "order",  "Coriobacteriales|Eggerthellales", FALSE,
+  "pascal", "Escherichia",           "up",       "genus",  "Escherichia",                     FALSE,
+  "pascal", "Fusobacterium",         "up",       "genus",  "Fusobacterium",                   FALSE,
+  "pascal", "Faecalibacterium",      "down",     "genus",  "Faecalibacterium",                FALSE,
+  "pascal", "Anaerostipes",          "down",     "genus",  "Anaerostipes",                    FALSE,
+  "pascal", "Collinsella",           "down",     "genus",  "Collinsella",                     FALSE,
+  "pascal", "Methanobrevibacter",    "down",     "genus",  "Methanobrevibacter",              FALSE,
+  "pascal", "Christensenellaceae",   "down",     "family", "Christensenellaceae",             FALSE,
+  "pascal", "Peptostreptococcaceae", "down",     "family", "Peptostreptococcaceae",           FALSE) %>%
+  mutate(id = paste(set, taxon, sep = ":"))
+
+min_prev <- 0.10   # Gevers taxa must be found in >= 10 % of all samples of every cohort (see methods 10.2)
 
 # --- Taxonomy (see methods 10.7) ---
 hmp2_tax <- read_csv(file.path(dir_processed, "hmp2/hmp2_taxonomy.csv"), show_col_types = FALSE)
@@ -96,19 +108,37 @@ load_cohort <- function(cohort) {
 data <- set_names(map(cohorts, load_cohort), cohorts)
 
 # --- MD-index (see methods 10.1-10.4) ---
-md_components <- function(cohort, X) {
+# abundance of each MD-index taxon per sample
+md_parts <- function(cohort, X) {
   tax <- taxonomy_of(cohort, colnames(X)) %>% mutate(genus = sub("_.*", "", colnames(X)))
   cat(cohort, ": mean share of abundance without an order:",
       round(mean(rowSums(X[, is.na(tax$order), drop = FALSE])) * 100, 2), "%\n")
-  parts <- map(set_names(gevers$taxon), function(t) {
-    g <- gevers[gevers$taxon == t, ]
+  parts <- map(set_names(md_taxa$id), function(i) {
+    g <- md_taxa[md_taxa$id == i, ]
     rowSums(X[, tax[[g$rank]] %in% strsplit(g$match, "|", fixed = TRUE)[[1]], drop = FALSE])
   })
-  sum_of <- function(sel) Reduce(`+`, parts[gevers$taxon[sel]])
-  tibble(sample_id = rownames(X), !!!parts,
-         up = sum_of(gevers$direction == "up"), down = sum_of(gevers$direction == "down"),
-         up_short = sum_of(gevers$direction == "up" & gevers$short),
-         down_short = sum_of(gevers$direction == "down" & gevers$short))
+  tibble(sample_id = rownames(X), !!!parts)
+}
+parts <- imap(data, ~ md_parts(.y, .x$species))
+
+# found in stool: share of samples > 0 in every cohort, all diagnoses together (see methods 10.2)
+stool_ok <- map_dfr(parts, ~ summarise(.x, across(all_of(md_taxa$id), ~ mean(.x > 0))), .id = "cohort") %>%
+  pivot_longer(-cohort, names_to = "id", values_to = "prev") %>%
+  group_by(id) %>% summarise(min_prev_pct = min(prev) * 100, stool = min(prev) >= min_prev)
+md_taxa <- md_taxa %>% left_join(stool_ok, by = "id")
+print(md_taxa %>% select(set, taxon, direction, min_prev_pct, stool), n = Inf)
+
+# Pascal is a stool signature and is used as published; Gevers only with taxa found in stool
+md_versions <- list(
+  md_pascal       = md_taxa$set == "pascal",
+  md_gevers_stool = md_taxa$set == "gevers" & md_taxa$stool,
+  md_gevers13     = md_taxa$set == "gevers",
+  md_gevers7      = md_taxa$set == "gevers" & md_taxa$short)
+md_main <- c("md_pascal", "md_gevers_stool")
+
+md_of <- function(p, sel, factor = 0.5) {
+  sum_of <- function(dir) rowSums(as.matrix(p[, md_taxa$id[sel & md_taxa$direction == dir], drop = FALSE]))
+  md_index(sum_of("up"), sum_of("down"), factor)
 }
 
 md_index <- function(up, down, factor = 0.5) {
@@ -153,10 +183,11 @@ score_variants <- function(cohort, d) {
 dist_measures <- c("bray", "bray_all_ctrl", "bray_no_filter", "bray_genus10", "aitch_species10", "aitch_genus10")
 
 scores <- imap_dfr(data, function(d, cohort) {
-  md_components(cohort, d$species) %>%
-    mutate(md = md_index(up, down),
-           md_small = md_index(up, down, factor = 0.05),
-           md_short = md_index(up_short, down_short)) %>%
+  p <- parts[[cohort]]
+  p %>%
+    mutate(!!!map(md_versions, ~ md_of(p, .x)),
+           md_pascal_small       = md_of(p, md_versions$md_pascal, 0.05),
+           md_gevers_stool_small = md_of(p, md_versions$md_gevers_stool, 0.05)) %>%
     left_join(d$meta %>% select(sample_id, subject_id, diagnosis, site, time, baseline, antibiotic),
               by = "sample_id") %>%
     bind_cols(score_variants(cohort, d)) %>%
@@ -164,14 +195,16 @@ scores <- imap_dfr(data, function(d, cohort) {
 })
 write_csv(scores, file.path(outdir, "dysbiosis_scores.csv"))
 
-# --- Detection of the Gevers taxa ---
+# --- Detection of the MD-index taxa ---
 detection <- scores %>%
-  pivot_longer(all_of(c(gevers$taxon, "up", "down")), names_to = "taxon", values_to = "abund") %>%
-  group_by(cohort, diagnosis, taxon) %>%
+  pivot_longer(all_of(md_taxa$id), names_to = "id", values_to = "abund") %>%
+  group_by(cohort, diagnosis, id) %>%
   summarise(samples = n(), prevalence_pct = mean(abund > 0) * 100,
             median_pct = median(abund) * 100, .groups = "drop") %>%
-  mutate(taxon = factor(taxon, c(gevers$taxon, "up", "down"))) %>%
-  arrange(cohort, taxon, diagnosis)
+  left_join(md_taxa %>% select(id, set, taxon, direction, stool), by = "id") %>%
+  mutate(id = factor(id, md_taxa$id)) %>%
+  arrange(cohort, id, diagnosis) %>%
+  select(cohort, set, taxon, direction, stool, diagnosis, samples, prevalence_pct, median_pct)
 print(detection, n = Inf)
 write_csv(detection, file.path(outdir, "dysbiosis_taxa_detection.csv"))
 
@@ -212,15 +245,17 @@ fr <- scores %>% filter(cohort == "franzosa")
 hm <- scores %>% filter(cohort == "hmp2")
 
 tests <- bind_rows(
-  test_franzosa(fr, "md", "main"),
-  test_franzosa(fr, "md_small", "smaller replacement of zeros"),
-  test_franzosa(fr, "md_short", "7 taxa of the summary"),
-  test_franzosa(fr %>% filter(antibiotic == "No"), "md", "without antibiotics"),
+  map_dfr(md_main, ~ test_franzosa(fr, .x, "main")),
+  map_dfr(md_main, ~ test_franzosa(fr, paste0(.x, "_small"), "smaller replacement of zeros")),
+  map_dfr(md_main, ~ test_franzosa(fr %>% filter(antibiotic == "No"), .x, "without antibiotics")),
+  test_franzosa(fr, "md_gevers13", "check: all 13 Gevers taxa"),
+  test_franzosa(fr, "md_gevers7", "check: 7 taxa of the Gevers summary"),
   map_dfr(dist_measures, ~ test_franzosa(fr, .x, "main")),
   test_franzosa(fr %>% filter(antibiotic == "No"), "bray", "without antibiotics"),
-  test_hmp2(hm, "md", "main"),
-  test_hmp2(hm, "md_small", "smaller replacement of zeros"),
-  test_hmp2(hm, "md_short", "7 taxa of the summary"),
+  map_dfr(md_main, ~ test_hmp2(hm, .x, "main")),
+  map_dfr(md_main, ~ test_hmp2(hm, paste0(.x, "_small"), "smaller replacement of zeros")),
+  test_hmp2(hm, "md_gevers13", "check: all 13 Gevers taxa"),
+  test_hmp2(hm, "md_gevers7", "check: 7 taxa of the Gevers summary"),
   map_dfr(dist_measures, ~ test_hmp2(hm, .x, "main")))
 print(tests, n = Inf, width = Inf)
 write_csv(tests, file.path(outdir, "dysbiosis_tests.csv"))
@@ -260,16 +295,20 @@ write_csv(dysbiotic, file.path(outdir, "dysbiosis_dysbiotic_share.csv"))
 
 # how similar are the two measures?
 print(scores %>% group_by(cohort) %>%
-        summarise(rho_md_bray = cor(md, bray, method = "spearman"),
-                  zero_up_pct = mean(up == 0) * 100, zero_down_pct = mean(down == 0) * 100))
+        summarise(rho_pascal_bray = cor(md_pascal, bray, method = "spearman"),
+                  rho_gevers_stool_bray = cor(md_gevers_stool, bray, method = "spearman"),
+                  rho_pascal_gevers_stool = cor(md_pascal, md_gevers_stool, method = "spearman")))
 
 # --- Plot ---
+plot_measures <- c("MD-index Pascal (log10)", "MD-index Gevers stool (log10)", "Bray-Curtis score")
 p <- scores %>%
   group_by(cohort, subject_id, diagnosis) %>%
-  summarise(`MD-index (log10)` = median(md), `Bray-Curtis score` = median(bray), .groups = "drop") %>%
-  pivot_longer(c(`MD-index (log10)`, `Bray-Curtis score`), names_to = "measure", values_to = "value") %>%
+  summarise(`MD-index Pascal (log10)` = median(md_pascal),
+            `MD-index Gevers stool (log10)` = median(md_gevers_stool),
+            `Bray-Curtis score` = median(bray), .groups = "drop") %>%
+  pivot_longer(all_of(plot_measures), names_to = "measure", values_to = "value") %>%
   mutate(cohort = recode(cohort, franzosa = "Franzosa", hmp2 = "HMP2"),
-         measure = factor(measure, c("MD-index (log10)", "Bray-Curtis score"))) %>%
+         measure = factor(measure, plot_measures)) %>%
   ggplot(aes(diagnosis, value, colour = diagnosis)) +
   geom_boxplot(outlier.shape = NA, width = .55) +
   geom_jitter(width = .15, alpha = .6, size = 1.3) +
@@ -277,4 +316,4 @@ p <- scores %>%
   facet_grid(measure ~ cohort, scales = "free_y") +
   labs(x = NULL, y = NULL, title = "Dysbiosis in CD and controls (median per person)") +
   theme_plot
-ggsave(file.path(outdir, "dysbiosis_cd_vs_control.png"), p, width = 7, height = 7, dpi = 200)
+ggsave(file.path(outdir, "dysbiosis_cd_vs_control.png"), p, width = 7, height = 9, dpi = 200)

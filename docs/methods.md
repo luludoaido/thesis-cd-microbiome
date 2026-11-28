@@ -430,14 +430,13 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Source:** Gevers 2014; Wei 2021.
 
 ### 10.2 MD-index taxa
-- **Rule:** the 13 taxa of Table S2I of Gevers 2014. Up: Enterobacteriaceae, Pasteurellaceae, Veillonellaceae, Fusobacteriaceae, Neisseriaceae, Micrococcaceae, Gemellaceae; down: Bacteroidales, Clostridiales, Erysipelotrichaceae, Bifidobacteriaceae, Verrucomicrobiaceae, Coriobacteriaceae. Greengenes names are mapped to the taxonomy used here: Gemellaceae → genus Gemella; Verrucomicrobiaceae → Akkermansiaceae; Coriobacteriaceae → orders Coriobacteriales and Eggerthellales (split since Greengenes). Check: the 7 taxa named in the summary of Gevers 2014.
-- **Why:** the summary names only 7 taxa; Table S2I lists the 13 taxa per sample, and all go in the same direction as the CD coefficients in Table S2A (Coriobacteriaceae only q = 0.09).
-- **Note:** the MD-index was derived from ileal biopsies of treatment-naive children with 16S data; controls had non-inflammatory symptoms. Gevers 2014 report that the dysbiosis is weaker in stool (AUC 0.66 vs. 0.85 in ileum). Recomputed from Table S2I (log10, no antibiotics), the median CD − control difference is 0.64 in ileum, 0.53 in rectum and 0.39 in stool.
-- **Source:** Gevers 2014 (Tables S2A, S2I).
-- **Changes:** 2026-11-23: 13 taxa of Table S2I as main, 7 taxa of the summary as check.
+- **Rule:** four versions. Main: (a) the stool signature of Pascal 2017, all 8 taxa as published (up: Escherichia, Fusobacterium; down: Faecalibacterium, Anaerostipes, Collinsella, Methanobrevibacter, Christensenellaceae, Peptostreptococcaceae); (b) the 13 taxa of Gevers 2014 Table S2I, restricted to taxa found in at least 10 % of all samples of every cohort, regardless of diagnosis. Checks: all 13 Gevers taxa, and the 7 taxa named in the Gevers summary. Gevers taxa (Greengenes names) are mapped to the taxonomy used here: Gemellaceae → genus Gemella; Verrucomicrobiaceae → Akkermansiaceae; Coriobacteriaceae → orders Coriobacteriales and Eggerthellales (split since Greengenes). Gevers 13 up: Enterobacteriaceae, Pasteurellaceae, Veillonellaceae, Fusobacteriaceae, Neisseriaceae, Micrococcaceae, Gemellaceae; down: Bacteroidales, Clostridiales, Erysipelotrichaceae, Bifidobacteriaceae, Verrucomicrobiaceae, Coriobacteriaceae.
+- **Why:** Gevers 2014 built the index on ileal biopsies of treatment-naive children with 16S data; controls had non-inflammatory symptoms. Several of their up-taxa are oral/mucosal and almost absent in stool (Neisseriaceae and Gemellaceae in about 1 % of HMP2 samples or less), and Gevers report that the dysbiosis is weaker in stool (AUC 0.66 vs. 0.85 in ileum; recomputed from Table S2I, log10, no antibiotics, the median CD − control difference is 0.64 in ileum, 0.53 in rectum and 0.39 in stool). Therefore only the Gevers taxa found in stool are kept. Pascal 2017 derived their signature from stool and validated it in independent cohorts, so it is used as published. All taxa come from the literature, not from Franzosa or HMP2, and the detection rule does not use the diagnosis, so the choice does not depend on the CD effect. All 13 Gevers taxa go in the same direction as the CD coefficients in Table S2A (Coriobacteriaceae only q = 0.09).
+- **Source:** Gevers 2014 (Tables S2A, S2I); Pascal 2017.
+- **Changes:** 2026-11-23: 13 taxa of Table S2I as main, 7 taxa of the summary as check. 2026-11-28: Pascal 2017 and Gevers restricted to stool as main; 13 and 7 Gevers taxa as checks.
 
 ### 10.3 Zero in the numerator
-- **Rule:** replaced by half of the smallest non-zero numerator of the cohort (own decision). Sensitivity: a value 10 times smaller.
+- **Rule:** replaced by half of the smallest non-zero numerator of the cohort (own decision). Sensitivity: a value 10 times smaller, for both main versions (10.2).
 - **Why:** Gevers 2014 does not describe it (checked in the full text and Table S2).
 
 ### 10.4 MD-index without filter
@@ -522,7 +521,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - **Changes:** 2026-11-23: added after the week 8 meeting (slide 12).
 
 ### 13.2 MD-index vs. calprotectin
-- **Rule:** CD only. Franzosa `lm(md ~ log10 calprotectin + site)`; HMP2 `lmer(md ~ log10 calprotectin + site + (1 | person))`.
+- **Rule:** CD only, both main versions of the MD-index (10.2). Franzosa `lm(md ~ log10 calprotectin + site)`; HMP2 `lmer(md ~ log10 calprotectin + site + (1 | person))`.
 - **Why:** Gevers 2014 found that the MD-index rises with disease severity (PCDAI, in biopsies of children); this checks whether it holds in stool of adults.
 - **Source:** Gevers 2014.
 
@@ -579,6 +578,7 @@ As of 2026-10-28, genus level, main analysis (10 % prevalence filter).
 - Nearing JT et al. (2022). Microbiome differential abundance methods produce different results across 38 datasets. Nat Commun 13:342. doi:10.1038/s41467-022-28034-z
 - Nygaard V et al. (2016). Methods that remove batch effects while retaining group differences may lead to exaggerated confidence in downstream analyses. Biostatistics 17(1):29-39. doi:10.1093/biostatistics/kxv027
 - Pasolli E et al. (2017). Accessible, curated metagenomic data through ExperimentHub. Nat Methods 14(11):1023-1024. doi:10.1038/nmeth.4468
+- Pascal V et al. (2017). A microbial signature for Crohn's disease. Gut 66(5):813-822. doi:10.1136/gutjnl-2016-313235
 - Pisani A et al. (2022). Dysbiosis in the gut microbiota in patients with inflammatory bowel disease during remission. Microbiol Spectr 10(3):e0061622. doi:10.1128/spectrum.00616-22
 - Png CW et al. (2010). Mucolytic bacteria with increased prevalence in IBD mucosa augment in vitro utilization of mucin by other bacteria. Am J Gastroenterol 105(11):2420-2428. doi:10.1038/ajg.2010.281
 - Ramirez-Farias C et al. (2009). Effect of inulin on the human gut microbiota: stimulation of Bifidobacterium adolescentis and Faecalibacterium prausnitzii. Br J Nutr 101(4):541-550. doi:10.1017/s0007114508019880

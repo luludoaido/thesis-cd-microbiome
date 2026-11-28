@@ -4,7 +4,7 @@
 
 # Results (per cohort):
 # - genera vs. log10 calprotectin (MaAsLin2, 95 % CI, BH q); HMP2 check with HBI
-# - MD-index vs. log10 calprotectin (lm / lmer)
+# - MD-index (Pascal and Gevers stool) vs. log10 calprotectin (lm / lmer)
 # - agreement of the genus effects between the cohorts; forest plot of genera with q < 0.25
 
 # Methods: docs/methods.md, section 13
@@ -81,16 +81,20 @@ print(agreement)
 write_csv(agreement, file.path(outdir, "severity_agreement.csv"))
 
 # --- MD-index vs. severity (Gevers 2014: MD-index rises with severity; see methods 13.2) ---
-md <- read_csv(file.path(outdir, "dysbiosis_scores.csv"), show_col_types = FALSE) %>% select(sample_id, md)
-md_severity <- imap_dfr(data, function(d, cohort) {
-  m <- d$meta %>% inner_join(md, by = "sample_id") %>% filter(!is.na(log_calpro))
-  fit <- if (cohort == "hmp2") lmer(md ~ log_calpro + site + (1 | subject_id), data = m)
-         else lm(md ~ log_calpro + site, data = m)
-  s <- coef(summary(fit))
-  tibble(cohort, samples = nrow(m), persons = n_distinct(m$subject_id),
-         estimate = s["log_calpro", "Estimate"], se = s["log_calpro", "Std. Error"],
-         p = s["log_calpro", grep("^Pr", colnames(s))])
-})
+# both main versions of the MD-index (see methods 10.2)
+md_scores <- read_csv(file.path(outdir, "dysbiosis_scores.csv"), show_col_types = FALSE) %>%
+  select(sample_id, md_pascal, md_gevers_stool)
+md_severity <- expand_grid(cohort = cohorts, version = c("md_pascal", "md_gevers_stool")) %>%
+  pmap_dfr(function(cohort, version) {
+    m <- data[[cohort]]$meta %>% inner_join(md_scores, by = "sample_id") %>%
+      filter(!is.na(log_calpro)) %>% mutate(md = .data[[version]])
+    fit <- if (cohort == "hmp2") lmer(md ~ log_calpro + site + (1 | subject_id), data = m)
+           else lm(md ~ log_calpro + site, data = m)
+    s <- coef(summary(fit))
+    tibble(cohort, version, samples = nrow(m), persons = n_distinct(m$subject_id),
+           estimate = s["log_calpro", "Estimate"], se = s["log_calpro", "Std. Error"],
+           p = s["log_calpro", grep("^Pr", colnames(s))])
+  })
 print(md_severity)
 write_csv(md_severity, file.path(outdir, "severity_md_index.csv"))
 
